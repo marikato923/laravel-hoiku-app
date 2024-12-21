@@ -29,6 +29,11 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'role' => fake()->randomElement(['保護者', '職員']),
+            'phone_number' => '00000000000',
+            'postal_code' => '0000000',
+            'address' => 'テスト',
+            'child_count' => fake()->numberBetween(1, 5),
         ];
     }
 
