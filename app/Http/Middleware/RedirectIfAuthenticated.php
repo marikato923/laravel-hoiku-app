@@ -25,8 +25,12 @@ class RedirectIfAuthenticated
                 if (Auth::user()->hasVerifiedEmail()) {
                     return redirect()->route('verification.notice');
                 }
+
+                if ($guard === 'admin') {
+                    return redirect(RouteServiceProvider::ADMIN_HOME);
+                }
                 
-                return redirect('/');
+                return redirect(RouteServiceProvider::HOME);
             }
         }
 

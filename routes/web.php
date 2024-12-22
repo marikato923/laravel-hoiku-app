@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,7 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
+    Route::get('home', [Admin\HomeController::class, 'index'])->name('home');
+});
 
-Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
-Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
