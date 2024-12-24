@@ -49,15 +49,6 @@
             <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" required>
         </div>
 
-        <!-- 役割 -->
-        <div class="form-group">
-            <label for="role">役割</label>
-            <select id="role" class="form-control" name="role">
-                <option value="parent" {{ old('role', 'parent') == 'parent' ? 'selected' : '' }}>保護者</option>
-                <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>スタッフ</option>
-            </select>
-        </div>
-
         <!-- 電話番号 -->
         <div class="form-group">
             <label for="phone_number">電話番号</label>
@@ -81,15 +72,6 @@
             <label for="address">住所</label>
             <input type="text" id="address" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}">
             @error('address')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <!-- 子供の人数 -->
-        <div class="form-group">
-            <label for="child_count">子供の人数</label>
-            <input type="number" id="child_count" class="form-control @error('child_count') is-invalid @enderror" name="child_count" value="{{ old('child_count') }}" min="0">
-            @error('child_count')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>

@@ -21,8 +21,10 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                $user = Auth::user();
+
                 // メール認証が済んでいるかチェック
-                if (Auth::user()->hasVerifiedEmail()) {
+                if ($user && $user()->hasVerifiedEmail()) {
                     return redirect()->route('verification.notice');
                 }
 
