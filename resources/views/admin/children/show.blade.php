@@ -2,11 +2,11 @@
 
 
 <!-- resources/views/children/show.blade.php -->
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <div class="container">
-        <h1>子供の詳細</h1>
+        <h1>園児詳細</h1>
 
         <p><strong>名前:</strong> {{ $child->name }}</p>
         <p><strong>フリガナ:</strong> {{ $child->kana }}</p>

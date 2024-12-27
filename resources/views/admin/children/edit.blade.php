@@ -1,5 +1,5 @@
 <!-- resources/views/children/edit.blade.php -->
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <div class="container">

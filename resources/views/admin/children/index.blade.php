@@ -2,7 +2,7 @@
 {{-- toDo : フラッシュメッセージの追加 --}}
 {{-- 検索機能の修正 --}}
 
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <div class="container">
@@ -33,7 +33,10 @@
             <tbody>
                 @foreach ($children as $child)
                     <tr>
-                        <td>{{ $child->name }}</td>
+                        <td>
+                            <a href="{{ route('admin.children.show', $child->id) }}">
+                                {{ $child->name }}
+                            </td>
                         <td>{{ $child->kana }}</td>
                         <td>{{ $child->birthdate }}</td>
                         <td><img src="{{ asset('storage/children/' . $child->image) }}" width="50" height="50" alt="child image"></td>
