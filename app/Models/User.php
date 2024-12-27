@@ -25,11 +25,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'kana',
         'email',
         'password',
-        'role',
         'phone_number',
         'postal_code',
         'address',
-        'child_count',
     ];
  
     protected $hidden = [

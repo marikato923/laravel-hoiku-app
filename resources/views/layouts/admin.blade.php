@@ -25,7 +25,7 @@
                         <a class="nav-link" href="#">登園状況一覧</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">園児一覧</a>
+                        <a class="nav-link" href="{{ route('admin.children.index') }}">園児一覧</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">緊急連絡先一覧</a>

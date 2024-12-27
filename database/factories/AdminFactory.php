@@ -12,11 +12,12 @@ use Illuminate\Support\Str;
 class AdminFactory extends Factory
 {
     protected static ?string $password;
-    
+
     public function definition(): array
     {
         return [
             'name' => fake()->name(),
+            'role' => 'staff',
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
