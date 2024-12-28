@@ -16,10 +16,10 @@ class AdminSeeder extends Seeder
     {
         $admin = new Admin();
         $admin->last_name = '管理';
-        $admin->first_name = '花子';
-        $admin->email = 'admin@admin.com';
+        $admin->first_name = '太郎';
+        $admin->email = 'admin@hoiku.com';
         $admin->password = Hash::make('1234pass');
-        $admin->role = 'staff';
-        $admin->save();
+        $admin->role = '保育士';
+        $admin->save();        
     }
 }
