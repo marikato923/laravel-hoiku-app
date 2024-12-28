@@ -8,13 +8,23 @@
         <form action="{{ route('admin.children.store') }}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="name">名前</label>
-                <input type="text" name="name" id="name" class="form-control" required>
+                <label for="name">姓</label>
+                <input type="text" name="last_name" id="last_name" class="form-control" required>
             </div>
 
             <div class="form-group">
-                <label for="kana">フリガナ</label>
-                <input type="text" name="kana" id="kana" class="form-control" required>
+                <label for="name">名</label>
+                <input type="text" name="first_name" id="first_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_kana_name">セイ</label>
+                <input type="text" name="last_kana_name" id="last_kana_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="first_kana_name">メイ</label>
+                <input type="text" name="first_kana_name" id="first_kana_name" class="form-control" required>
             </div>
 
 

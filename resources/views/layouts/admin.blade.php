@@ -10,48 +10,16 @@
 </head>
 <body>
 
-    <!-- ナビゲーションバー -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('admin.home') }}">管理者ページ</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.users.index') }}">会員一覧</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">登園状況一覧</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.children.index') }}">園児一覧</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">緊急連絡先一覧</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">クラス一覧</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">保育園概要</a>
-                    </li>
-                    <!-- ログアウトボタン -->
-                    <li class="nav-item">
-                        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-link nav-link" style="color: #000; text-decoration: none;">ログアウト</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    {{-- ナビゲーションバー --}}
+    <x-admin-navbar />
 
+    {{-- メインコンテンツ --}}
     <div class="container mt-4">
         @yield('content')
     </div>
+
+    {{-- フッター --}}
+    @include('components.footer')
 
     <!-- Bootstrap JS, Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

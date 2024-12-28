@@ -12,14 +12,25 @@
             @method('PUT')
             
             <div class="form-group">
-                <label for="name">名前</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ $child->name }}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="kana">フリガナ</label>
-                <input type="text" name="kana" id="kana" class="form-control" value="{{ $child->kana }}" required>
-            </div>
+                <div class="form-group">
+                    <label for="name">姓</label>
+                    <input type="text" name="last_name" id="last_name" class="form-control" value="{{ $child->last_name }}" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="name">名</label>
+                    <input type="text" name="first_name" id="first_name" class="form-control" value="{{ $child->first_name }}" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="last_kana_name">セイ</label>
+                    <input type="text" name="last_kana_name" id="last_kana_name" class="form-control" value="{{ $child->last_kana_name }}" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="first_kana_name">メイ</label>
+                    <input type="text" name="first_kana_name" id="first_kana_name" class="form-control" value="{{ $child->first_kana_name }}" required>
+                </div>
 
             <div class="form-group">
                 <label for="birthdate">生年月日</label>

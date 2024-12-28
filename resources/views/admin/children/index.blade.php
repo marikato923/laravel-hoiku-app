@@ -35,9 +35,9 @@
                     <tr>
                         <td>
                             <a href="{{ route('admin.children.show', $child->id) }}">
-                                {{ $child->name }}
+                                {{ $child->last_name }} {{ $child->first_name }}
                             </td>
-                        <td>{{ $child->kana }}</td>
+                        <td>{{ $child->last_kana_name }} {{ $child->first_kana_name }}</td>
                         <td>{{ $child->birthdate }}</td>
                         <td><img src="{{ asset('storage/children/' . $child->image) }}" width="50" height="50" alt="child image"></td>
                         <td>
@@ -59,3 +59,4 @@
         </div>
     </div>
 @endsection
+
