@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -16,7 +17,8 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'last_name' => $this->faker->lastName(),         
+            'first_name' => $this->faker->firstName(),        
             'role' => 'staff',
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),

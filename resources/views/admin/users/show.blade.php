@@ -7,10 +7,10 @@
     <!-- 会員詳細情報 -->
     <div class="card">
         <div class="card-header">
-            <h5>{{ $user->name }}</h5>
+            <h5>{{ $user->last_name }} {{ $user->first_name }} </h5>
         </div>
         <div class="card-body">
-            <p><strong>かな:</strong> {{ $user->kana }}</p>
+            <p><strong>かな:</strong> {{ $user->last_kana_name }} {{ $user->first_kana_name }} </p>
             <p><strong>メールアドレス:</strong> {{ $user->email }}</p>
             <p><strong>電話番号:</strong> {{ $user->phone_number }}</p>
             <p><strong>郵便番号:</strong> {{ $user->postal_code }}</p>

@@ -14,8 +14,10 @@ class ChildController extends Controller
     {
         $keyword = $request->input('keyword', '');
         $children = Child::when($keyword, function ($query, $keyword) {
-            return $query->where('name', 'like', "%{$keyword}%")
-                         ->orwhere('kana', 'like', "%{{$keyword}}");
+            return $query->where('last_name', 'like', "%{$keyword}%")
+                         ->orwhere('first_name', 'like', "%{$keyword}")
+                         ->orwhere('last_kana_name', 'like', "%{$keyword}")
+                         ->orwhere('first_kana_name', 'like', "%{{$keyword}}");
         })->paginate(10);
 
         $total = $children->total();
@@ -40,8 +42,10 @@ class ChildController extends Controller
     {
         // バリデーション
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'kana' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_kana_name' => 'required|string|max:255',
+            'last_kana_name' => 'required|string|max:255',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
             'admission_date' => 'required|date|after:birthdate',
             'medical_history' => 'nullable|string',
@@ -87,8 +91,10 @@ class ChildController extends Controller
     {
         // バリデーション
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'kana' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_kana_name' => 'required|string|max:255',
+            'last_kana_name' => 'required|string|max:255',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
             'birthdate' => 'required|date',
             'admission_date' => 'required|date',

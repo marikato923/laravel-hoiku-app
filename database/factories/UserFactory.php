@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,9 +24,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('ja_JP'); 
+
+        $lastNameKana = mb_convert_kana($faker->lastName(), 'K');
+        $firstNameKana = mb_convert_kana($faker->firstName(), 'K');
+
         return [
-            'name' => fake()->name(),
-            'kana' => fake()->kanaName(),
+            'last_name' => $this->faker->lastName(),         
+            'first_name' => $this->faker->firstName(),        
+            'last_kana_name' => $lastNameKana,  
+            'first_kana_name' => $firstNameKana,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

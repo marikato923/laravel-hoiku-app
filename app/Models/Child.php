@@ -12,8 +12,10 @@ class Child extends Model
     protected $table = 'children';
 
     protected $fillable = [
-        'name',
-        'kana',
+        'last_name',
+        'first_name',
+        'last_kana_name',
+        'first_kana_name',
         'birthdate',
         'img',
         'admission_date',

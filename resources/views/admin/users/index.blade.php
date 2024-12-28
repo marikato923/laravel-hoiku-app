@@ -28,8 +28,8 @@
             @foreach ($users as $user)
             <tr>
                 <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->kana }}</td>
+                <td>{{ $user->last_name }} {{ $user->first_name }} </td>
+                <td> {{ $user->last_kana_name }} {{ $user->first_kana_name }} </td>
                 <td>{{ $user->phone_number }}</td>
                 <td>{{ $user->address }}</td>
                 <td>

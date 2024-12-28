@@ -9,18 +9,34 @@
 
         <!-- 名前 -->
         <div class="form-group">
-            <label for="name">名前</label>
-            <input type="text" id="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required>
-            @error('name')
+            <label for="name">姓</label>
+            <input type="text" id="last_name" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required>
+            @error('last_name')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="first_name">名</label>
+            <input type="text" id="first_name" class="form-control @error('name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" required>
+            @error('first_name')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <!-- カナ -->
         <div class="form-group">
-            <label for="kana">カナ</label>
-            <input type="text" id="kana" class="form-control @error('kana') is-invalid @enderror" name="kana" value="{{ old('kana') }}" required>
-            @error('kana')
+            <label for="last_kana_name">セイ</label>
+            <input type="text" id="last_kana_name" class="form-control @error('last_kana_name') is-invalid @enderror" name="last_kana_name" value="{{ old('last_kana_name') }}" required>
+            @error('last_kana_name')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="first_kana_name">メイ</label>
+            <input type="text" id="first_kana_name" class="form-control @error('first_kana_name') is-invalid @enderror" name="first_kana_name" value="{{ old('first_kana_name') }}" required>
+            @error('first_kana_name')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
