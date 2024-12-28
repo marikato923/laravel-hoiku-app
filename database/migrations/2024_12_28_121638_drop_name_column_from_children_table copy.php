@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE users MODIFY COLUMN last_name VARCHAR(255) AFTER first_name");
+        Schema::table('children', function (Blueprint $table) {
+            $table->dropColumn('last_name');
+        });
     }
 
     /**
@@ -19,7 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // 元の順番を戻す（必要に応じて書き換え）
-        DB::statement("ALTER TABLE users MODIFY COLUMN last_name VARCHAR(255) AFTER name");
+        Schema::table('children', function (Blueprint $table) {
+            $table->string('first_name');
+        });
     }
 };
