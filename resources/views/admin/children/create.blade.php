@@ -1,6 +1,8 @@
 <!-- resources/views/children/create.blade.php -->
 @extends('layouts.admin')
 
+{{-- @include('components.breadcrumb', ['breadcrumbs' => $breadcrumbs]) --}}
+
 @section('content')
     <div class="container">
         <h1>新規作成</h1>

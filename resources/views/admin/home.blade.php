@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+{{-- @include('components.breadcrumb', ['breadcrumbs' => $breadcrumbs]) --}}
+
 @section('content')
 <div class="container">
     <h1>管理者ホーム</h1>
@@ -17,9 +19,14 @@
                 </div>
                 <div class="list-group-item">緊急連絡先一覧</div>
                 <div>
-                <a href="{{ route('admin.classrooms.index') }}" class="list-group-item">クラス一覧
+                <a href="{{ route('admin.classrooms.index') }}" class="list-group-item">クラス一覧</a>
                 </div>
-                <div class="list-group-item">保育園概要</div>
+                <div>
+                    <a href="{{ route('admin.kindergarten.index') }}" class="list-group-item">保育園概要</a>
+                </div>
+                <div>
+                    <a href="{{ route('admin.terms.index') }}" class="list-group-item">利用規約</a>
+                </div>
             </div>
         </div>
     </div>

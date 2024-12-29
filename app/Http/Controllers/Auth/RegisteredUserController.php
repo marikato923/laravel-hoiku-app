@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed', Rules\Password::defaults()],
             'role' => ['nullable', 'string'],
             'phone_number' => ['nullable', 'digits_between:10,11'],
-            'postal_code' => ['nullable', 'string'],
+            'postal_code' => ['required', 'numeric', 'regex:/^\d{7}$/'],
             'address' => ['nullable', 'string'],
             'child_count' => ['nullable', 'integer'],
         ]);
@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($validatedData['password']),
             'role' => $validatedData['role'] ?? 'parent',
             'phone_number' => $validatedData['phone_number'] ?? null,
-            'postal_code' => $validatedData['postal_code'] ?? null,
+            'postal_code' => $validatedData['postal_code'],
             'address' => $validatedData['address'] ?? null,
             'child_count' => $validatedData['child_count'] ?? 0, 
         ]);

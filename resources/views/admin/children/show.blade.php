@@ -1,8 +1,7 @@
-{{-- toDo : フラッシュメッセージの追加 --}}
-
-
 <!-- resources/views/children/show.blade.php -->
 @extends('layouts.admin')
+
+{{-- @include('components.breadcrumb', ['breadcrumbs' => $breadcrumbs]) --}}
 
 @section('content')
     <div class="container">

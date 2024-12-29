@@ -1,6 +1,8 @@
 <!-- resources/views/children/edit.blade.php -->
 @extends('layouts.admin')
 
+{{-- @include('components.breadcrumb', ['breadcrumbs' => $breadcrumbs]) --}}
+
 @section('content')
     <div class="container">
         <h1>園児の編集</h1>

@@ -23,7 +23,11 @@
                     <a class="nav-link" href="{{ route('admin.classrooms.index') }}">クラス一覧</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">保育園概要</a>
+                    <a class="nav-link" href="{{ route('admin.kindergarten.index') }}">保育園概要</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.terms.index') }}">利用規約</a>
+                </li>
 
                 <!-- ログイン中の管理者 -->
                 {{-- <li class="nav-item"> --}}

@@ -1,8 +1,6 @@
-
-{{-- toDo : フラッシュメッセージの追加 --}}
-{{-- 検索機能の修正 --}}
-
 @extends('layouts.admin')
+
+{{-- @include('components.breadcrumb', ['breadcrumbs' => $breadcrumbs]) --}}
 
 @section('content')
     <div class="container">

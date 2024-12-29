@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+{{-- @include('components.breadcrumb', ['breadcrumbs' => $breadcrumbs]) --}}
+
 @section('content')
 <div class="container">
     <h1>会員一覧</h1>

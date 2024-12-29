@@ -30,6 +30,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::resource('/users', Admin\UserController::class)->only(['index', 'show']);
     Route::resource('/children', Admin\ChildController::class);
     Route::resource('/classrooms', Admin\ClassroomController::class)->except(['show']);
+    Route::resource('/kindergarten', Admin\KindergartenController::class)->only(['index', 'edit', 'update']);
+    Route::resource('/terms', Admin\TermController::class)->only(['index', 'edit', 'update']);
 });
 
 

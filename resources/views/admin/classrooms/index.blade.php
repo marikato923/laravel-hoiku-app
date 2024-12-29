@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+{{-- @include('components.breadcrumb', ['breadcrumbs' => $breadcrumbs]) --}}
+
 @section('content')
     {{-- クラスの登録用モーダル --}}
     <div class="modal fade" id="createClassroomModal" tabindex="-1" aria-labelledby="createClassroomModalLabel">
@@ -141,5 +143,5 @@
             });
         });
     </script>
-    
+
 @endsection
