@@ -12,4 +12,10 @@ class Classroom extends Model
     protected $fillable = [
         'name'
     ];
+
+    // 園児とのリレーション
+    public function children() 
+    {
+        return $this->hasMany(Child::class);
+    }
 }

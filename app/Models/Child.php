@@ -23,6 +23,12 @@ class Child extends Model
         'has_allergy', 
         'allergy_type',
     ];
+
+    // クラスとのリレーション
+    public function classroom() 
+    {
+        return $this->belongsTo(Classroom::class);
+    }
 }
 
 

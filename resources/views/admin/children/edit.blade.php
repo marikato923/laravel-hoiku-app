@@ -60,6 +60,20 @@
                 <input type="text" name="allergy_type" id="allergy_type" class="form-control" value="{{ $child->allergy_type }}">
             </div>
 
+            <div>
+                <label for="classroom_id">クラス</label>
+                    <select name="classroom_id" required>
+                    <option value="">クラスを選択してください</option>
+                    @foreach ($classrooms as $classroom)
+                        <option value="{{ $classroom->id }}"
+                            @if ($classroom->id == old('classroom_id', $child->classroom_id)) selected
+                            @endif>
+                            {{ $classroom->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-primary">更新</button>
         </form>
     </div>

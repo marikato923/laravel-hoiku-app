@@ -56,7 +56,17 @@
                 <input type="text" name="allergy_type" id="allergy_type" class="form-control">
             </div>
 
-            <button type="submit" class="btn btn-primary">保存</button>
+            <div>
+                <label for="classroom_id">クラス</label>
+                    <select name="classroom_id" required>
+                    <option value="">クラスを選択してください</option>
+                    @foreach ($classrooms as $classroom)
+                        <option value="{{ $classroom->id }}">{{ $classroom->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">登録</button>
         </form>
     </div>
 

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Child;
+use App\Models\Classroom;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -34,7 +35,9 @@ class ChildController extends Controller
     // 作成ページ
     public function create()
     {
-        return view('admin.children.create');
+        $classrooms = Classroom::all();
+
+        return view('admin.children.create', compact('classrooms'));
     }
 
     // 登録処理
@@ -45,16 +48,18 @@ class ChildController extends Controller
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_kana_name' => 'required|string|max:255',
-            'last_kana_name' => 'required|string|max:255',
+            'first_kana_name' => 'required|string|max:255',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
             'birthdate' => 'required|date',
             'admission_date' => 'required|date|after:birthdate',
             'medical_history' => 'nullable|string',
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
+            'classroom_id' => 'required|exists:classrooms,id',
         ]);
 
         $child = new Child($validated);
+        $child->classroom_id = $request->input('classroom_id');
 
         // 画像処理
         if ($request->hasFile('img')) {
@@ -73,7 +78,9 @@ class ChildController extends Controller
     // 編集ページ
     public function edit(Child $child)
     {
-        return view('admin.children.edit', compact('child'));
+        $classrooms = Classroom::all();
+
+        return view('admin.children.edit', compact('child', 'classrooms'));
     }
 
     public function update(Request $request, Child $child)
@@ -83,13 +90,14 @@ class ChildController extends Controller
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_kana_name' => 'required|string|max:255',
-            'last_kana_name' => 'required|string|max:255',
+            'first_kana_name' => 'required|string|max:255',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
             'birthdate' => 'required|date',
             'admission_date' => 'required|date|after:birthdate',
             'medical_history' => 'nullable|string',
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
+            'classroom_id' => 'required|exists:classrooms,id',
         ]);
         
         // 画像の更新処理
@@ -109,6 +117,7 @@ class ChildController extends Controller
         
         // データ更新
         $child->fill($validated);
+        $child->classroom_id = $request->input('classroom_id');
         $child->save();
         
         session()->flash('flash_message', '園児の情報を編集しました。');
@@ -119,7 +128,7 @@ class ChildController extends Controller
     public function destroy(Child $child)
     {
         if ($child->image) {
-            Storage::delete('public/children/' . $child->im);
+            Storage::delete('public/children/' . $child->id);
         }
 
         $child->delete();

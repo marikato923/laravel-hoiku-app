@@ -27,6 +27,7 @@
                     <th>フリガナ</th>
                     <th>生年月日</th>
                     <th>画像</th>
+                    <th>クラス</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -40,6 +41,12 @@
                         <td>{{ $child->last_kana_name }} {{ $child->first_kana_name }}</td>
                         <td>{{ $child->birthdate }}</td>
                         <td><img src="{{ asset('storage/children/' . $child->image) }}" width="50" height="50" alt="child image"></td>
+                        <td>@if ($child->classroom)
+                            {{ $child->classroom->name }}
+                            @else
+                                クラス未設定
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('admin.children.edit', $child->id) }}" class="btn btn-primary">編集</a>
                             <form action="{{ route('admin.children.destroy', $child->id) }}" method="POST" class="d-inline">

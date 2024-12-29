@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\Child;
 use App\Models\Admin;
+use App\Models\Classroom;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
@@ -90,7 +91,10 @@ class ChildTest extends TestCase
 
     public function test_guest_cannot_register_a_child()
     {
+        $classroom = Classroom::factory()->create();
+
         $data = Child::factory()->make()->toArray();
+        $data['classroom_id'] = $classroom->id;
         $response = $this->post(route('admin.children.store'), $data);
         $response->assertRedirect(route('admin.login'));
     }
@@ -99,7 +103,11 @@ class ChildTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
+
+        $classroom = Classroom::factory()->create();
+
         $data = Child::factory()->make()->toArray();
+        $data['classroom_id'] = $classroom->id;
 
         $response = $this->post(route('admin.children.store'), $data);
         $response->assertRedirect(route('admin.login'));
@@ -109,12 +117,19 @@ class ChildTest extends TestCase
     {
         $admin = Admin::factory()->create();
         $this->actingAs($admin, 'admin');
+
+        $classroom = Classroom::factory()->create();
+
         $data = Child::factory()->make()->toArray();
+        $data['classroom_id'] = $classroom->id;
         $data['img'] = UploadedFile::fake()->image('child.jpg');
 
         $response = $this->post(route('admin.children.store'), $data);
         $response->assertRedirect(route('admin.children.index'));
-        $this->assertDatabaseHas('children', ['name' => $data['name']]);
+        $this->assertDatabaseHas('children', [
+            'name' => $data['name'],
+            'classroom_id' => $data['classroom_id'],
+        ]);
     }
 
     public function test_guest_cannot_access_child_edit_page()
