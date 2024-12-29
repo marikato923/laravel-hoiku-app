@@ -16,7 +16,9 @@
                 <a href="{{ route('admin.children.index') }}" class="list-group-item">園児一覧<a>
                 </div>
                 <div class="list-group-item">緊急連絡先一覧</div>
-                <div class="list-group-item">クラス一覧</div>
+                <div>
+                <a href="{{ route('admin.classrooms.index') }}" class="list-group-item">クラス一覧
+                </div>
                 <div class="list-group-item">保育園概要</div>
             </div>
         </div>

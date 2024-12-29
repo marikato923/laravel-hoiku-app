@@ -26,9 +26,10 @@ require __DIR__.'/auth.php';
 
 // 管理者側のページ
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
-    Route::get('home', [Admin\HomeController::class, 'index'])->name('home');
-    Route::resource('users', Admin\UserController::class)->only(['index', 'show']);
-    Route::resource('children', Admin\ChildController::class);
+    Route::get('/home', [Admin\HomeController::class, 'index'])->name('home');
+    Route::resource('/users', Admin\UserController::class)->only(['index', 'show']);
+    Route::resource('/children', Admin\ChildController::class);
+    Route::resource('/classrooms', Admin\ClassroomController::class)->except(['show']);
 });
 
 

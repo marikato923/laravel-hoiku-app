@@ -47,22 +47,11 @@ class ChildController extends Controller
             'last_kana_name' => 'required|string|max:255',
             'last_kana_name' => 'required|string|max:255',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
+            'birthdate' => 'required|date',
             'admission_date' => 'required|date|after:birthdate',
             'medical_history' => 'nullable|string',
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
-
-            // 生年月日のバリデーション（現在の日付から０歳以上６歳以下）
-            'birthdate' => [
-                'required',
-                'date',
-                function ($attribute, $value, $fail) {
-                    $age = Carbon::parse($value)->age;
-                    if ($age < 0 || $age > 6) {
-                        $fail("{{$attribute}}は0歳以上6歳以下でなければいけません。");
-                    }  
-                }, 
-            ]
         ]);
 
         $child = new Child($validated);
@@ -97,22 +86,10 @@ class ChildController extends Controller
             'last_kana_name' => 'required|string|max:255',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
             'birthdate' => 'required|date',
-            'admission_date' => 'required|date',
+            'admission_date' => 'required|date|after:birthdate',
             'medical_history' => 'nullable|string',
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
-            
-            // 生年月日のバリデーション（現在の日付から０歳以上６歳以下）
-            'birthdate' => [
-                    'required',
-                    'date',
-                    function ($attribute, $value, $fail) {
-                        $age = Carbon::parse($value)->age;
-                        if ($age < 0 || $age > 6) {
-                            $fail("{{$attribute}}は0歳以上6歳以下でなければいけません。");
-                        }  
-                    }, 
-                ]
         ]);
         
         // 画像の更新処理

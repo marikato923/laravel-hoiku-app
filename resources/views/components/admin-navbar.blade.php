@@ -20,7 +20,7 @@
                     <a class="nav-link" href="#">緊急連絡先一覧</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">クラス一覧</a>
+                    <a class="nav-link" href="{{ route('admin.classrooms.index') }}">クラス一覧</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">保育園概要</a>
