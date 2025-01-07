@@ -41,4 +41,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'status' => 'boolean',
     ];
+
+    // childrenとの関係
+    public function children()
+    {
+        return $this->hasMany(Child::class);
+    }
 }

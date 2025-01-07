@@ -22,12 +22,25 @@ class Child extends Model
         'medical_history', 
         'has_allergy', 
         'allergy_type',
+        'user_id',
     ];
 
-    // クラスとのリレーション
+    // classroomとのリレーション
     public function classroom() 
     {
         return $this->belongsTo(Classroom::class);
+    }
+
+    // attendancesとのリレーション
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    // userとのリレーション
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
 

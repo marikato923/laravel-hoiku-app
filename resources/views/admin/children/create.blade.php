@@ -28,7 +28,16 @@
                 <label for="first_kana_name">メイ</label>
                 <input type="text" name="first_kana_name" id="first_kana_name" class="form-control" required>
             </div>
-
+            
+            <div class="form-group">
+                <label for="user_id">保護者氏名</label>
+                <select name="user_id" id="user_id" class='form_control' required>
+                    <option value="">選択してください</option>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->last_name }} {{ $user->first_name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <div class="form-group">
                 <label for="birthdate">生年月日</label>

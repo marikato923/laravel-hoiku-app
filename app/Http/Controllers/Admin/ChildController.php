@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Child;
 use App\Models\Classroom;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +30,9 @@ class ChildController extends Controller
     // 詳細ページ
     public function show(Child $child)
     {
-        return view('admin.children.show', compact('child'));
+        $users = User::all();
+
+        return view('admin.children.show', compact('child', 'users'));
     }
 
     // 作成ページ
@@ -37,7 +40,9 @@ class ChildController extends Controller
     {
         $classrooms = Classroom::all();
 
-        return view('admin.children.create', compact('classrooms'));
+        $users = User::all();
+
+        return view('admin.children.create', compact('classrooms', 'users'));
     }
 
     // 登録処理
@@ -56,6 +61,7 @@ class ChildController extends Controller
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
             'classroom_id' => 'required|exists:classrooms,id',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         $child = new Child($validated);
@@ -80,7 +86,9 @@ class ChildController extends Controller
     {
         $classrooms = Classroom::all();
 
-        return view('admin.children.edit', compact('child', 'classrooms'));
+        $users = User::all();
+
+        return view('admin.children.edit', compact('child', 'classrooms', 'users'));
     }
 
     public function update(Request $request, Child $child)
@@ -98,6 +106,7 @@ class ChildController extends Controller
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
             'classroom_id' => 'required|exists:classrooms,id',
+            'user_id' => 'required|exists:users,id',
         ]);
         
         // 画像の更新処理

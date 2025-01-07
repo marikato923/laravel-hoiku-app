@@ -13,7 +13,9 @@
                 <div>
                 <a href="{{ route('admin.users.index') }}" class="list-group-item">会員一覧</a>
                 </div>
-                <div class="list-group-item">登園状況一覧</div>
+                <div>
+                <a href="{{ route('admin.attendance.index') }}" class="list-group-item">出席状況一覧</a>
+                </div>
                 <div>
                 <a href="{{ route('admin.children.index') }}" class="list-group-item">園児一覧<a>
                 </div>

@@ -31,8 +31,10 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'kana' => ['required', 'string', 'regex:/\A[ァ-ヴー\s　]+\z/u', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_kana_name' => ['required', 'string', 'regex:/\A[ァ-ヴー\s]+\z/u', 'max:255'],
+            'first_kana_name' => ['required', 'string', 'regex:/\A[ァ-ヴー\s]+\z/u', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed', Rules\Password::defaults()],
             'role' => ['nullable', 'string'],
@@ -44,8 +46,10 @@ class RegisteredUserController extends Controller
 
         // ユーザー作成
         $user = User::create([
-            'name' => $validatedData['name'],
-            'kana' => $validatedData['kana'],
+            'last_name' => $validatedData['last_name'],
+            'first_name' => $validatedData['first_name'],
+            'last_kana_name' => $validatedData['last_kana_name'],
+            'first_kana_name' => $validatedData['first_kana_name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'role' => $validatedData['role'] ?? 'parent',

@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RedirectIfNotAuthenticatedAsUserAndAdmin;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Admin;
 
 
@@ -30,6 +31,8 @@ require __DIR__.'/auth.php';
 // ユーザー側のページ
 Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin::class]], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::post('/attendance/register', [AttendanceController::class, 'markPresent'])->name('attendance.register');
+    Route::post('/attendance/departure', [AttendanceController::class, 'markAbsent'])->name('attendance.departure');
 });
 
 // 管理者側のページ
@@ -40,6 +43,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::resource('/classrooms', Admin\ClassroomController::class)->except(['show']);
     Route::resource('/kindergarten', Admin\KindergartenController::class)->only(['index', 'edit', 'update']);
     Route::resource('/terms', Admin\TermController::class)->only(['index', 'edit', 'update']);
+    Route::get('/attendance', [Admin\AttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/attendance/daily', [Admin\AttendanceController::class, 'dailyAttendance'])->name('attendance.daily');
 });
 
 
