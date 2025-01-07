@@ -21,18 +21,22 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                $user = Auth::user();
+                $user = Auth::guard($guard)->user();
 
-                // メール認証が済んでいるかチェック
-                if ($user && $user()->hasVerifiedEmail()) {
-                    return redirect()->route('verification.notice');
-                }
-
+                // 管理者の場合
                 if ($guard === 'admin') {
                     return redirect(RouteServiceProvider::ADMIN_HOME);
                 }
-                
-                return redirect(RouteServiceProvider::HOME);
+
+                // ユーザーの場合
+                if ($guard === 'web') {
+                    // メール認証が必要で、未認証の場合
+                    if (method_exists($user, 'hasVerifiedEmail') && !$user->hasVerifiedEmail()) {
+                        return redirect()->route('verification.notice');
+                    }
+
+                    return redirect(RouteServiceProvider::HOME);
+                }
             }
         }
 

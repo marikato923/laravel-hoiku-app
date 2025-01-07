@@ -4,10 +4,11 @@
     <div class="container">
         <h1>会員ホーム</h1>
 
-        <!-- ログアウトボタン -->
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-danger">ログアウト</button>
-        </form>
-    </div>
+        @if (session('flash_message'))
+            <div class="container my-3">
+                <div class="alert alert-info" role="alert">
+                    <p class="mb-0">{{ 'flash_message' }}</p>
+                </div>
+            </div>
+        @endif
 @endsection

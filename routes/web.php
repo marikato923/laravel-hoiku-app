@@ -5,7 +5,10 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RedirectIfNotAuthenticatedAsUserAndAdmin;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +26,11 @@ Route::get('/', function () {
 });
 
 require __DIR__.'/auth.php';
+
+// ユーザー側のページ
+Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin::class]], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+});
 
 // 管理者側のページ
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
