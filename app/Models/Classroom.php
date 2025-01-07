@@ -13,9 +13,22 @@ class Classroom extends Model
         'name'
     ];
 
-    // 園児とのリレーション
+    // childrenとのリレーション
     public function children() 
     {
         return $this->hasMany(Child::class);
+    }
+
+    //　Childモデルを通じて出席情報を取得
+    public function attendances()
+    {
+        return $this->hasManyThrough(Attendance::class, Child::class);
+    }
+
+    // Childモデルを通じて欠席情報を取得
+    public function absences()
+    {
+        return $this->hasManyThrough(Attendance::class, Child::class)
+            ->whereNull('arrival_time');
     }
 }
