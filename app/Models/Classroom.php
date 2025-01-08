@@ -10,7 +10,8 @@ class Classroom extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'age_group',
     ];
 
     // childrenとのリレーション

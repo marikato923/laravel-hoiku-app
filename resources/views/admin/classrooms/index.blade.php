@@ -14,7 +14,15 @@
                 <form action="{{ route('admin.classrooms.store') }}" method="post">
                     @csrf
                     <div class="modal-body">
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" placeholder="クラス名">
+                        <select name="age_group" class="form-control mt-3">
+                            <option value="0歳児クラス">0歳児クラス</option>
+                            <option value="1歳児クラス">1歳児クラス</option>
+                            <option value="2歳児クラス">2歳児クラス</option>
+                            <option value="3歳児クラス">3歳児クラス</option>
+                            <option value="4歳児クラス">4歳児クラス</option>
+                            <option value="5歳児クラス">5歳児クラス</option>
+                        </select>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn shadow-sm">登録</button>
@@ -37,6 +45,14 @@
                     @method('patch')
                     <div class="modal-body">
                         <input type="text" class="form-control" name="name" value="">
+                        <select name="age_group" class="form-control mt-3">
+                            <option value="0歳児クラス"> {{ isset($classroom) && $classroom->age_group  == '0歳児クラス' ? 'selected' : '' }}0歳児クラス</option>
+                            <option value="1歳児クラス"> {{ isset($classroom) && $classroom->age_group  == '1歳児クラス' ? 'selected' : '' }}1歳児クラス</option>
+                            <option value="2歳児クラス"> {{ isset($classroom) && $classroom->age_group  == '2歳児クラス' ? 'selected' : '' }}2歳児クラス</option>
+                            <option value="3歳児クラス"> {{ isset($classroom) && $classroom->age_group  == '3歳児クラス' ? 'selected' : '' }}3歳児クラス</option>
+                            <option value="4歳児クラス"> {{ isset($classroom) && $classroom->age_group  == '4歳児クラス' ? 'selected' : '' }}4歳児クラス</option>
+                            <option value="5歳児クラス"> {{ isset($classroom) && $classroom->age_group  == '5歳児クラス' ? 'selected' : '' }}5歳児クラス</option>
+                        </select>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn shadow-sm">更新</button>
@@ -71,7 +87,7 @@
         {{-- 検索フォーム --}}
         <form method="GET" action="{{ route('admin.classrooms.index') }}" class="mb-3">
             <div class="input-group">
-                <input type="text" name="keyword" class="form-control" placeholder="クラス名で検索" value="{{ $keyword }}">
+                <input type="text" name="keyword" class="form-control" placeholder="クラス名で検索" value="{{ old('keyword', $keyword) }}">
                 <button class="btn btn-outline-secondary" type="submit">検索</button>
             </div>
         </form>
@@ -84,6 +100,7 @@
             <thead>
                 <tr>
                     <th>クラス名</th>
+                    <th>年齢層</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -91,9 +108,10 @@
                 @foreach ($classrooms as $classroom)
                     <tr>
                         <td>{{ $classroom->name }}</td>
+                        <td>{{ $classroom->age_group }}</td>
                         <td>
                             {{-- 編集ボタン --}}
-                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editClassroomModal" data-id="{{ $classroom->id }}" data-name="{{ $classroom->name }}">編集</a>
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editClassroomModal" data-id="{{ $classroom->id }}" data-name="{{ $classroom->name }}" data-age-group="{{ $classroom->age_group }}">編集</a>
                             {{-- 削除ボタン --}}
                             <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteClassroomModal" data-id="{{ $classroom->id }}" data-name="{{ $classroom->name }}">削除</a>
                             </form>
@@ -112,36 +130,39 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // 編集モーダルの設定
-            const editModal = document.getElementById('editClassroomModal');
-            editModal.addEventListener('show.bs.modal', function (event) {
-                const button = event.relatedTarget; // モーダルを開いたボタン
-                const classroomId = button.getAttribute('data-id'); // クラスID
-                const classroomName = button.getAttribute('data-name'); // クラス名
-    
-                // モーダル内のフォームと入力フィールド
-                const form = editModal.querySelector('form[name="editClassroomForm"]');
-                const input = form.querySelector('input[name="name"]');
-    
-                // フォームのaction属性を動的に設定
-                form.action = `/admin/classrooms/${classroomId}`;
-                input.value = classroomName;
-            });
-    
-            // 削除モーダルの設定
-            const deleteModal = document.getElementById('deleteClassroomModal');
-            deleteModal.addEventListener('show.bs.modal', function (event) {
-                const button = event.relatedTarget; // モーダルを開いたボタン
-                const classroomId = button.getAttribute('data-id'); // クラスID
-    
-                // モーダル内のフォーム
-                const form = deleteModal.querySelector('form[name="deleteClassroomForm"]');
-    
-                // フォームのaction属性を動的に設定
-                form.action = `/admin/classrooms/${classroomId}`;
-            });
+    document.addEventListener('DOMContentLoaded', function () {
+        // 編集モーダルの設定
+        const editModal = document.getElementById('editClassroomModal');
+        editModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // モーダルを開いたボタン
+            const classroomId = button.getAttribute('data-id'); // クラスID
+            const classroomName = button.getAttribute('data-name'); // クラス名
+            const classroomAgeGroup = button.getAttribute('data-age-group'); // 年齢層
+
+            // モーダル内のフォームと入力フィールド
+            const form = editModal.querySelector('form[name="editClassroomForm"]');
+            const nameInput = form.querySelector('input[name="name"]');
+            const ageGroupSelect = form.querySelector('select[name="age_group"]');
+
+            // フォームのaction属性を動的に設定
+            form.action = `/admin/classrooms/${classroomId}`;
+            nameInput.value = classroomName;
+            ageGroupSelect.value = classroomAgeGroup;  // 年齢層の入力フィールドに設定
         });
+
+        // 削除モーダルの設定
+        const deleteModal = document.getElementById('deleteClassroomModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // モーダルを開いたボタン
+            const classroomId = button.getAttribute('data-id'); // クラスID
+
+            // モーダル内のフォーム
+            const form = deleteModal.querySelector('form[name="deleteClassroomForm"]');
+
+            // フォームのaction属性を動的に設定
+            form.action = `/admin/classrooms/${classroomId}`;
+        });
+    });
     </script>
 
 @endsection

@@ -17,10 +17,12 @@ class ClassroomController extends Controller
 
         if ($keyword !== null) {
             $classrooms = Classroom::where('name', 'like', "%{$keyword}%")
+                        ->orderBy('age_group')
                         ->paginate(10);
             $total = $classrooms->total();
         } else {
-            $classrooms = Classroom::paginate(10);
+            $classrooms = $query->orderBy('age_group')
+                                ->paginate(10);
             $total = Classroom::count();
         }
 
@@ -31,6 +33,7 @@ class ClassroomController extends Controller
      {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'age_group' => 'nullable|string|max:255',
         ]);
 
         $classroom = new Classroom($validated);
@@ -44,6 +47,7 @@ class ClassroomController extends Controller
     {
        $validated = $request->validate([
            'name' => 'required|string|max:255',
+           'age_group' => 'nullable|string|max:255'
        ]);
 
        $classroom->fill($validated);
