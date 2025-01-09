@@ -11,6 +11,9 @@
                     <a class="nav-link" href="{{ route('admin.users.index') }}">会員一覧</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.messages.index') }}">メッセージ一覧</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.attendance.index') }}">出席状況一覧</a>
                 </li>
                 <li class="nav-item">

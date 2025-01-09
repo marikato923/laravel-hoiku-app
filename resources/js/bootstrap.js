@@ -30,3 +30,27 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    encrypted: true
+});
+
+// チャネル「chat」の購読
+echo.channel('chat')
+    .listen('MessageSent', (event) => {
+        // メッセージが送信されるたびに、このコールバックが実行されます
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.textContent = `${event.user}: ${event.message}`;
+
+        // メッセージをHTMLに追加
+        document.getElementById('message-list').appendChild(messageElement);
+    });

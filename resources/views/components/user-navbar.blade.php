@@ -13,6 +13,7 @@
                         <span class="nav-link">{{ Auth::user()->name }}</span>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('messages.index')}}" class="nav-link">WEB連絡帳</a>
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="btn btn-link nav-link">ログアウト</button>
