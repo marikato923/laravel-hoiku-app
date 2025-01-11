@@ -8,6 +8,10 @@ body {
 main {
     flex: 1;
 }
+
+h1 {
+    font-size: 26px;
+}
         
 footer {
     background-color: rgb(255, 175, 175);
@@ -55,6 +59,30 @@ footer {
     color: gray;
 }
 
+/*　認証ページ */
+.kodomolog-btn {
+    background-color: rgb(255, 175, 175) !important ;
+}
+
+.kodomolog-btn:hover {
+    background-color: rgb(255, 205, 205) !important ;
+}
+
+.register-btn {
+    color: #f7f7f7;
+    background-color: rgb(90, 160, 255) !important ;
+}
+
+.register-btn:hover {
+    color: #f7f7f7;
+    background-color: rgb(155, 195, 255) !important ;
+}
+
+.login-text {
+    font-size: 0.9rem;
+    color: rgb(155, 195, 255);
+}
+
 /* ユーザーページ */
 .attendance-btn {
     font-size: 1.5rem;
@@ -66,41 +94,37 @@ footer {
 
 /* 背景色、角を丸く、影をつける */
 .child-select {
-    background-color: #f7f7f7; /* 薄いグレー */
-    border-radius: 8px; /* 角を丸く */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* うっすら影 */
-    padding: 10px;
+    background-color: #f7f7f7; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    padding: 0, 15px
 }
 
 /* 登園・降園ボタンの基本デザイン */
 .attendance-btn, .departure-btn {
     font-size: 1rem;
-    padding: 10px;
+    padding: 10px, 15px;
     border-radius: 8px;
 }
 
 .attendance-btn {
-    background-color: #28a745;
+    background-color: rgb(255, 175, 175);
+    color: white;
+}
+
+.attendance-btn:hover {
+    background-color: rgb(255, 205, 205) ;
     color: white;
 }
 
 .departure-btn {
-    background-color: #dc3545; 
+    background-color: rgb(90, 160, 255); 
     color: white;
 }
 
-/* スマホ向け（画面幅が767px以下）のデザイン */
-@media (max-width: 767px) {
-    .attendance-btn, .departure-btn {
-        font-size: 1.5rem;
-        padding: 20px;
-    }
+.departure-btn:hover {
+    background-color:  rgb(155, 195, 255); 
+    color: white;
 }
 
-/* PC画面やタブレット向け（画面幅が768px以上）のデザイン */
-@media (min-width: 768px) {
-    .attendance-btn, .departure-btn {
-        font-size: 1rem;
-        padding: 10px;
-    }
-}
+

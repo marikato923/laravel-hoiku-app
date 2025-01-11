@@ -84,7 +84,7 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary">登録</button>
+        <button type="submit" class="btn register-btn">登録</button>
     </form>
 </div>
 @endsection

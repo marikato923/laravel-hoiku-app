@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs" id="childTab" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="attendance-tab" data-bs-toggle="tab" href="#attendance" role="tab" aria-controls="attendance" aria-selected="true">
-            登園打刻ページ
+            打刻フォーム
         </a>
     </li>
     <li class="nav-item">
