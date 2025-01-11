@@ -41,6 +41,20 @@ footer {
     color: rgb(255, 175, 175);
 }
 
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus,
+.navbar-toggler-icon:active {
+    outline: none !important;
+    box-shadow: none !important;
+    transition: color 0.3s ease;
+}
+
+.navbar-text {
+    margin-left: 35px;
+    color: gray;
+}
+
 /* ユーザーページ */
 .attendance-btn {
     font-size: 1.5rem;

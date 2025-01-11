@@ -15,14 +15,6 @@
                     </div>
                 </div>
 
-                @if (session('flash_message'))
-                    <div class="alert alert-info" role="alert">
-                        <p class="mb-0">{{ session('flash_message') }}</p>
-                    </div>
-                @endif
-
-
-
                 <div class="container mb-4">
                     {!! $term->content !!}
                 </div>

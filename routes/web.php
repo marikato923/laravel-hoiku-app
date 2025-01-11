@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Events\MessageSent;
 use App\Http\Middleware\RedirectIfNotAuthenticatedAsUserAndAdmin;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\KindergartenController;
+use App\Http\Controllers\TermController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Admin;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +30,25 @@ require __DIR__.'/auth.php';
 
 // ユーザー側のページ
 Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin::class]], function () {
+    // トップページ
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::post('/attendance/register', [AttendanceController::class, 'markPresent'])->name('attendance.register');
     Route::post('/attendance/departure', [AttendanceController::class, 'markAbsent'])->name('attendance.departure');
+
+    // 会員情報ページ
+    Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
+    Route::get('/user', [UserController::class, 'show'])->name('user.show');
+    Route::get('/user/edit-password', [UserController::class, 'editPassword'])->name('user.edit-password');
+    Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
+
+    // 園の情報ページ
+    Route::get('/kindergarten', [KindergartenController::class, 'show'])->name('kindergarten.show');
+
+    // 利用規約ページ
+    Route::get('/terms', [TermController::class, 'show'])->name('terms.show');
+
+    // チャット機能
     Route::get('/messages/{adminId}', [MessageController::class, 'fetchMessagesForUser']);
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');

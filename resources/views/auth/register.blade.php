@@ -7,7 +7,6 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- 名前 -->
         <div class="form-group">
             <label for="name">姓</label>
             <input type="text" id="last_name" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required>
@@ -18,13 +17,12 @@
 
         <div class="form-group">
             <label for="first_name">名</label>
-            <input type="text" id="first_name" class="form-control @error('name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" required>
+            <input type="text" id="first_name" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" required>
             @error('first_name')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        <!-- カナ -->
         <div class="form-group">
             <label for="last_kana_name">セイ</label>
             <input type="text" id="last_kana_name" class="form-control @error('last_kana_name') is-invalid @enderror" name="last_kana_name" value="{{ old('last_kana_name') }}" required>
@@ -41,7 +39,6 @@
             @enderror
         </div>
 
-        <!-- メールアドレス -->
         <div class="form-group">
             <label for="email">メールアドレス</label>
             <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required>
@@ -50,7 +47,6 @@
             @enderror
         </div>
 
-        <!-- パスワード -->
         <div class="form-group">
             <label for="password">パスワード</label>
             <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
@@ -59,13 +55,11 @@
             @enderror
         </div>
 
-        <!-- パスワード確認 -->
         <div class="form-group">
             <label for="password_confirmation">パスワード確認</label>
             <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" required>
         </div>
 
-        <!-- 電話番号 -->
         <div class="form-group">
             <label for="phone_number">電話番号</label>
             <input type="text" id="phone_number" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}">
@@ -74,7 +68,6 @@
             @enderror
         </div>
 
-        <!-- 郵便番号 -->
         <div class="form-group">
             <label for="postal_code">郵便番号</label>
             <input type="text" id="postal_code" class="form-control @error('postal_code') is-invalid @enderror" name="postal_code" value="{{ old('postal_code') }}">
@@ -83,7 +76,6 @@
             @enderror
         </div>
 
-        <!-- 住所 -->
         <div class="form-group">
             <label for="address">住所</label>
             <input type="text" id="address" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}">
@@ -92,7 +84,6 @@
             @enderror
         </div>
 
-        <!-- 登録ボタン -->
         <button type="submit" class="btn btn-primary">登録</button>
     </form>
 </div>
