@@ -1,0 +1,92 @@
+body {
+    display: flex;
+    flex-direction:column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
+        
+footer {
+    background-color: rgb(255, 175, 175);
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    border-top: 1px solid #e7e7e7 ;
+}
+
+
+/* ナビゲーションバー */
+.logo {   
+    font-family: 'Zen Maru Gothic', serif;
+    font-weight: 700;
+    font-size: 2em;
+    color: rgb(255, 175, 175);
+    text-decoration: none;
+    letter-spacing: -0.05em;
+    transition: color 0.3s ease;
+}
+
+.logo:hover {
+    color: rgb(255, 205, 205);
+}
+
+.logo:active {
+    color: rgb(255, 175, 175) ;
+}
+
+.logo:focus {
+    color: rgb(255, 175, 175);
+}
+
+/* ユーザーページ */
+.attendance-btn {
+    font-size: 1.5rem;
+    padding: 15ps 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* 背景色、角を丸く、影をつける */
+.child-select {
+    background-color: #f7f7f7; /* 薄いグレー */
+    border-radius: 8px; /* 角を丸く */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* うっすら影 */
+    padding: 10px;
+}
+
+/* 登園・降園ボタンの基本デザイン */
+.attendance-btn, .departure-btn {
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.attendance-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.departure-btn {
+    background-color: #dc3545; 
+    color: white;
+}
+
+/* スマホ向け（画面幅が767px以下）のデザイン */
+@media (max-width: 767px) {
+    .attendance-btn, .departure-btn {
+        font-size: 1.5rem;
+        padding: 20px;
+    }
+}
+
+/* PC画面やタブレット向け（画面幅が768px以上）のデザイン */
+@media (min-width: 768px) {
+    .attendance-btn, .departure-btn {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}

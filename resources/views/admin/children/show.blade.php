@@ -8,6 +8,7 @@
         <h1>園児詳細</h1>
 
         <p><strong>名前:</strong> {{ $child->last_name }} {{ $child->first_name }} </p>
+        <td><img src="{{ asset('storage/children/' . $child->image) }}" width="50" height="50" alt="child image"></td>
         <p><strong>フリガナ:</strong> {{ $child->last_kana_name }} {{ $child->first_kana_name }} </p>
         <p><strong>保護者氏名:</strong> 
             @if ($child->user)
