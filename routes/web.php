@@ -32,8 +32,6 @@ require __DIR__.'/auth.php';
 Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin::class]], function () {
     // トップページ
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::post('/attendance/register', [AttendanceController::class, 'markPresent'])->name('attendance.register');
-    Route::post('/attendance/departure', [AttendanceController::class, 'markAbsent'])->name('attendance.departure');
 
     // 会員情報ページ
     Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');

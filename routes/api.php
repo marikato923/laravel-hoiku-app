@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AttendanceController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/hello', function () {
+    return response()->json(['message' => 'Hello World']);
+});
+
+// 登園、降園の記録
+Route::post('/attendance/arrival', [AttendanceController::class, 'markArrival']);
+Route::post('/attendance/departure', [AttendanceController::class, 'markDeparture']);
+

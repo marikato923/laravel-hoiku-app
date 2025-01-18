@@ -8,37 +8,79 @@ use App\Models\Child;
 
 class AttendanceController extends Controller
 {
-    public function markPresent(Request $request)
+    public function markArrival(Request $request)
     {
-        $child = Child::find($request->child_id);
-
-        if (!$child) {
-            return redirect()->route('home')->with('flash_message', '選択した園児が見つかりません');
-         }
-
-        Attendance::create([
-        'child_id' => $child->id,
-        'arrival_time' => now(),
-        'pickup_name' => $request->pickup_name,
-        'pickup_time' => $request->pickup_time,
+        $request->validate([
+            'children' => 'required|array',
+            'children.*' => 'exists:children,id',
+            'pickup_name' => 'string|max:255',
+            'pickup_time' => 'date_format:H:i',
         ]);
-
-        return redirect()->route('home')->with('flash_message', $child->first_name . 'さんの登園を記録しました。');
+    
+        $messages = [];
+        foreach ($request->children as $childId) {
+            $child = Child::find($childId);
+            Attendance::create([
+                'child_id' => $child->id,
+                'arrival_time' => now(),
+                'pickup_name' => $request->pickup_name,
+                'pickup_time' => $request->pickup_time,
+            ]);
+            $messages[] = "{$child->first_name}さんの登園を記録しました。";
+        }
+    
+        return response()->json([
+            'message' => implode("\n", $messages),
+        ]);
     }
 
-    public function markAbsent(Request $request)
+    public function markDeparture(Request $request)
     {
-        $child = Child::find($request->child_id);
+        $request->validate([
+            'children' => 'required|array',
+            'children.*' => 'exists:children,id',
+        ]);
+    
+        foreach ($request->children as $childId) {
+            $child = Child::find($childId);
+    
+            if (!$child) {
+                return response()->json([
+                    'message' => '無効な子供が選択されました。',
+                ], 400);
+            }
 
-        if (!$child) {
-            return redirect()->route('home')->with('flash_message', '選択した園児が見つかりません');
+            Attendance::create([
+                'child_id' => $child->id,
+                'departure_time' => now(),
+            ]);
+
+            $messages[] = "{$child->first_name}さんの登園を記録しました。";
         }
 
-        Attendance::create([
-            'child_id' => $child->id,
-            'departure_time' => now(),
+        return response()->json([
+            'messages' => $messages,
+        ]);
+    }
+
+
+    public function checkAttendanceStatus(Request $request)
+    {
+        $request->validate([
+            'children' => 'required|array',
+            'children.*' => 'exists:children,id',
         ]);
 
-        return redirect()->route('home')->with('flash_message', $child->first_name . 'さんの降園を記録しました。');
+        $status = [];
+
+        foreach ($request->children as $childId) {
+            $attendance = Attendance::where('child_id', $childId)
+                ->whereDate('arrival_time', today())
+                ->exists();
+
+            $status[$childId] = $attendance;
+        }
+
+        return response()->json($status);
     }
 }
