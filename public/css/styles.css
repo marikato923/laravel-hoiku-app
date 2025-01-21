@@ -21,6 +21,10 @@ footer {
     border-top: 1px solid #e7e7e7 ;
 }
 
+.form-control {
+    max-width: 400px;
+}
+
 
 /* ナビゲーションバー */
 .logo {   
@@ -62,6 +66,7 @@ footer {
 /*　認証ページ */
 .kodomolog-btn {
     background-color: rgb(255, 175, 175) !important ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 .kodomolog-btn:hover {
@@ -71,6 +76,7 @@ footer {
 .register-btn {
     color: #f7f7f7;
     background-color: rgb(90, 160, 255) !important ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 .register-btn:hover {

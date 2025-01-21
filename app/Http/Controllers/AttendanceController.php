@@ -18,6 +18,7 @@ class AttendanceController extends Controller
         ]);
     
         $messages = [];
+
         foreach ($request->children as $childId) {
             $child = Child::find($childId);
             Attendance::create([
@@ -26,6 +27,7 @@ class AttendanceController extends Controller
                 'pickup_name' => $request->pickup_name,
                 'pickup_time' => $request->pickup_time,
             ]);
+            
             $messages[] = "{$child->first_name}さんの登園を記録しました。";
         }
     

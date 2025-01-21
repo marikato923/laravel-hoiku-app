@@ -49,60 +49,58 @@
             const pickupTime = document.getElementById('pickup_time');
             const resultMessage = document.getElementById('resultMessage');
 
-        // 子供ごとのステータスを保持するマップ
-        const childStatus = {};
+            function getTodayKey() {
+                const today = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
+                return `attendance_status_${today}`;
+            }
 
-        // 初期化関数（状態をリセット）
-        function initializeForm() {
-            checkboxes.forEach((checkbox) => {
-                childStatus[checkbox.value] = false; // 全て未登園に設定
-                checkbox.checked = false;
-            });
-            updateButtonStates();
-        }
+            function loadAttendanceStatus() {
+                return JSON.parse(localStorage.getItem(getTodayKey())) || {};
+            }
 
-        // ボタンの状態を更新
-        function updateButtonStates() {
-            const selectedChildIds = Array.from(checkboxes)
-                .filter((checkbox) => checkbox.checked)
-                .map((checkbox) => checkbox.value);
+            function saveAttendanceStatus(status) {
+                localStorage.setItem(getTodayKey(), JSON.stringify(status));
+            }
 
-            const anySelected = selectedChildIds.length > 0;
-            const allSelectedArrived = selectedChildIds.every(
-                (childId) => childStatus[childId] === true
-            );
+            function updateButtonStates() {
+                const selectedChildIds = Array.from(checkboxes)
+                    .filter((checkbox) => checkbox.checked)
+                    .map((checkbox) => checkbox.value);
 
-            // 登園ボタンは、選択された子供がいれば有効
-            arrivalBtn.disabled = !anySelected;
-            pickupName.disabled = !anySelected;
-            pickupTime.disabled = !anySelected;
+                const anySelected = selectedChildIds.length > 0;
+                const storedStatus = loadAttendanceStatus();
+                const allSelectedArrived = selectedChildIds.every(
+                    (childId) => storedStatus[childId] === true
+                );
 
-            // 降園ボタンは、選択された子供が全員登園済みであれば有効
-            departureBtn.disabled = !anySelected || !allSelectedArrived;
+                // 登園ボタンの制御（1度押したら無効）
+                arrivalBtn.disabled = !anySelected || storedStatus['arrival_done'] === true;
+                pickupName.disabled = !anySelected || storedStatus['arrival_done'] === true;
+                pickupTime.disabled = !anySelected || storedStatus['arrival_done'] === true;
 
-            // ボタンのクラスを更新
-            updateButtonClasses(arrivalBtn, !arrivalBtn.disabled, 'btn-success');
-            updateButtonClasses(departureBtn, !departureBtn.disabled, 'btn-danger');
-        }
+                // 降園ボタンの制御（登園後のみ有効 & 一度押したら無効）
+                departureBtn.disabled = !anySelected || !allSelectedArrived || storedStatus['departure_done'] === true;
 
-        // ボタンのクラスを更新（汎用関数）
-        function updateButtonClasses(button, isEnabled, activeClass) {
-            button.classList.toggle('btn-secondary', !isEnabled);
-            button.classList.toggle(activeClass, isEnabled);
-        }
+                updateButtonClasses(arrivalBtn, !arrivalBtn.disabled, 'btn-success');
+                updateButtonClasses(departureBtn, !departureBtn.disabled, 'btn-danger');
+            }
 
-        // 登園処理
-        arrivalBtn.addEventListener('click', async () => {
-            const selectedChildIds = Array.from(checkboxes)
-                .filter((checkbox) => checkbox.checked)
-                .map((checkbox) => checkbox.value);
+            function updateButtonClasses(button, isEnabled, activeClass) {
+                button.classList.toggle('btn-secondary', !isEnabled);
+                button.classList.toggle(activeClass, isEnabled);
+            }
 
-            try {
-                const response = await fetch('/api/attendance/arrival', {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
+            arrivalBtn.addEventListener('click', async () => {
+                const selectedChildIds = Array.from(checkboxes)
+                    .filter((checkbox) => checkbox.checked)
+                    .map((checkbox) => checkbox.value);
+
+                try {
+                    const response = await fetch('/api/attendance/arrival', {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ children: selectedChildIds }),
                 });
@@ -112,10 +110,14 @@
                 if (response.ok) {
                     resultMessage.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
 
-                    // 子供の状態を「登園済み」に更新
+                    // 登園ステータス保存
+                    const storedStatus = loadAttendanceStatus();
+                    storedStatus['arrival_done'] = true;
                     selectedChildIds.forEach((childId) => {
-                        childStatus[childId] = true;
+                    storedStatus[childId] = true;
                     });
+                    saveAttendanceStatus(storedStatus);
+
                     updateButtonStates();
                 } else {
                     resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
@@ -126,11 +128,10 @@
             }
         });
 
-        // 降園処理
         departureBtn.addEventListener('click', async () => {
             const selectedChildIds = Array.from(checkboxes)
-            .filter((checkbox) => checkbox.checked)
-            .map((checkbox) => checkbox.value);
+                .filter((checkbox) => checkbox.checked)
+                .map((checkbox) => checkbox.value);
 
             try {
                 const response = await fetch('/api/attendance/departure', {
@@ -146,6 +147,13 @@
 
                 if (response.ok) {
                     resultMessage.innerHTML = `<div class="alert alert-success">${data.message || '降園が記録されました。'}`;
+
+                    // 降園ステータス保存
+                    const storedStatus = loadAttendanceStatus();
+                    storedStatus['departure_done'] = true;
+                    saveAttendanceStatus(storedStatus);
+
+                    updateButtonStates();
                 } else {
                     resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
                 }
@@ -155,14 +163,12 @@
             }
         });
 
-
-        // チェックボックス変更時の処理
         checkboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', updateButtonStates);
         });
 
-        // 初期化処理を実行
-        initializeForm();
-    });  
+        // ページロード時にステータスを適用
+        updateButtonStates();
+    });
     </script>
 @endsection
