@@ -96,59 +96,61 @@ class AttendanceController extends Controller
 
     public function show(Request $request)
     {
-        // 年と月の取得（デフォルトで現在年、月）
         $year = $request->year ?? now()->year;
         $month = $request->month ?? now()->month;
-    
-        // ログインユーザー情報（ユーザーは親だと仮定）
+
         $user = auth()->user();
     
-        // 子供のIDまたは情報を取得
-        $children = $user->children;  // 仮に親（ユーザー）に関連付けられた子供の情報を取得する
+        // 子供の情報を取得（兄弟データ含む）
+        $children = $user->children;
     
-        // 出席情報を取得し、年と月で絞り込み
+        // 兄弟リストを取得
+        $siblings = Child::where('user_id', $user->id)->get();
+    
         $attendances = Attendance::with('child') // 出席情報に子供の情報を一緒に取得
             ->whereIn('child_id', $children->pluck('id'))  // ユーザーの子供のみの出席記録
             ->whereMonth('created_at', $month)
             ->whereYear('created_at', $year)
-            ->orderBy('created_at');
+            ->orderBy('created_at')
+            ->get();
     
-        // 出席情報を取得
-        $attendances = $attendances->get()
-            ->groupBy(function($attendance) {
-                return $attendance->created_at->format('Y-m-d');
+        // 出席情報を子供IDと日付でグループ化
+        $groupedAttendances = $attendances->groupBy(function ($attendance) {
+            return $attendance->child_id; // 子供ごとにグループ化
+        })->map(function ($childAttendances) {
+            return $childAttendances->groupBy(function ($attendance) {
+                return $attendance->created_at->format('Y-m-d'); // 日付ごとにグループ化
             });
+        });
     
-        // 同じ日に登園と降園がある場合にまとめるために、日付ごとにさらにグループ化
-        $groupedAttendances = [];
-        foreach ($attendances as $date => $attendanceGroup) {
-            $attendanceByChild = $attendanceGroup->groupBy('child_id');
-            foreach ($attendanceByChild as $childAttendances) {
-                // 登園時間と退園時間を取得
-                $child = $childAttendances->first()->child;
-                $arrival_time = $childAttendances->first()->arrival_time
-                    ? \Carbon\Carbon::parse($childAttendances->first()->arrival_time)->format('H:i')
+        // 同じ日に登園と降園がある場合にまとめる
+        $formattedAttendances = [];
+        foreach ($groupedAttendances as $childId => $dates) {
+            foreach ($dates as $date => $attendancesOnDate) {
+                $arrival_time = $attendancesOnDate->first()->arrival_time
+                    ? \Carbon\Carbon::parse($attendancesOnDate->first()->arrival_time)->format('H:i')
                     : '未登録';
-                
-                // 複数の降園時間がある場合、最後の降園時間を取得
-                $departure_time = $childAttendances->last()->departure_time
-                    ? \Carbon\Carbon::parse($childAttendances->last()->departure_time)->format('H:i')
+                $departure_time = $attendancesOnDate->last()->departure_time
+                    ? \Carbon\Carbon::parse($attendancesOnDate->last()->departure_time)->format('H:i')
                     : '未登録';
-        
-                // 登園と降園時間を1行にまとめる
+    
                 $time_range = ($arrival_time != '未登録' && $departure_time != '未登録') 
                     ? $arrival_time . '〜' . $departure_time
                     : $arrival_time . '〜' . $departure_time;
-                
-                // 日付と園児ごとに整理
-                $groupedAttendances[$date][] = [
-                    'child' => $child,
+    
+                $formattedAttendances[$childId][$date][] = [
+                    'child' => $attendancesOnDate->first()->child,
                     'time_range' => $time_range,
                 ];
             }
         }
     
-        // ビューに渡すデータを修正
-        return view('attendance.show', compact('groupedAttendances', 'year', 'month'));
-    }
+        // ビューに渡すデータ
+        return view('attendance.show', [
+            'groupedAttendances' => $formattedAttendances,
+            'year' => $year,
+            'month' => $month,
+            'siblings' => $siblings,
+        ]);
+    }       
 }

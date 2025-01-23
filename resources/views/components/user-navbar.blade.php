@@ -21,16 +21,16 @@
                         <a class="nav-link" href="{{ route('user.show', ['user' => Auth::user()->id]) }}">会員情報</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('attendance.show') }}">登園履歴</a>
+                        <a class="nav-link" href="{{ route('children.show', ['child' => Auth::user()->children->first()->id]) }}">お子様の基本情報</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('attendance.show') }}">出席履歴</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('kindergarten.show') }}">園について</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('terms.show') }}">利用規約</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('messages.index')}}" class="nav-link">WEB連絡帳</a>
                     </li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">

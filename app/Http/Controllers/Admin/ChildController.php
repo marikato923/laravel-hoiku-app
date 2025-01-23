@@ -72,7 +72,7 @@ class ChildController extends Controller
             $imagePath = $request->file('img')->store('public/children');
             $child->img = basename($imagePath);
         } else {
-            $child->img = '';
+            $child->img = 'default.png';
         }
 
         $child->save();
@@ -118,7 +118,7 @@ class ChildController extends Controller
     
             // 新しい画像を保存
             $imagePath = $request->file('img')->store('public/children');
-            $validated['img'] = basename($imagePath); // 新しい画像名をバリデートされたデータに追加
+            $validated['img'] = basename($imagePath);
         } elseif ($request->input('img') === '') {
             // 画像が空文字の場合（画像削除）
             $validated['img'] = '';

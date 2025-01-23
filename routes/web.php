@@ -9,7 +9,9 @@ use App\Http\Controllers\KindergartenController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ChildController;
 use App\Http\Controllers\Admin;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,9 @@ Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin:
 
     // 出席履歴
     Route::get('/attendance/show', [AttendanceController::class, 'show'])->name('attendance.show');
+
+    // 子供の基本情報
+    Route::get('/children/{child}', [ChildController::class, 'show'])->name('children.show');
 
     // 園の情報ページ
     Route::get('/kindergarten', [KindergartenController::class, 'show'])->name('kindergarten.show');
