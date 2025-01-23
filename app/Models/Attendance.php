@@ -23,9 +23,14 @@ class Attendance extends Model
         'pickup_time',
     ];
 
+    protected $casts = [
+        'arrival_time' => 'datetime',
+        'departure_time' => 'datetime',
+    ];
+
     public function child()
     {
-        return $this->belongsTo(Child::class);
+        return $this->belongsTo(Child::class, 'child_id');
     }
 
 

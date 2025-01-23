@@ -49,58 +49,62 @@
             const pickupTime = document.getElementById('pickup_time');
             const resultMessage = document.getElementById('resultMessage');
 
-            function getTodayKey() {
-                const today = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
-                return `attendance_status_${today}`;
-            }
+        // 今日の日付をキーにしたストレージを管理
+        function getTodayKey() {
+            return `attendance_status_${new Date().toISOString().split('T')[0]}`; // yyyy-mm-dd
+        }
 
-            function loadAttendanceStatus() {
-                return JSON.parse(localStorage.getItem(getTodayKey())) || {};
-            }
+        // 登園・降園のステータスをロード
+        function loadAttendanceStatus() {
+            return JSON.parse(localStorage.getItem(getTodayKey())) || {};
+        }
 
-            function saveAttendanceStatus(status) {
-                localStorage.setItem(getTodayKey(), JSON.stringify(status));
-            }
+        // 登園・降園のステータスを保存
+        function saveAttendanceStatus(status) {
+            localStorage.setItem(getTodayKey(), JSON.stringify(status));
+        }
 
-            function updateButtonStates() {
-                const selectedChildIds = Array.from(checkboxes)
-                    .filter((checkbox) => checkbox.checked)
-                    .map((checkbox) => checkbox.value);
+        // ボタン状態を更新する
+        function updateButtonStates() {
+            const selectedChildIds = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
 
-                const anySelected = selectedChildIds.length > 0;
-                const storedStatus = loadAttendanceStatus();
-                const allSelectedArrived = selectedChildIds.every(
-                    (childId) => storedStatus[childId] === true
-                );
+            const anySelected = selectedChildIds.length > 0;
+            const storedStatus = loadAttendanceStatus();
+            const allSelectedArrived = selectedChildIds.every(childId => storedStatus[childId] === true);
 
-                // 登園ボタンの制御（1度押したら無効）
-                arrivalBtn.disabled = !anySelected || storedStatus['arrival_done'] === true;
-                pickupName.disabled = !anySelected || storedStatus['arrival_done'] === true;
-                pickupTime.disabled = !anySelected || storedStatus['arrival_done'] === true;
+            // 登園ボタンの制御
+            arrivalBtn.disabled = !anySelected || storedStatus['arrival_done'] === true;
+            pickupName.disabled = !anySelected || storedStatus['arrival_done'] === true;
+            pickupTime.disabled = !anySelected || storedStatus['arrival_done'] === true;
 
-                // 降園ボタンの制御（登園後のみ有効 & 一度押したら無効）
-                departureBtn.disabled = !anySelected || !allSelectedArrived || storedStatus['departure_done'] === true;
+            // 降園ボタンの制御
+            departureBtn.disabled = !anySelected || !allSelectedArrived || storedStatus['departure_done'] === true;
 
-                updateButtonClasses(arrivalBtn, !arrivalBtn.disabled, 'btn-success');
-                updateButtonClasses(departureBtn, !departureBtn.disabled, 'btn-danger');
-            }
+            // ボタンのクラスを更新
+            updateButtonClasses(arrivalBtn, !arrivalBtn.disabled, 'btn-success');
+            updateButtonClasses(departureBtn, !departureBtn.disabled, 'btn-danger');
+        }
 
-            function updateButtonClasses(button, isEnabled, activeClass) {
-                button.classList.toggle('btn-secondary', !isEnabled);
-                button.classList.toggle(activeClass, isEnabled);
-            }
+        // ボタンのクラスを更新
+        function updateButtonClasses(button, isEnabled, activeClass) {
+            button.classList.toggle('btn-secondary', !isEnabled);
+            button.classList.toggle(activeClass, isEnabled);
+        }
 
-            arrivalBtn.addEventListener('click', async () => {
-                const selectedChildIds = Array.from(checkboxes)
-                    .filter((checkbox) => checkbox.checked)
-                    .map((checkbox) => checkbox.value);
+        // 登園ボタンが押されたとき
+        arrivalBtn.addEventListener('click', async () => {
+            const selectedChildIds = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
 
-                try {
-                    const response = await fetch('/api/attendance/arrival', {
-                        method: 'POST',
-                        headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'application/json',
+            try {
+                const response = await fetch('/api/attendance/arrival', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ children: selectedChildIds }),
                 });
@@ -110,12 +114,12 @@
                 if (response.ok) {
                     resultMessage.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
 
-                    // 登園ステータス保存
+                    // 登園ステータスを保存
                     const storedStatus = loadAttendanceStatus();
-                    storedStatus['arrival_done'] = true;
-                    selectedChildIds.forEach((childId) => {
-                    storedStatus[childId] = true;
+                    selectedChildIds.forEach(childId => {
+                        storedStatus[childId] = true; 
                     });
+                    storedStatus['arrival_done'] = true;
                     saveAttendanceStatus(storedStatus);
 
                     updateButtonStates();
@@ -128,10 +132,11 @@
             }
         });
 
+        // 降園ボタンが押されたとき
         departureBtn.addEventListener('click', async () => {
             const selectedChildIds = Array.from(checkboxes)
-                .filter((checkbox) => checkbox.checked)
-                .map((checkbox) => checkbox.value);
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
 
             try {
                 const response = await fetch('/api/attendance/departure', {
@@ -146,29 +151,30 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    resultMessage.innerHTML = `<div class="alert alert-success">${data.message || '降園が記録されました。'}`;
+                    resultMessage.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
 
-                    // 降園ステータス保存
+                    // 降園ステータスを保存
                     const storedStatus = loadAttendanceStatus();
-                    storedStatus['departure_done'] = true;
-                    saveAttendanceStatus(storedStatus);
+                        storedStatus['departure_done'] = true;
+                        saveAttendanceStatus(storedStatus);
 
-                    updateButtonStates();
-                } else {
-                    resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                        updateButtonStates();
+                    } else {
+                        resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                    }
+                } catch (error) {
+                    console.error('エラー (Departure):', error);
+                    resultMessage.innerHTML = `<div class="alert alert-danger">エラーが発生しました。</div>`;
                 }
-            } catch (error) {
-                console.error('エラー (Departure):', error);
-                resultMessage.innerHTML = `<div class="alert alert-danger">エラーが発生しました。</div>`;
-            }
-        });
+            });
 
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', updateButtonStates);
-        });
+            // チェックボックスが変更された時にボタン状態を更新
+            checkboxes.forEach((checkbox) => {
+                checkbox.addEventListener('change', updateButtonStates);
+            });
 
-        // ページロード時にステータスを適用
-        updateButtonStates();
-    });
+            // ページロード時にステータスを適用
+            updateButtonStates();
+        });
     </script>
 @endsection

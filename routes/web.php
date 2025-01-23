@@ -40,6 +40,9 @@ Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin:
     Route::get('/user/edit-password', [UserController::class, 'editPassword'])->name('user.edit-password');
     Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
 
+    // 出席履歴
+    Route::get('/attendance/show', [AttendanceController::class, 'show'])->name('attendance.show');
+
     // 園の情報ページ
     Route::get('/kindergarten', [KindergartenController::class, 'show'])->name('kindergarten.show');
 

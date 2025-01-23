@@ -34,7 +34,7 @@ class Child extends Model
     // attendancesとのリレーション
     public function attendances()
     {
-        return $this->hasMany(Attendance::class);
+        return $this->hasMany(Attendance::class, 'child_id');
     }
 
     // userとのリレーション

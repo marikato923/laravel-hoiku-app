@@ -98,7 +98,6 @@ footer {
     transition: all 0.3s ease;
 }
 
-/* 背景色、角を丸く、影をつける */
 .child-select {
     background-color: #f7f7f7; 
     border-radius: 8px; 
@@ -106,7 +105,6 @@ footer {
     padding: 0, 15px
 }
 
-/* 登園・降園ボタンの基本デザイン */
 .attendance-btn, .departure-btn {
     font-size: 1rem;
     padding: 10px, 15px;
@@ -132,5 +130,80 @@ footer {
     background-color:  rgb(155, 195, 255); 
     color: white;
 }
+
+/* 出席記録ページ */
+.calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.calendar-header, .calendar-body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.calendar-cell {
+    width: 14.28%;
+    height: 120px; 
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    background-color: #fff;
+    box-sizing: border-box; 
+    overflow: auto; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.calendar-cell.empty {
+    background-color: #f9f9f9;
+}
+
+.date {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.attendance-record {
+    background-color: rgb(255, 175, 175);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    max-height: 80px; 
+    overflow-y: auto; 
+}
+
+.btn-month {
+    color: rgb(255, 175, 175);
+    border-color: rgb(255, 175, 175);
+    border-color: rgb(255, 175, 175);
+    padding: 5px 15px;
+}
+
+.btn-month:hover {
+    background-color: rgb(255, 175, 175);
+    color: #fff;
+    border-color: rgb(255, 175, 175);
+}
+
+.custom-select {
+    border: 1px solid rgb(255, 175, 175);
+    color: #333;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: #fff;
+}
+
+.custom-select:focus {
+    border-color: rgb(255, 175, 175);
+    box-shadow: 0 0 5px rgb(255, 175, 175);
+    outline: none;
+}
+
 
 

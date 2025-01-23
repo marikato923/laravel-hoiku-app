@@ -18,7 +18,10 @@
                 @if (Auth::check())
                     {{-- ログインしている場合  --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.show', ['user => Auth::user()->id']) }}">会員情報</a>
+                        <a class="nav-link" href="{{ route('user.show', ['user' => Auth::user()->id]) }}">会員情報</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('attendance.show') }}">登園履歴</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('kindergarten.show') }}">園について</a>
