@@ -25,6 +25,19 @@ footer {
     max-width: 400px;
 }
 
+/* 子供の写真 */
+.child-img {
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    display: block;
+    object-fit: cover;
+    margin: auto;
+}
+
+.child-img-edit {
+    object-fit: cover;
+}
 
 /* ナビゲーションバー */
 .logo {   
@@ -89,7 +102,39 @@ footer {
     color: rgb(155, 195, 255);
 }
 
-/* ユーザーページ */
+        /* 管理者ページ  */
+
+/* 園児一覧 */
+.child-img-index {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    transition: opacity 0.3s ease;
+}
+
+.child-img-index:hover {
+    opacity: 0.7;
+}
+
+.card {
+    border: none !important ;
+    box-shadow: none !important ;
+}
+
+.card-text {
+    font-size: 1rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+
+        /* ユーザーページ */
+        
+/* ホーム画面（打刻） */
 .attendance-btn {
     font-size: 1.5rem;
     padding: 15ps 30px;

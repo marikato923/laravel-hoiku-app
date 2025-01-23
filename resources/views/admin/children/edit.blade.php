@@ -9,7 +9,7 @@
 
         <a href="{{ route('admin.children.show', $child->id) }}" class="btn btn-secondary">戻る</a>
 
-        <form action="{{ route('admin.children.update', $child->id) }}" method="POST">
+        <form action="{{ route('admin.children.update', $child->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             
@@ -32,6 +32,16 @@
                 <div class="form-group">
                     <label for="first_kana_name">メイ</label>
                     <input type="text" name="first_kana_name" id="first_kana_name" class="form-control" value="{{ $child->first_kana_name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="img">画像</label>
+                    @if ($child->img)
+                        <div>
+                            <img src="{{ asset('storage/children/' . $child->img) }}" alt="園児の画像" style="width: 100px; height: 100px;" class="child-img-edit">
+                        </div>
+                    @endif
+                    <input type="file" name="img" id="img" class="form-control">
                 </div>
 
                 <div class="form-group">
@@ -89,6 +99,7 @@
                     </select>
                 </div>
 
+            </div>
             <button type="submit" class="btn btn-primary">更新</button>
         </form>
     </div>

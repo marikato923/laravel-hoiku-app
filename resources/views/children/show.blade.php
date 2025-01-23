@@ -35,9 +35,9 @@
                             <div class="col-md-4">
                                 {{-- 子供の画像 --}}
                                 @if($sibling->img)
-                                    <img src="{{ asset('storage/children/' . $sibling->img ?: 'default.png') }}" alt="子供の写真" class="img-fluid rounded">
+                                    <img src="{{ asset('storage/children/' . $sibling->img ?: 'default.png') }}" alt="お子様の写真" class="child-img">
                                 @else
-                                    <img src="{{ asset('images/default-child.png') }}" alt="デフォルト画像" class="img-fluid rounded">
+                                    <img src="{{ asset('images/default-child.png') }}" alt="デフォルト画像" class="child-img">
                                 @endif
                             </div>
                             <div class="col-md-8">

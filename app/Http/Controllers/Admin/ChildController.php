@@ -15,16 +15,26 @@ class ChildController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->input('keyword', '');
+
+        $classroomId = $request->input('classroom_id');
+        
         $children = Child::when($keyword, function ($query, $keyword) {
             return $query->where('last_name', 'like', "%{$keyword}%")
                          ->orwhere('first_name', 'like', "%{$keyword}")
                          ->orwhere('last_kana_name', 'like', "%{$keyword}")
                          ->orwhere('first_kana_name', 'like', "%{{$keyword}}");
-        })->paginate(10);
+        })
+        ->when($classroomId === null, function ($query) {
+            return $query->whereNull('classroom_id');
+        })
+        ->when($classroomId !== null, function ($query) use ($classroomId) {
+            return $query->where('classroom_id', $classroomId);      
+        })
+        ->paginate(10);
 
-        $total = $children->total();
+        $classrooms = Classroom::all();
 
-        return view('admin.children.index', compact('children', 'keyword', 'total'));
+        return view('admin.children.index', compact('children', 'keyword', 'classrooms', 'classroomId'));
     }
 
     // 詳細ページ

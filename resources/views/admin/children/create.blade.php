@@ -7,7 +7,7 @@
     <div class="container">
         <h1>新規作成</h1>
 
-        <form action="{{ route('admin.children.store') }}" method="POST">
+        <form action="{{ route('admin.children.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="name">姓</label>
@@ -27,6 +27,11 @@
             <div class="form-group">
                 <label for="first_kana_name">メイ</label>
                 <input type="text" name="first_kana_name" id="first_kana_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="img">画像</label>
+                <input type="file" name="img" id="img" class="form-control">
             </div>
             
             <div class="form-group">
