@@ -35,6 +35,27 @@ footer {
     margin: auto;
 }
 
+.child-img-wrapper {
+    display: inline-block;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 150px;
+    height: 150px; 
+    border: 5px solid; 
+}
+
+.child-show-img-wrapper {
+    border-radius: 50%;
+    overflow: hidden;
+    height: 200px;
+    width: 200px;
+    display: block;
+    object-fit: cover;
+    margin: auto;
+    border: 5px solid; 
+}
+
 .child-img-edit {
     object-fit: cover;
 }
@@ -119,17 +140,26 @@ footer {
     opacity: 0.7;
 }
 
-.card {
+.card-children-index {
     border: none !important ;
     box-shadow: none !important ;
 }
 
 .card-text {
     font-size: 1rem;
-    margin-top: 10px;
     text-align: center;
 }
 
+
+/* クラス一覧ページ */
+table td span {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+}
 
 
         /* ユーザーページ */
@@ -252,45 +282,23 @@ footer {
 
 /* タブのレイアウト */
 .nav-tabs .nav-link {
-    background-color: #ffafaf;
-    color: #fff;
-    border: 1px solid #ffafaf;
-    border-radius: 5px;
+    background-color: #f9f9f9; 
+    color: #555555;
+    border: 1px solid #ddd;
     margin-right: 5px;
 }
 
 .nav-tabs .nav-link.active {
-    background-color: #d75d5d;
-    color: #fff;
-    border: 1px solid #d75d5d;
+    background-color: #ebebeb; 
+    color: #000000; 
 }
 
 .nav-tabs .nav-link:hover {
-    background-color: #d75d5d;
-    color: #fff; 
-    border: 1px solid #d75d5d;
+    background-color: #eaeaea; 
+    color: #333333; 
 }
 
-/* 子供の基本情報ページ */
-.nav-tabs .nav-link {
-    background-color: #ffafaf;
-    color: #fff;
-    border: 1px solid #ffafaf;
-    border-radius: 5px;
-    margin-right: 5px;
-}
 
-.nav-tabs .nav-link.active {
-    background-color: #d75d5d;
-    color: #fff;
-    border: 1px solid #d75d5d;
-}
-
-.nav-tabs .nav-link:hover {
-    background-color: #d75d5d;
-    color: #fff;
-    border: 1px solid #d75d5d;
-}
 
 
 

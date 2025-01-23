@@ -9,22 +9,28 @@
     <a href="{{ route('admin.children.index') }}" class="btn btn-secondary">戻る</a>
 
     <div class="card">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header"
+            style="background-color: {{ optional($child->classroom)->theme_color ?? '#cccccc' }};">
             {{ $child->last_name }} {{ $child->first_name }} ({{ $child->last_kana_name }} {{ $child->first_kana_name }})
         </div>
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-4">
                     {{-- 子供の画像 --}}
-                    @if($child->img)
-                    <img src="{{ asset('storage/children/' . $child->img) }}" 
-                         alt="子供の写真" 
-                         class="child-img">
-                @else
-                    <img src="{{ asset('storage/children/default.png') }}" 
-                         alt="デフォルトの写真" 
-                         class="child-img">
-                @endif
+                    @php
+                        $themeColor = optional($child->classroom)->theme_color ?? '#ccc'; // クラスのテーマカラー（デフォルト：灰色）
+                    @endphp
+                    <div class="child-show-img-wrapper" style="border-color: {{ $themeColor }};">
+                        @if($child->img)
+                            <img src="{{ asset('storage/children/' . $child->img) }}" 
+                                alt="子供の写真" 
+                                class="child-img">
+                        @else
+                            <img src="{{ asset('storage/children/default.png') }}" 
+                                alt="デフォルトの写真" 
+                                class="child-img">
+                        @endif
+                    </div>
                 </div>
                 <div class="col-md-8">
                     {{-- 基本情報リスト --}}

@@ -32,15 +32,21 @@
         <div class="row">
             @foreach ($children as $child)
                 <div class="col-md-3 mb-4">
-                    <div class="card text-center">
+                    <div class="card text-center card-children-index">
                         {{-- 画像 --}}
+                        @php
+                            $themeColor = optional($child->classroom)->theme_color ?? '#ccc'; // クラスのテーマカラー（デフォルト：灰色）
+                        @endphp
                         <a href="{{ route('admin.children.show', $child->id) }}" class="d-block">
-                            <img 
-                                src="{{ $child->img ? asset('storage/children/' . $child->img) : asset('storage/children/default.png') }}" 
-                                alt="園児の画像" 
-                                class="child-img-index"
-                            >
-                        </a>                                               
+                            <div class="child-img-wrapper" style="border-color: {{ $themeColor }};">
+                                <img 
+                                    src="{{ $child->img ? asset('storage/children/' . $child->img) : asset('storage/children/default.png') }}" 
+                                    alt="園児の画像" 
+                                    class="child-img-index"
+                                >
+                            </div>
+                        </a>
+                                              
                         {{-- 名前 --}}
                         <div class="card-body">
                             <p class="card-text mb-0">{{ $child->last_name }} {{ $child->first_name }}</p>

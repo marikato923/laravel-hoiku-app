@@ -23,6 +23,8 @@
                             <option value="4歳児クラス">4歳児クラス</option>
                             <option value="5歳児クラス">5歳児クラス</option>
                         </select>
+                        <label class="mt-3" for="theme_color">テーマカラー</label>
+                        <input type="color" class="form-control mt-2" name="theme_color" id="theme_color" value="#ffffff">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn shadow-sm">登録</button>
@@ -53,6 +55,8 @@
                             <option value="4歳児クラス"> {{ isset($classroom) && $classroom->age_group  == '4歳児クラス' ? 'selected' : '' }}4歳児クラス</option>
                             <option value="5歳児クラス"> {{ isset($classroom) && $classroom->age_group  == '5歳児クラス' ? 'selected' : '' }}5歳児クラス</option>
                         </select>
+                        <label class="mt-3" for="theme_color">テーマカラー</label>
+                        <input type="color" class="form-control mt-2" name="theme_color" id="theme_color" value="#ffffff">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn shadow-sm">更新</button>
@@ -107,18 +111,29 @@
             <tbody>
                 @foreach ($classrooms as $classroom)
                     <tr>
-                        <td>{{ $classroom->name }}</td>
+                        <td>
+                            {{-- テーマカラー表示 --}}
+                            <span 
+                                style="display: inline-block; width: 15px; height: 15px; background-color: {{ $classroom->theme_color ?? '#ffffff' }}; margin-left: 10px; border: 1px solid #ccc; border-radius: 50%;">
+                            </span>
+                            {{-- クラス名 --}}
+                            {{ $classroom->name }}
+                        </td>
                         <td>{{ $classroom->age_group }}</td>
                         <td>
                             {{-- 編集ボタン --}}
-                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editClassroomModal" data-id="{{ $classroom->id }}" data-name="{{ $classroom->name }}" data-age-group="{{ $classroom->age_group }}">編集</a>
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editClassroomModal"
+                               data-id="{{ $classroom->id }}"
+                               data-name="{{ $classroom->name }}"
+                               data-age-group="{{ $classroom->age_group }}"
+                               data-theme-color="{{ $classroom->theme_color ?? '#ffffff' }}">編集</a>
                             {{-- 削除ボタン --}}
-                            <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteClassroomModal" data-id="{{ $classroom->id }}" data-name="{{ $classroom->name }}">削除</a>
-                            </form>
+                            <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteClassroomModal" 
+                               data-id="{{ $classroom->id }}">削除</a>
                         </td>
                     </tr>
                 @endforeach
-            </tbody>
+            </tbody>            
         </table>
 
         {{-- ページネーション --}}
@@ -138,16 +153,19 @@
             const classroomId = button.getAttribute('data-id'); // クラスID
             const classroomName = button.getAttribute('data-name'); // クラス名
             const classroomAgeGroup = button.getAttribute('data-age-group'); // 年齢層
+            const classroomThemeColor = button.getAttribute('data-theme-color'); // テーマカラー
 
             // モーダル内のフォームと入力フィールド
             const form = editModal.querySelector('form[name="editClassroomForm"]');
             const nameInput = form.querySelector('input[name="name"]');
             const ageGroupSelect = form.querySelector('select[name="age_group"]');
+            const themeColorInput = form.querySelector('input[name="theme_color"]');
 
             // フォームのaction属性を動的に設定
             form.action = `/admin/classrooms/${classroomId}`;
             nameInput.value = classroomName;
-            ageGroupSelect.value = classroomAgeGroup;  // 年齢層の入力フィールドに設定
+            ageGroupSelect.value = classroomAgeGroup;
+            themeColorInput.value = classroomThemeColor;
         });
 
         // 削除モーダルの設定

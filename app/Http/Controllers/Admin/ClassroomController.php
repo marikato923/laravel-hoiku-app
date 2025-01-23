@@ -34,6 +34,7 @@ class ClassroomController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'age_group' => 'nullable|string|max:255',
+            'theme_color' => 'nullable|string|max:7|regex:/^#[0-9A-Fa-f]{6}$/'
         ]);
 
         $classroom = new Classroom($validated);
@@ -47,7 +48,8 @@ class ClassroomController extends Controller
     {
        $validated = $request->validate([
            'name' => 'required|string|max:255',
-           'age_group' => 'nullable|string|max:255'
+           'age_group' => 'nullable|string|max:255',
+           'theme_color' => 'nullable|string|max:7|regex:/^#[0-9A-Fa-f]{6}$/',
        ]);
 
        $classroom->fill($validated);

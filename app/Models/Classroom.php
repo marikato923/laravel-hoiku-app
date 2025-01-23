@@ -12,6 +12,7 @@ class Classroom extends Model
     protected $fillable = [
         'name',
         'age_group',
+        'theme_color',
     ];
 
     // childrenとのリレーション
