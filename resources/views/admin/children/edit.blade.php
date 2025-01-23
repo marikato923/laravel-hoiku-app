@@ -45,18 +45,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="user_id">保護者氏名</label>
-                    <select name="user_id" id="user_id" class='form-control' required>
+                    <label for="user_id">保護者</label>
+                    <select name="user_id" id="user_id" class="form-control" required>
                         <option value="">選択してください</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}" 
                                 @if ($user->id == $child->user_id) selected @endif>
-                                {{ $user->last_name }} {{ $user->first_name }}
+                                {{ $user->last_name }} {{ $user->first_name }} (ID: {{ $user->id }})
                             </option>
                         @endforeach
                     </select>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="birthdate">生年月日</label>
                     <input type="date" name="birthdate" id="birthdate" class="form-control" value="{{ $child->birthdate }}" required>
