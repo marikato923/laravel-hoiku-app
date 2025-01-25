@@ -23,6 +23,9 @@ class Child extends Model
         'has_allergy', 
         'allergy_type',
         'user_id',
+        'classroom_id',
+        'status',
+        'rejection_reason',
     ];
 
     // classroomとのリレーション
@@ -42,6 +45,55 @@ class Child extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // edit_requestsとのリレーション
+    public function editRequests()
+    {
+        return $this->hasMany(EditRequest::class, 'child_id');
+    }
+
+    // クラス名のアクセサ
+    public function getClassroomNameAttribute()
+    {
+        return $this->classroom->name ?? '未登録';
+    }
+
+    // ステータスのアクセサ
+    public function getStatusLabelAttribute()
+    {
+        return match ($this->status) {
+            'approved' => '承認済み',
+            'pending' => '承認待ち',
+            'rejected' => '却下',
+            default => '不明',
+        };
+    }
+
+    // スコープ: ステータス
+    public function scopeWithStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    // スコープ: キーワード検索
+    public function scopeSearch($query, $keyword)
+    {
+        return $query->where(function ($q) use ($keyword) {
+            $q->where('last_name', 'like', "%{$keyword}%")
+              ->orWhere('first_name', 'like', "%{$keyword}%")
+              ->orWhere('last_kana_name', 'like', "%{$keyword}%")
+              ->orWhere('first_kana_name', 'like', "%{$keyword}%");
+        });
+    }
+
+    // カスケード削除
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($child) {
+            $child->attendances()->delete();
+            $child->editRequests()->delete();
+        });
+    }
 }
-
-

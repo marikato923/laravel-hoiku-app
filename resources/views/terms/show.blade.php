@@ -1,15 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>利用規約</h1>
+<div class="container" style="max-width: 800px; margin: 0 auto;">
+    <h2 class="text-center mb-4">利用規約</h2>
+    <hr class="mb-4">
 
-        @if ($terms)
-            <div class="container mb-4">
-                {!! $terms->content !!}
-            </div>
-        @else
-            <p>現在、園の基本情報は登録されていません。</p>
-        @endif
-    </div>
+    @if ($terms)
+        {!! $terms->content !!}
+    @else
+        <div class="alert alert-info text-center">
+            <p>現在、利用規約は登録されていません。</p>
+        </div>
+    @endif
+</div>
 @endsection

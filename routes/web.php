@@ -45,8 +45,12 @@ Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin:
     // 出席履歴
     Route::get('/attendance/show', [AttendanceController::class, 'show'])->name('attendance.show');
 
-    // 子供の基本情報
-    Route::get('/children/{child}', [ChildController::class, 'show'])->name('children.show');
+    // 子供の情報
+    Route::get('/children/create', [ChildController::class, 'create'])->name('children.create');
+    Route::post('/children', [ChildController::class, 'store'])->name('children.store');
+    Route::get('/children', [ChildController::class, 'show'])->name('children.show');
+    Route::get('/children/{child}/edit', [ChildController::class, 'edit'])->name('children.edit');
+    Route::put('/children/{child}', [ChildController::class, 'update'])->name('children.update');
 
     // 園の情報ページ
     Route::get('/kindergarten', [KindergartenController::class, 'show'])->name('kindergarten.show');
@@ -65,6 +69,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::get('/home', [Admin\HomeController::class, 'index'])->name('home');
     Route::resource('/users', Admin\UserController::class)->only(['index', 'show']);
     Route::resource('/children', Admin\ChildController::class);
+
+    // 子供情報の管理
+    Route::resource('/children', Admin\ChildController::class);
+
+    // 承認リクエストの管理
+    Route::post('/children/{child}/approve', [Admin\ClassroomController::class, 'approve'])
+        ->name('children.approve');
+    Route::post('/children/{child}/reject', [Admin\ClassroomController::class, 'reject'])
+        ->name('children.reject');
+
     Route::resource('/classrooms', Admin\ClassroomController::class)->except(['show']);
     Route::resource('/kindergarten', Admin\KindergartenController::class)->only(['index', 'edit', 'update']);
     Route::resource('/terms', Admin\TermController::class)->only(['index', 'edit', 'update']);
@@ -74,6 +88,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 });
+
 
 
 

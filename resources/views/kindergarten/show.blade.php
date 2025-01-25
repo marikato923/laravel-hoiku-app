@@ -1,74 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>園の基本情報</h1>
+<div class="container" style="max-width: 800px; margin: 0 auto;">
+    <h2 class="text-center mb-4">園の基本情報</h2>
+    <hr class="mb-4">
 
-        @if ($kindergarten)
-        <div class="container mb-4">
-            <div class="row pb-2 mb-2 border-bottom">
-                <div class="col-3">
-                    <span class="fw-bold">施設名</span>
-                </div>
-
-                <div class="col">
-                    <span>{{ $kindergarten->name }}</span>
-                </div>
-            </div>
-            
-                                
-            <div class="row pb-2 mb-2 border-bottom">
-                <div class="col-3">
-                    <span class="fw-bold">電話番号</span>
-                </div>
-
-                <div class="col">
-                    <span>{{ substr($kindergarten->phone_number, 0, 2) . '-' . substr($kindergarten->phone_number, 2, 4) . '-' . substr($kindergarten->phone_number, 6, 4) }}</span>
-                </div>
-            </div>
-
-            <div class="row pb-2 mb-2 border-bottom">
-                <div class="col-3">
-                    <span class="fw-bold">所在地</span>
-                </div>
-
-                <div class="col">
-                    <span>{{ '〒' . substr($kindergarten->postal_code, 0, 3) . '-' . substr($kindergarten->postal_code, 3) . ' ' . $kindergarten->address }}</span>
-                </div>
-            </div>
-
-            <div class="row pb-2 mb-2 border-bottom">
-                <div class="col-3">
-                    <span class="fw-bold">代表者</span>
-                </div>
-
-                <div class="col">
-                    <span>{{ $kindergarten->principal }}</span>
-                </div>
-            </div> 
-            
-            <div class="row pb-2 mb-2 border-bottom">
-                <div class="col-3">
-                    <span class="fw-bold">創立</span>
-                </div>
-
-                <div class="col">
-                    <span>{{ $kindergarten->establishment_date }}</span>
-                </div>
-            </div>   
-
-            <div class="row pb-2 mb-2 border-bottom">
-                <div class="col-3">
-                    <span class="fw-bold">職員数</span>
-                </div>
-
-                <div class="col">
-                    <span>{{ $kindergarten->number_of_employees }}</span>
-                </div>
-            </div>                                       
-        </div>                 
-        @else
+    @if ($kindergarten)
+        <p><strong>施設名:</strong> {{ $kindergarten->name }}</p>
+        <p><strong>電話番号:</strong> {{ substr($kindergarten->phone_number, 0, 2) . '-' . substr($kindergarten->phone_number, 2, 4) . '-' . substr($kindergarten->phone_number, 6, 4) }}</p>
+        <p><strong>所在地:</strong> {{ '〒' . substr($kindergarten->postal_code, 0, 3) . '-' . substr($kindergarten->postal_code, 3) . ' ' . $kindergarten->address }}</p>
+        <p><strong>代表者:</strong> {{ $kindergarten->principal }}</p>
+        <p><strong>創立:</strong> {{ $kindergarten->establishment_date }}</p>
+        <p><strong>職員数:</strong> {{ $kindergarten->number_of_employees }}</p>
+    @else
+        <div class="alert alert-info text-center">
             <p>現在、園の基本情報は登録されていません。</p>
-        @endif
-    </div>
+        </div>
+    @endif
+</div>
 @endsection

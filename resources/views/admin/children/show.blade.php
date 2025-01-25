@@ -1,70 +1,83 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">園児の基本情報</h2>
+    <div class="container">
+        <h2 class="mb-4">園児の詳細情報</h2>
+
+        <div class="card">
+            <div class="card-header">
+                {{ $child->last_name }} {{ $child->first_name }} ({{ $child->last_kana_name }} {{ $child->first_kana_name }})
+            </div>
+            <div class="card-body">
+                <p><strong>生年月日:</strong> {{ $child->birthdate }}</p>
+                <p><strong>既往歴:</strong> {{ $child->medical_history ?: 'なし' }}</p>
+                <p><strong>アレルギー:</strong> {{ $child->has_allergy ? 'あり (' . $child->allergy_type . ')' : 'なし' }}</p>
+                <p><strong>ステータス:</strong>
+                    @if ($child->status === 'approved')
+                        <span class="badge bg-success">承認済み</span>
+                    @elseif ($child->status === 'pending')
+                        <span class="badge bg-warning">承認待ち</span>
+                    @else
+                        <span class="badge bg-danger">却下</span>
+                    @endif
+                </p>
+
+                {{-- 保護者情報 --}}
+                <p><strong>保護者:</strong>
+                    @if ($child->user)
+                        {{ $child->user->last_name }} {{ $child->user->first_name }} (ID: {{ $child->user->id }})
+                    @else
+                        <span class="text-muted">未登録</span>
+                    @endif
+                </p>
+
+
+                {{-- クラス編集へのリンク --}}
+                <div class="mt-4">
+                    <a href="{{ route('admin.children.edit', $child->id) }}" class="btn btn-primary">
+                        編集
+                    </a>
+                </div>
+
+                {{-- 承認・却下ボタン --}}
+                @if ($child->status === 'pending')
+                    <div class="mt-4 d-flex">
+                        <form action="{{ route('admin.children.approve', $child->id) }}" method="POST" class="me-2">
+                            @csrf
+                            <button type="submit" class="btn btn-success">承認</button>
+                        </form>
+
+                        {{-- 却下モーダルをトリガー --}}
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                            却下
+                        </button>
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
 
-    <a href="{{ route('admin.children.index') }}" class="btn btn-secondary">戻る</a>
-
-    <div class="card">
-        <div class="card-header"
-            style="background-color: {{ optional($child->classroom)->theme_color ?? '#cccccc' }};">
-            {{ $child->last_name }} {{ $child->first_name }} ({{ $child->last_kana_name }} {{ $child->first_kana_name }})
-        </div>
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    {{-- 子供の画像 --}}
-                    @php
-                        $themeColor = optional($child->classroom)->theme_color ?? '#ccc'; // クラスのテーマカラー（デフォルト：灰色）
-                    @endphp
-                    <div class="child-show-img-wrapper" style="border-color: {{ $themeColor }};">
-                        @if($child->img)
-                            <img src="{{ asset('storage/children/' . $child->img) }}" 
-                                alt="子供の写真" 
-                                class="child-img">
-                        @else
-                            <img src="{{ asset('storage/children/default.png') }}" 
-                                alt="デフォルトの写真" 
-                                class="child-img">
-                        @endif
+    {{-- 却下理由モーダル --}}
+    <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{ route('admin.children.reject', $child->id) }}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rejectModalLabel">却下理由を入力</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="rejection_reason">却下理由</label>
+                            <textarea name="rejection_reason" id="rejection_reason" class="form-control" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">却下する</button>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    {{-- 基本情報リスト --}}
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>誕生日:</strong> {{ \Carbon\Carbon::parse($child->birthdate)->format('Y年m月d日') }}</li>
-                        <li class="list-group-item"><strong>入園日:</strong> {{ \Carbon\Carbon::parse($child->admission_date)->format('Y年m月d日') }}</li>
-                        <li class="list-group-item">
-                            <strong>保護者:</strong> 
-                            {{ $child->user ? $child->user->last_name . ' ' . $child->user->first_name : '保護者情報なし' }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>既往歴:</strong> 
-                            {{ $child->medical_history ? $child->medical_history : 'なし' }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>アレルギー:</strong> 
-                            {{ $child->has_allergy ? 'あり (' . $child->allergy_type . ')' : 'なし' }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>クラス:</strong> {{ optional($child->classroom)->name ?? '未登録' }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            {{-- 編集・削除ボタン --}}
-            <div class="mt-3">
-                <a href="{{ route('admin.children.edit', $child->id) }}" class="btn btn-primary">編集</a>
-                <form action="{{ route('admin.children.destroy', $child->id) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
-</div>
 @endsection

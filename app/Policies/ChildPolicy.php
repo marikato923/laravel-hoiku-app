@@ -2,21 +2,41 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\Child;
+use App\Models\User;
+use App\Models\Admin;
 
 class ChildPolicy
 {
     /**
-     * Create a new policy instance.
+     * 子供情報の閲覧を許可するかどうか
      */
-    public function view(User $user, Child $child)
+    public function view(User|Admin $user, Child $child): bool
     {
-        //　管理者ユーザーはすべての子どもにアクセス可能
-        if (auth('admin')->check()) {
-            return true;
-        }
-        // 一般ユーザーは自分の子供にのみアクセス可能
-        return $user->id === $child->user_id;
+        return auth('admin')->check() || $user->id === $child->user_id;
+    }
+
+    /**
+     * 子供情報の登録を許可するかどうか
+     */
+    public function create(User|Admin $user): bool
+    {
+        return auth('admin')->check() || auth()->check();
+    }
+
+    /**
+     * 子供情報の編集を許可するかどうか
+     */
+    public function update(User|Admin $user, Child $child): bool
+    {
+        return auth('admin')->check() || $user->id === $child->user_id;
+    }
+
+    /**
+     * 子供情報の削除を許可するかどうか
+     */
+    public function delete(User|Admin $user, Child $child): bool
+    {
+        return auth('admin')->check();
     }
 }
