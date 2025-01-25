@@ -394,7 +394,7 @@ table td span {
     text-align: center;
     background-color: #fff;
     box-sizing: border-box; 
-    overflow: auto; 
+    overflow: visible;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -405,28 +405,47 @@ table td span {
     background-color: #f9f9f9;
 }
 
+/* 通常時の日付と曜日 */
+.date-container .weekday {
+    display: none;
+}
+
 .date {
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.date.holiday {
-    color: #FF9999;
+.date.holiday, .date-container .weekday.holiday {
+    color: #FF9999; 
 }
 
+/* 日付と曜日のコンテナ */
+.date-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.date-container .date {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* 出席記録 */
 .attendance-record {
     background-color: rgb(255, 175, 175);
     color: #fff;
     padding: 5px;
     border-radius: 5px;
     margin-bottom: 5px;
-    max-height: 80px; 
-    overflow-y: auto; 
+    display: block;
 }
 
+/* 前月・次月ボタン */
 .btn-month {
     color: rgb(255, 175, 175);
-    border-color: rgb(255, 175, 175);
     border-color: rgb(255, 175, 175);
     padding: 5px 15px;
 }
@@ -437,6 +456,7 @@ table td span {
     border-color: rgb(255, 175, 175);
 }
 
+/* 年・月選択フォーム */
 .custom-select {
     width: 80px;
     border: 1px solid #555;
@@ -453,27 +473,54 @@ table td span {
     outline: none;
 }
 
+/* 時間表示 */
 .time-range {
     white-space: nowrap; 
     text-align: center; 
 }
 
+/* レスポンシブ対応 */
 @media (max-width: 768px) {
     .calendar-body {
-        grid-template-columns: repeat(1, 1fr); 
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .calendar-header {
+        display: none;
     }
 
     .calendar-cell {
-        height: auto; 
+        display: flex;
+        flex-direction: row; 
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px; 
+        gap: 10px;
     }
 
-    .date {
-        font-size: 0.9rem; 
+    .date-container {
+        flex-direction: row-reverse; 
+        gap: 10px;
+    }
+
+    .date-container .weekday {
+        display: block; 
+        font-size: 1rem; 
+        margin-right: 20px;
+    }
+
+    .date-container .date {
+        font-size: 1rem;
+    }
+
+    .calendar-cell.empty {
+        display: none; 
     }
 
     .time-range {
-        font-size: 0.8rem;
-        white-space: pre-wrap; 
+        font-size: 1.2rem;
+        display: block;
+        margin: 0 10px;
     }
 }
 

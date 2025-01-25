@@ -4,30 +4,38 @@
 <div class="container">
     {{-- 見出しと年度・月の選択フォーム --}}
     <div class="mb-4">
-        <h2 class="mb-2">出席履歴</h2>
-        <form action="" method="get" class="d-flex justify-content-end">
-            <select name="year" class="form-control mr-2 custom-select compact-select">
+        <h2 class="mb-3 text-center">出席履歴</h2> <!-- タイトル中央寄せと下部余白調整 -->
+        <form action="" method="get" class="d-flex justify-content-end gap-2 align-items-center"> <!-- フォームを右寄せ＆要素間隔調整 -->
+            <select name="year" class="form-select w-auto">
                 @for ($y = now()->year - 5; $y <= now()->year + 5; $y++)
                     <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>{{ $y }}年</option>
                 @endfor
             </select>
-            <select name="month" class="form-control mr-2 custom-select compact-select">
+            <select name="month" class="form-select w-auto">
                 @for ($m = 1; $m <= 12; $m++)
                     <option value="{{ $m }}" {{ $m == $month ? 'selected' : '' }}>{{ $m }}月</option>
                 @endfor
             </select>
-            <button type="submit" class="btn btn-month">表示</button>
+            <button type="submit" class="btn btn-primary">表示</button>
         </form>
-        
+    </div>
 
     {{-- タブ --}}
-    <ul class="nav nav-tabs mb-4" id="siblingsTab" role="tablist">
+    <ul class="nav nav-tabs mb-4" id="siblingsTab" role="tablist" style="font-size: 1.2rem;">
         @foreach ($siblings as $index => $sibling)
-            <li class="nav-item">
-                <a class="nav-link {{ $index === 0 ? 'active' : '' }}" id="tab-{{ $sibling->id }}" 
-                   data-bs-toggle="tab" href="#content-{{ $sibling->id }}" role="tab" 
-                   aria-controls="content-{{ $sibling->id }}" aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
-                    {{ $sibling->last_name }} {{ $sibling->first_name }}
+            @php
+                $themeColor = optional($sibling->classroom)->theme_color ?? '#e0e0e0'; // クラスのテーマカラー（デフォルト: 淡い色）
+            @endphp
+            <li class="nav-item me-3">
+                <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                   id="tab-{{ $sibling->id }}" 
+                   data-bs-toggle="tab" 
+                   href="#content-{{ $sibling->id }}" 
+                   role="tab" 
+                   aria-controls="content-{{ $sibling->id }}" 
+                   aria-selected="{{ $index === 0 ? 'true' : 'false' }}"
+                   style="background-color: {{ $themeColor }}; color: #333333; border-radius: 15px 15px 0 0; padding: 10px 30px; transition: all 0.3s ease;">
+                    {{ $sibling->first_name }}
                 </a>
             </li>
         @endforeach
@@ -69,9 +77,9 @@
 
                 {{-- 前月・次月ボタン --}}
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <a href="?year={{ $prevMonth->year }}&month={{ $prevMonth->month }}" class="btn btn-month">前月</a>
+                    <a href="?year={{ $prevMonth->year }}&month={{ $prevMonth->month }}" class="btn btn-secondary">前月</a>
                     <h4 class="mb-0">{{ $year }}年{{ $month }}月</h4>
-                    <a href="?year={{ $nextMonth->year }}&month={{ $nextMonth->month }}" class="btn btn-month">次月</a>
+                    <a href="?year={{ $nextMonth->year }}&month={{ $nextMonth->month }}" class="btn btn-secondary">次月</a>
                 </div>
 
                 {{-- カレンダー --}}
@@ -89,25 +97,32 @@
                             $startDayOfWeek = $startOfMonth->dayOfWeek;
                             $daysInMonth = $endOfMonth->day;
                             $totalCells = $startDayOfWeek + $daysInMonth;
+                            $weekdays = ["日", "月", "火", "水", "木", "金", "土"];
                         @endphp
-
+                    
                         {{-- 空白セル --}}
                         @for ($i = 0; $i < $startDayOfWeek; $i++)
                             <div class="calendar-cell empty">
                                 <div class="date">&nbsp;</div>
                             </div>
                         @endfor
-
+                    
                         {{-- 日付セル --}}
                         @for ($day = 1; $day <= $daysInMonth; $day++)
                             @php
                                 $currentDate = $startOfMonth->copy()->addDays($day - 1);
-                                $isHoliday = in_array($currentDate->format('m-d'), $holidays); // 年を無視して判定
-                                $isSunday = $currentDate->dayOfWeek === 0; // 日曜日かどうか
+                                $weekdayIndex = $currentDate->dayOfWeek;
+                                $isHoliday = in_array($currentDate->format('m-d'), $holidays);
+                                $isSunday = $currentDate->dayOfWeek === 0;
                             @endphp
                             <div class="calendar-cell">
-                                <div class="date {{ $isHoliday || $isSunday ? 'holiday' : '' }}">
-                                    {{ $day }}
+                                <div class="date-container">
+                                    <div class="weekday {{ $isHoliday || $isSunday ? 'holiday' : '' }}">
+                                        {{ $weekdays[$weekdayIndex] }}
+                                    </div>
+                                    <div class="date {{ $isHoliday || $isSunday ? 'holiday' : '' }}">
+                                        {{ $day }}
+                                    </div>
                                 </div>
                                 @if (isset($groupedAttendances[$sibling->id][$currentDate->format('Y-m-d')]))
                                     @foreach ($groupedAttendances[$sibling->id][$currentDate->format('Y-m-d')] as $attendance)
@@ -120,7 +135,7 @@
                                 @endif
                             </div>
                         @endfor
-
+                    
                         {{-- 残りの空白セル --}}
                         @for ($i = 0; $i < (7 - $totalCells % 7) % 7; $i++)
                             <div class="calendar-cell empty">
