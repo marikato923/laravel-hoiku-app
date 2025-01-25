@@ -20,6 +20,9 @@
                         <a class="nav-link" href="{{ route('user.show', ['user' => Auth::user()->id]) }}">会員情報</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('children.show') }}">お子様の情報</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('attendance.show') }}">出席履歴</a>
                     </li>
                     <li>
