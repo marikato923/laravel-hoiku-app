@@ -18,7 +18,7 @@
                    role="tab" 
                    aria-controls="content-{{ $sibling->id }}" 
                    aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
-                    {{ $sibling->last_name }} {{ $sibling->first_name }}
+                    {{ $sibling->first_name }}
                 </a>
             </li>
         @endforeach

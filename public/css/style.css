@@ -5,6 +5,10 @@ body {
     margin: 0;
 }
 
+h1 {
+    color: rgb(80, 80, 80) !important;
+}
+
 main {
     flex: 1;
 }
@@ -25,7 +29,8 @@ footer {
     max-width: 400px;
 }
 
-/* 子供の写真 */
+    /* 子供の画像 */
+
 .child-img {
     border-radius: 50%;
     height: 200px;
@@ -60,7 +65,117 @@ footer {
     object-fit: cover;
 }
 
-/* ナビゲーションバー */
+        /*　認証ページ */
+
+.kodomolog-btn {
+    background-color: rgb(255, 175, 175) !important ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.kodomolog-btn:hover {
+    background-color: rgb(255, 205, 205) !important ;
+}
+
+.kodomolog-btn:focus {
+    outline: 2px solid rgb(255, 205, 205);
+    outline-offset: 2px;
+}
+
+.register-btn {
+    color: #f7f7f7;
+    background-color: rgb(100, 150, 255) !important ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.register-btn:hover {
+    color: #f7f7f7;
+    background-color: rgb(80, 120, 230) !important ;
+}
+
+.registerlog-btn:focus {
+    outline: 2px solid rgb(80, 120, 230);
+    outline-offset: 2px;
+}
+
+.login-text {
+    font-size: 0.9rem;
+    color: (200, 200, 200);
+}
+
+.login-text a {
+    color: rgb(85, 85, 85); 
+    text-decoration: none; 
+    font-weight: 500; 
+    font-size: 15px; 
+    transition: color 0.3s ease, text-decoration 0.3s ease; 
+}
+
+.login-text a:hover {
+    color: rgb(255, 175, 175);
+    text-decoration: underline; 
+}
+
+.login-text a:active {
+    color: rgb(200, 150, 150); 
+    text-decoration: underline;
+}
+
+        /* 入力フォームとチェックボックス */
+
+.form-control {
+    border: 1px solid rgb(200, 200, 200); 
+    border-radius: 5px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.form-control:focus {
+    border-color: rgb(100, 150, 255); 
+    box-shadow: 0 0 4px rgba(100, 150, 255, 0.5); 
+    outline: none; 
+}
+
+.form-check {
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+.form-check-input {
+    appearance: none; 
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgb(100, 150, 255); 
+    border-radius: 4px; 
+    background-color: transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-check-input:checked {
+    background-color: rgb(100, 150, 255); 
+    border-color: rgb(80, 120, 230); 
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M6.173 12.145l-3.856-3.857L4.273 6.33l1.9 1.9 5.65-5.65 1.415 1.414z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+}
+
+.form-check-input:hover {
+    border-color: rgb(80, 120, 230); 
+}
+
+.form-check-input:focus {
+    outline: 2px dashed rgb(100, 150, 255);
+    outline-offset: 2px;
+}
+
+.form-check-label {
+    font-size: 15px; 
+    cursor: pointer; 
+}
+
+
+        /* ナビゲーションバー */
+
 .logo {   
     font-family: 'Zen Maru Gothic', serif;
     font-weight: 700;
@@ -97,30 +212,31 @@ footer {
     color: gray;
 }
 
-/*　認証ページ */
-.kodomolog-btn {
-    background-color: rgb(255, 175, 175) !important ;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        /* フラッシュメッセージ */
+.alert {
+    max-width: 80%;
+    padding: 15px;
+    border-radius: 8px; 
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    font-size: 16px; 
 }
 
-.kodomolog-btn:hover {
-    background-color: rgb(255, 205, 205) !important ;
+.alert-success {
+    background-color: rgb(175, 215, 255); 
+    color: rgb(50, 100, 150);
 }
 
-.register-btn {
-    color: #f7f7f7;
-    background-color: rgb(90, 160, 255) !important ;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+.alert-danger {
+    background-color: rgb(255, 235, 235);
+    color: rgb(150, 50, 50);
 }
 
-.register-btn:hover {
-    color: #f7f7f7;
-    background-color: rgb(155, 195, 255) !important ;
-}
-
-.login-text {
-    font-size: 0.9rem;
-    color: rgb(155, 195, 255);
+.alert i {
+    font-size: 20px;
+    line-height: 1;
 }
 
         /* 管理者ページ  */
@@ -206,20 +322,30 @@ table td span {
     color: white;
 }
 
-/* 出席記録ページ */
+/* 出席記録 */
 .calendar {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    min-width: 350px; 
+    overflow-x: auto; 
 }
 
-.calendar-header, .calendar-body {
-    display: flex;
-    flex-wrap: wrap;
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
 }
 
 .calendar-cell {
-    width: 14.28%;
     height: 120px; 
     padding: 10px;
     border: 1px solid #ddd;
@@ -229,10 +355,9 @@ table td span {
     overflow: auto; 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
-
 
 .calendar-cell.empty {
     background-color: #f9f9f9;
@@ -241,6 +366,10 @@ table td span {
 .date {
     font-weight: bold;
     margin-bottom: 5px;
+}
+
+.date.holiday {
+    color: #FF9999;
 }
 
 .attendance-record {
@@ -267,18 +396,45 @@ table td span {
 }
 
 .custom-select {
-    border: 1px solid rgb(255, 175, 175);
+    width: 80px;
+    border: 1px solid #555;
     color: #333;
-    border-radius: 4px;
-    padding: 5px 10px;
-    background-color: #fff;
+    background-color: #f8f9fa;
+    padding: 3px 6px; 
+    background-color: #e9ecef;
+    color: #333; 
 }
 
 .custom-select:focus {
-    border-color: rgb(255, 175, 175);
-    box-shadow: 0 0 5px rgb(255, 175, 175);
+    border-color: #333; 
+    box-shadow: 0 0 5px #555; 
     outline: none;
 }
+
+.time-range {
+    white-space: nowrap; 
+    text-align: center; 
+}
+
+@media (max-width: 768px) {
+    .calendar-body {
+        grid-template-columns: repeat(1, 1fr); 
+    }
+
+    .calendar-cell {
+        height: auto; 
+    }
+
+    .date {
+        font-size: 0.9rem; 
+    }
+
+    .time-range {
+        font-size: 0.8rem;
+        white-space: pre-wrap; 
+    }
+}
+
 
 /* タブのレイアウト */
 .nav-tabs .nav-link {

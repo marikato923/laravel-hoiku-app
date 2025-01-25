@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="form-group d-flex justify-content-center mb-4">
-                        <button type="submit" class="btn text-white shadow-sm w-100 nagoyameshi-btn">ログイン</button>
+                        <button type="submit" class="btn text-white shadow-sm w-100 kodomolog-btn">ログイン</button>
                     </div>
                 </form>
             </div>
