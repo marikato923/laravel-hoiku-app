@@ -55,14 +55,14 @@
                                 @endif
                             </div>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>名前（姓名）:</strong> {{ $sibling->last_name }} {{ $sibling->first_name }}</li>
-                            <li class="list-group-item"><strong>フリガナ:</strong> {{ $sibling->last_kana_name }} {{ $sibling->first_kana_name }}</li>
-                            <li class="list-group-item"><strong>誕生日:</strong> {{ \Carbon\Carbon::parse($sibling->birthdate)->format('Y年m月d日') }}</li>
-                            <li class="list-group-item"><strong>入園日:</strong> {{ \Carbon\Carbon::parse($sibling->admission_date)->format('Y年m月d日') }}</li>
-                            <li class="list-group-item"><strong>既往歴:</strong> {{ $sibling->medical_history ? $sibling->medical_history : 'なし' }}</li>
-                            <li class="list-group-item"><strong>アレルギー:</strong> {{ $sibling->has_allergy ? 'あり (' . $sibling->allergy_type . ')' : 'なし' }}</li>
-                            <li class="list-group-item"><strong>クラス:</strong> {{ optional($sibling->classroom)->name ?? '未登録' }}</li>
+                        <ul class="list-group list-group-flush no-border">
+                            <li class="list-group-item no-border"><strong>名前（姓名）:</strong> {{ $sibling->last_name }} {{ $sibling->first_name }}</li>
+                            <li class="list-group-item no-border"><strong>フリガナ:</strong> {{ $sibling->last_kana_name }} {{ $sibling->first_kana_name }}</li>
+                            <li class="list-group-item no-border"><strong>誕生日:</strong> {{ \Carbon\Carbon::parse($sibling->birthdate)->format('Y年m月d日') }}</li>
+                            <li class="list-group-item no-border"><strong>入園日:</strong> {{ \Carbon\Carbon::parse($sibling->admission_date)->format('Y年m月d日') }}</li>
+                            <li class="list-group-item no-border"><strong>既往歴:</strong> {{ $sibling->medical_history ? $sibling->medical_history : 'なし' }}</li>
+                            <li class="list-group-item no-border"><strong>アレルギー:</strong> {{ $sibling->has_allergy ? 'あり (' . $sibling->allergy_type . ')' : 'なし' }}</li>
+                            <li class="list-group-item no-border"><strong>クラス:</strong> {{ optional($sibling->classroom)->name ?? '未登録' }}</li>
                         </ul>
                         <div class="text-end mt-4">
                             <a href="{{ route('children.edit', $sibling->id) }}" class="btn btn-primary">編集リクエスト</a>

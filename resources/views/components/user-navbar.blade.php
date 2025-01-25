@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="logo navbar-brand" href="/">こどもログ</a>
@@ -16,21 +15,12 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 @if (Auth::check())
-                    {{-- ログインしている場合  --}}
+                    {{-- ログインしている場合 --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.show', ['user' => Auth::user()->id]) }}">会員情報</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('children.show', ['child' => Auth::user()->children->first()->id]) }}">お子様の基本情報</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('attendance.show') }}">出席履歴</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('kindergarten.show') }}">園について</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('terms.show') }}">利用規約</a>
                     </li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -39,7 +29,6 @@
                         </form>
                     </li>
                 @else
-
                     {{-- ログインしていない場合 --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">ログイン</a>

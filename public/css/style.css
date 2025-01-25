@@ -1,7 +1,7 @@
-body {
+html, body {
     display: flex;
     flex-direction:column;
-    min-height: 100vh;
+    height: 100%;
     margin: 0;
 }
 
@@ -16,13 +16,18 @@ main {
 h1 {
     font-size: 26px;
 }
+
+body, h1, h2, h3, h4, h5, h6, p, a, span, li, label {
+    color: #333333;
+}
         
 footer {
     background-color: rgb(255, 175, 175);
-    padding: 20px;
+    padding: 20px 10px;
     text-align: center;
-    position: fixed;
     border-top: 1px solid #e7e7e7 ;
+    color: #555;
+    width: 100%;
 }
 
     /* 入力フォーム*/

@@ -34,12 +34,14 @@
     @endif
 
     {{-- メインコンテンツ --}}
-    <div class="container mt-4">
-        @yield('content')
-    </div>
+    <main class="flex-fill">
+        <div class="container mt-4">
+            @yield('content')
+        </div>
+    </main>
 
     {{-- フッター --}}
-    @include('components.footer')
+    @include('components.admin-footer')
 
     <!-- Bootstrap JS, Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
