@@ -27,9 +27,17 @@ class ChildPolicy
     /**
      * 子供情報の編集を許可するかどうか
      */
-    public function update(User|Admin $user, Child $child): bool
+    public function update($user, Child $child): bool
     {
-        return auth('admin')->check() || $user->id === $child->user_id;
+        if ($user instanceof Admin) {
+            return true; 
+        }
+
+        if ($user instanceof User) {
+            return $user->id === $child->user_id; 
+        }
+
+        return false; 
     }
 
     /**

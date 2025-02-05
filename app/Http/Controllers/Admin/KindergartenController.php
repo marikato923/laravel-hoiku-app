@@ -40,7 +40,7 @@ class KindergartenController extends Controller
 
         $kindergarten->save();
 
-        session()->flash('flash_message', '保育園概要を編集しました。');
+        session()->flash('success', '保育園概要を編集しました。');
         return redirect()->route('admin.kindergarten.index');
     }
 }

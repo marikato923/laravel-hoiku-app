@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Child;
+use App\Models\User;
+use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -65,14 +67,18 @@ class ChildController extends Controller
     // 子供情報の編集フォームを表示
     public function edit(Child $child)
     {
-        $this->authorize('update', $child);
+        // $this->authorize('update', $child);
 
         // 認可チェック
         if ($child->user_id !== auth()->id()) {
             abort(403, '不正なアクセスです。');
         }
 
-        return view('children.edit', compact('child'));
+        $users = User::all();
+
+        $classrooms = Classroom::all();
+
+        return view('children.edit', compact('child', 'users', 'classrooms'));
     }
 
     // 編集リクエストの保存処理
@@ -108,7 +114,7 @@ class ChildController extends Controller
             'medical_history' => $validated['medical_history'],
             'has_allergy' => $validated['has_allergy'],
             'allergy_type' => $validated['allergy_type'],
-            'status' => 'pending', // 保留状態に設定
+            'status' => 'pending',
         ]);
 
         // 画像の更新処理

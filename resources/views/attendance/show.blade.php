@@ -1,11 +1,22 @@
 @extends('layouts.app')
 
+@section('breadcrumbs')
+<nav class="mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">ホーム</a></li>
+        <li class="breadcrumb-item active" aria-current="page">登園の記録</li>
+    </ol>
+</nav>
+@endsection
+
 @section('content')
 <div class="container">
     {{-- 見出しと年度・月の選択フォーム --}}
     <div class="mb-4">
-        <h2 class="mb-3 text-center">出席履歴</h2> <!-- タイトル中央寄せと下部余白調整 -->
-        <form action="" method="get" class="d-flex justify-content-end gap-2 align-items-center"> <!-- フォームを右寄せ＆要素間隔調整 -->
+        <h2 class="mb-3 text-center">登園の記録</h2> 
+    </div>
+    <div class="row text-center py-1 mb-4">
+        <form action="" method="get" class="d-flex justify-content-center gap-2 align-items-center"> 
             <select name="year" class="form-select w-auto">
                 @for ($y = now()->year - 5; $y <= now()->year + 5; $y++)
                     <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>{{ $y }}年</option>
@@ -16,7 +27,7 @@
                     <option value="{{ $m }}" {{ $m == $month ? 'selected' : '' }}>{{ $m }}月</option>
                 @endfor
             </select>
-            <button type="submit" class="btn btn-primary">表示</button>
+            <button type="submit" class="btn kodomolog-btn">表示</button>
         </form>
     </div>
 
@@ -77,10 +88,15 @@
 
                 {{-- 前月・次月ボタン --}}
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <a href="?year={{ $prevMonth->year }}&month={{ $prevMonth->month }}" class="btn btn-secondary">前月</a>
-                    <h4 class="mb-0">{{ $year }}年{{ $month }}月</h4>
-                    <a href="?year={{ $nextMonth->year }}&month={{ $nextMonth->month }}" class="btn btn-secondary">次月</a>
+                    <a href="?year={{ $prevMonth->year }}&month={{ $prevMonth->month }}">
+                        <span class="material-icons">chevron_left</span>
+                    </a>
+                    <h4 class="mb-0">{{ $year }}年{{ sprintf('%02d', $month) }}月</h4>
+                    <a href="?year={{ $nextMonth->year }}&month={{ $nextMonth->month }}">
+                        <span class="material-icons">chevron_right</span>
+                    </a>
                 </div>
+
 
                 {{-- カレンダー --}}
                 <div class="calendar">
@@ -148,4 +164,18 @@
         @endforeach
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const picker = document.getElementById('yearMonthPicker');
+    
+    picker.addEventListener('change', function () {
+        const [year, month] = picker.value.split('-');
+        const url = new URL(window.location.href);
+        url.searchParams.set('year', year);
+        url.searchParams.set('month', month);
+        window.location.href = url.toString();
+    });
+});
+</script>
 @endsection

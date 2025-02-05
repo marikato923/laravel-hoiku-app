@@ -13,34 +13,40 @@ class ChildController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->input('keyword', '');
-        $classroomId = $request->input('classroom_id');
-        $pendingOnly = $request->input('pending_only');
+        $classroomId = $request->input('classroom_id', null);
+        $pendingOnly = $request->input('pending_only', false);
     
         $children = Child::query()
+            ->when(!is_null($classroomId), function ($query) use ($classroomId) {
+                return $query->where('classroom_id', $classroomId);
+            })
+            ->when(is_null($classroomId), function ($query) {
+                return $query->whereNull('classroom_id'); 
+            })
             ->when($keyword, function ($query, $keyword) {
                 return $query->where(function ($query) use ($keyword) {
                     $query->where('last_name', 'like', "%{$keyword}%")
                         ->orWhere('first_name', 'like', "%{$keyword}%")
                         ->orWhere('last_kana_name', 'like', "%{$keyword}%")
-                        ->orWhere('first_kana_name', 'like', "%{$keyword}%");
+                        ->orWhere('first_kana_name', 'like', "%{$keyword}%")
+                        ->orWhere('last_name', $keyword) 
+                        ->orWhere('first_name', $keyword) 
+                        ->orWhere('last_kana_name', $keyword) 
+                        ->orWhere('first_kana_name', $keyword);
                 });
             })
-            ->when($classroomId === null && !$pendingOnly, function ($query) {
-                return $query->whereNull('classroom_id'); 
-            })
-            ->when($classroomId, function ($query, $classroomId) {
-                return $query->where('classroom_id', $classroomId); 
-            })
             ->when($pendingOnly, function ($query) {
-                return $query->where('status', 'pending'); 
+                return $query->where('status', 'pending');
             })
+            ->orderBy('last_kana_name', 'asc')
+            ->orderBy('first_kana_name', 'asc')
             ->paginate(10);
     
         $classrooms = Classroom::all();
     
         return view('admin.children.index', compact('children', 'keyword', 'classroomId', 'classrooms'));
-    }         
-
+    }
+                    
     // 子供情報の詳細（承認待ちの内容確認を含む）
     public function show(Child $child)
     {
@@ -114,7 +120,7 @@ class ChildController extends Controller
             'rejection_reason' => $request->input('rejection_reason') // 却下理由を保存
         ]);
 
-        session()->flash('flash_message', 'リクエストを却下しました。');
+        session()->flash('success', 'リクエストを却下しました。');
         return redirect()->route('admin.children.index');
     }
 
@@ -127,7 +133,7 @@ class ChildController extends Controller
 
         $child->delete();
 
-        session()->flash('flash_message', '園児の情報を削除しました。');
+        session()->flash('success', '園児の情報を削除しました。');
         return redirect()->route('admin.children.index');
     }
 

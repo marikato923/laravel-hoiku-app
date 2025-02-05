@@ -50,8 +50,139 @@ form {
     }
 }
 
-    /* 子供の画像 */
+    /* ボタン・リンクのレイアウト */
+.kodomolog-btn {
+    background-color: rgb(255, 175, 175) !important ;
+    color: white !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+    
+.kodomolog-btn:hover {
+    background-color: rgb(255, 205, 205) !important ;
+}
+    
+.kodomolog-btn:focus {
+    outline: 2px solid rgb(255, 205, 205);
+    outline-offset: 2px;
+}
+    
+.register-btn {
+    color: white;
+    background-color: rgb(100, 150, 255) !important ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+    
+.register-btn:hover {
+    color: white;
+    background-color: rgb(80, 120, 230) !important ;
+}
+    
+.registerlog-btn:focus {
+        outline: 2px solid rgb(80, 120, 230);
+        outline-offset: 2px;
+    }
 
+.delete-btn {
+    background-color: rgb(200, 100, 100);
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: rgb(255, 175, 175);
+    color: white;
+}
+
+.delete-btn:focus {
+    background-color: rgb(212, 212, 212);
+    color: white;
+}
+
+.arrival-btn {
+    background-color: rgb(255, 175, 175);
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* padding: 15px 30px; 
+    border-radius: 10px; */
+}
+
+.arrival-btn:hover {
+    color: rgb(255, 205, 205);
+}
+
+.arrival-btn:focus {
+    color: rgb(255, 205, 205);
+}
+
+.departure-btn {
+    background-color: rgb(100, 150, 255);
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    /* padding: 15px 30px; 
+    border-radius: 10px; */
+}
+
+.departure-bt:hover {
+    background-color: rgb(80, 120, 230);
+}
+
+.departure-btn:focus {
+    background-color: rgb(80, 120, 230);
+}
+
+.register-link {
+    color: rgb(80, 119, 206); 
+    text-decoration: none;
+}
+
+.register-link:hover {
+    color: rgb(100, 150, 255);
+}
+
+.register-link:focus {
+    color: rgb(100, 150, 255);
+}
+
+.delete-link {
+    color:  rgb(137, 69, 69); 
+    text-decoration: none;
+}
+
+.delete-link:hover {
+    color: rgb(200, 100, 100);
+}
+
+.delete-link:focus {
+    color: rgb(200, 100, 100);
+}
+
+    /* パンくずリストのレイアウト */
+.breadcrumb .breadcrumb-item a {
+    color: #333;
+}
+
+.breadcrumb .breadcrumb-item a:hover {
+    color: #505050;
+}
+
+.breadcrumb.breadcrumb-item a:focus {
+    color: #505050;
+}
+
+.material-icons {
+    color: rgb(255, 175, 175);
+}
+
+.material-icons:hover {
+    color: rgb(255, 205, 205);
+}
+
+.material-icons :focus {
+    color: rgb(255, 205, 205);
+}
+
+
+    /* 子供の画像 */
 .child-img {
     border-radius: 50%;
     height: 200px;
@@ -96,7 +227,7 @@ form {
     margin: 0 auto;
 }
 
-        /* リストのレイアウト */
+    /* リストのレイアウト */
 .no-border .list-group-item {
     border: none; 
     padding: 10px 15px;
@@ -106,39 +237,40 @@ form {
     border: none;
 }
 
-
-        /*　認証ページ */
-
-.kodomolog-btn {
-    background-color: rgb(255, 175, 175) !important ;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    /* ページネーションのレイアウト */
+.kodomolog-pagination .pagination {
+    display: flex;
+    gap: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.kodomolog-btn:hover {
-    background-color: rgb(255, 205, 205) !important ;
+.kodomolog-pagination .pagination li {
+    display: inline-block;
 }
 
-.kodomolog-btn:focus {
-    outline: 2px solid rgb(255, 205, 205);
-    outline-offset: 2px;
+.kodomolog-pagination .pagination a {
+    color: rgb(200, 100, 100); 
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.register-btn {
-    color: #f7f7f7;
-    background-color: rgb(100, 150, 255) !important ;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+.kodomolog-pagination .pagination a:hover {
+    background-color: rgb(255, 175, 175);
+    color: white;
 }
 
-.register-btn:hover {
-    color: #f7f7f7;
-    background-color: rgb(80, 120, 230) !important ;
+.kodomolog-pagination .pagination .active span {
+    background-color: rgb(200, 100, 100);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
-.registerlog-btn:focus {
-    outline: 2px solid rgb(80, 120, 230);
-    outline-offset: 2px;
-}
-
+    /*　認証ページ */
 .login-text {
     font-size: 0.9rem;
     color: (200, 200, 200);
@@ -162,9 +294,73 @@ form {
     text-decoration: underline;
 }
 
+/* 認証ページ専用スタイル */
+.auth-page .container {
+    display: flex;
+    justify-content: center; 
+    margin-top: 40px; 
+    margin-bottom: 40px; 
+}
+
+.auth-page form {
+    width: 100%;
+    max-width: 400px; 
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: none;
+}
+
+.auth-page input.form-control {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.auth-page .form-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+}
+
+.auth-page button {
+    width: 100%;
+    background-color: rgb(100, 150, 255);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.auth-page button:hover {
+    background-color: rgb(80, 120, 230);
+}
+
+/* リンクのデザイン */
+.auth-page a {
+    color: rgb(85, 85, 85); 
+    text-decoration: none; 
+    transition: color 0.3s ease; 
+}
+
+.auth-page a:hover {
+    color: rgb(255, 125, 125); 
+    text-decoration: none; 
+}
+
+
         /* 入力フォームとチェックボックス */
 
 .form-control {
+    width: 100%; 
+    max-width: 100%; 
+    margin: 0 auto; 
+    box-sizing: border-box;
     border: 1px solid rgb(200, 200, 200); 
     border-radius: 5px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease; 
@@ -218,6 +414,18 @@ form {
 
         /* ナビゲーションバー */
 
+.navbar {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 10px 20px; 
+    background-color: rgb(255, 255, 255); 
+    border-bottom: 1px solid #ddd; 
+    position: sticky;
+    top: 0;
+    z-index: 1000; 
+}
+
 .logo {   
     font-family: 'Zen Maru Gothic', serif;
     font-weight: 700;
@@ -240,6 +448,12 @@ form {
     color: rgb(255, 175, 175);
 }
 
+.admin-page-title {
+    font-family: 'Zen Maru Gothic', serif;
+    font-weight: 700;
+    color: #333333;
+}
+
 .navbar-toggler:focus,
 .navbar-toggler:active,
 .navbar-toggler-icon:focus,
@@ -256,7 +470,7 @@ form {
 
         /* フラッシュメッセージ */
 .alert {
-    max-width: 80%;
+    width: 400px;
     padding: 15px;
     border-radius: 8px; 
     margin: 10px auto;
@@ -264,10 +478,12 @@ form {
     align-items: center;
     gap: 10px; 
     font-size: 16px; 
+    text-align: center;
+    justify-content: center;
 }
 
 .alert-success {
-    background-color: rgb(175, 215, 255); 
+    background-color: lightblue; 
     color: rgb(50, 100, 150);
 }
 
@@ -280,6 +496,18 @@ form {
     font-size: 20px;
     line-height: 1;
 }
+
+.alert ul {
+    list-style: none; 
+    padding: 0;
+    margin: 0;
+    text-align: center; 
+}
+
+.alert li {
+    display: inline-block; 
+}
+
 
         /* 管理者ページ  */
 
@@ -324,11 +552,14 @@ table td span {
         
 /* ホーム画面（打刻） */
 .attendance-btn {
+    background-color: rgb(255, 175, 175);
+    color: white;
     font-size: 1.5rem;
     padding: 15ps 30px;
     border-radius: 15px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    outline: 1px solid rgb(255, 175, 175);
 }
 
 .child-select {
@@ -342,11 +573,6 @@ table td span {
     font-size: 1rem;
     padding: 10px, 15px;
     border-radius: 8px;
-}
-
-.attendance-btn {
-    background-color: rgb(255, 175, 175);
-    color: white;
 }
 
 .attendance-btn:hover {
@@ -371,6 +597,7 @@ table td span {
     gap: 10px;
     min-width: 350px; 
     overflow-x: auto; 
+    margin-bottom: 40px;
 }
 
 .calendar-header {
@@ -379,23 +606,25 @@ table td span {
     gap: 5px;
     text-align: center;
     font-weight: bold;
+    height: 35px; 
+    line-height: 30px;
 }
 
 .calendar-body {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 5px;
 }
 
 .calendar-cell {
-    height: 120px; 
+    aspect-ratio: 1 / 1; 
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
     background-color: #fff;
     box-sizing: border-box; 
-    overflow: visible;
     display: flex;
+    overflow: auto;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -433,14 +662,24 @@ table td span {
     margin-top: 5px;
 }
 
-/* 出席記録 */
+/* 星のアイコン */
+.material-symbols-outlined {
+    font-size: 1.4em;
+    color: rgb(255, 175, 175);
+}
+
+/* 登園時間 */
 .attendance-record {
     background-color: rgb(255, 175, 175);
     color: #fff;
     padding: 5px;
     border-radius: 5px;
     margin-bottom: 5px;
+    margin-top: 5px;
     display: block;
+    font-size: 1.2em;
+    text-align: center;
+    justify-content: center;
 }
 
 /* 前月・次月ボタン */
@@ -490,12 +729,13 @@ table td span {
     }
 
     .calendar-cell {
+        aspect-ratio: unset;
         display: flex;
         flex-direction: row; 
         justify-content: flex-start;
         align-items: center;
         gap: 10px; 
-        gap: 10px;
+        flex: 1;
     }
 
     .date-container {
@@ -520,10 +760,9 @@ table td span {
     .time-range {
         font-size: 1.2rem;
         display: block;
-        margin: 0 10px;
+        margin: 0 100px;
     }
 }
-
 
 /* タブのレイアウト */
 .nav-tabs .nav-link {

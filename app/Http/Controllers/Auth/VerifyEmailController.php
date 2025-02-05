@@ -23,7 +23,7 @@ class VerifyEmailController extends Controller
             event(new Verified($request->user()));
 
             // フラッシュメッセージを設定
-            session()->flash('success', 'メール認証に成功しました。\nこどもログへようこそ!');
+            session()->flash('success', 'メール認証に成功しました。<br>こどもログへようこそ!');
         }
 
         return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');

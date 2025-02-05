@@ -11,7 +11,7 @@ class UserController extends Controller
     // 会員一覧ページを表示
     public function index(Request $request)
     {
-        $keyword = $request->input('keyword'); // 検索ボックスのキーワードを取得
+        $keyword = $request->input('keyword'); 
         $query = User::query();
 
         if ($keyword !== null) {

@@ -74,16 +74,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::resource('/children', Admin\ChildController::class);
 
     // 承認リクエストの管理
-    Route::post('/children/{child}/approve', [Admin\ClassroomController::class, 'approve'])
+    Route::post('/children/{child}/approve', [Admin\ChildController::class, 'approve'])
         ->name('children.approve');
-    Route::post('/children/{child}/reject', [Admin\ClassroomController::class, 'reject'])
+    Route::post('/children/{child}/reject', [Admin\ChildController::class, 'reject'])
         ->name('children.reject');
 
     Route::resource('/classrooms', Admin\ClassroomController::class)->except(['show']);
     Route::resource('/kindergarten', Admin\KindergartenController::class)->only(['index', 'edit', 'update']);
     Route::resource('/terms', Admin\TermController::class)->only(['index', 'edit', 'update']);
     Route::get('/attendance', [Admin\AttendanceController::class, 'index'])->name('attendance.index');
-    Route::get('/attendance/daily', [Admin\AttendanceController::class, 'dailyAttendance'])->name('attendance.daily');
+    Route::get('/attendance/{childId}', [Admin\AttendanceController::class, 'show'])->name('attendance.show');
+    Route::delete('/attendance/{id}', [Admin\AttendanceController::class, 'destroy'])->name('attendance.destroy');
     Route::get('/messages/{userId}', [MessageController::class, 'fetchMessagesForAdmin']);
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');

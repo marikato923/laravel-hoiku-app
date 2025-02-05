@@ -29,6 +29,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $request->session()->flash('success', 'ログインしました。');
+
         return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
     }
 
@@ -42,6 +44,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        $request->session()->flash('success', '管理者ページからログアウトしました。');
 
         return redirect('/login');
     }

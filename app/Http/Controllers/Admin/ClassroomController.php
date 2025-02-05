@@ -40,7 +40,7 @@ class ClassroomController extends Controller
         $classroom = new Classroom($validated);
         $classroom->save();
 
-        session()->flash('flash_message', 'クラスの情報を登録しました。');
+        session()->flash('success', 'クラスの情報を登録しました。');
         return redirect()->route('admin.classrooms.index');
     }
 
@@ -55,7 +55,7 @@ class ClassroomController extends Controller
        $classroom->fill($validated);
        $classroom->save();
 
-       session()->flash('flash_message', 'クラスの情報を登録しました。');
+       session()->flash('success', 'クラスの情報を登録しました。');
        return redirect()->route('admin.classrooms.index');
    }
 
@@ -64,7 +64,7 @@ class ClassroomController extends Controller
 
     $classroom->delete();
 
-    session()->flash('flash_message', 'クラスを削除しました。');
+    session()->flash('success', 'クラスを削除しました。');
     return redirect()->route('admin.classrooms.index');
 
    }

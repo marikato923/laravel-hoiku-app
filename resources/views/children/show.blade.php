@@ -1,13 +1,18 @@
 @extends('layouts.app')
 
+@section('breadcrumbs')
+<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">ホーム</a></li>
+        <li class="breadcrumb-item active" aria-current="page">お子様の基本情報</li>
+    </ol>
+</nav>
+@endsection
+
 @section('content')
 <div class="container" style="max-width: 800px; margin: 0 auto;">
     <h2 class="text-center mb-4">お子様の基本情報</h2>
     <hr class="mb-4">
-
-    <div class="text-end mb-4">
-        <a href="{{ route('children.create') }}" class="btn btn-success">新規登録</a>
-    </div>
 
     @if($siblings->isEmpty())
         <div class="alert alert-info text-center">
@@ -56,7 +61,7 @@
                             </div>
                         </div>
                         <ul class="list-group list-group-flush no-border">
-                            <li class="list-group-item no-border"><strong>名前（姓名）:</strong> {{ $sibling->last_name }} {{ $sibling->first_name }}</li>
+                            <li class="list-group-item no-border"><strong>氏名:</strong> {{ $sibling->last_name }} {{ $sibling->first_name }}</li>
                             <li class="list-group-item no-border"><strong>フリガナ:</strong> {{ $sibling->last_kana_name }} {{ $sibling->first_kana_name }}</li>
                             <li class="list-group-item no-border"><strong>誕生日:</strong> {{ \Carbon\Carbon::parse($sibling->birthdate)->format('Y年m月d日') }}</li>
                             <li class="list-group-item no-border"><strong>入園日:</strong> {{ \Carbon\Carbon::parse($sibling->admission_date)->format('Y年m月d日') }}</li>
@@ -64,9 +69,12 @@
                             <li class="list-group-item no-border"><strong>アレルギー:</strong> {{ $sibling->has_allergy ? 'あり (' . $sibling->allergy_type . ')' : 'なし' }}</li>
                             <li class="list-group-item no-border"><strong>クラス:</strong> {{ optional($sibling->classroom)->name ?? '未登録' }}</li>
                         </ul>
-                        <div class="text-end mt-4">
-                            <a href="{{ route('children.edit', $sibling->id) }}" class="btn btn-primary">編集リクエスト</a>
-                        </div>
+                        <div class="text-end mb-4">
+                            <a href="{{ route('children.create') }}" class="btn register-btn">新規登録</a>
+                            <span class="text-secondary ms-3">
+                                <a href="{{ route('children.edit', $sibling->id) }}" class="register-link small">編集リクエスト</a>
+                            </span>
+                        </div>                                                
                     </div>
                 </div>
             @endforeach

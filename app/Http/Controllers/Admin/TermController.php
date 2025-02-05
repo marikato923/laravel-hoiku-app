@@ -34,7 +34,7 @@ class TermController extends Controller
 
         $term->save();
 
-        session()->flash('flash_message', '利用規約を編集しました。');
+        session()->flash('success', '利用規約を編集しました。');
         return redirect()->route('admin.terms.index');
     }
 }

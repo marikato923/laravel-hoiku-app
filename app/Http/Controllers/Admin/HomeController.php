@@ -41,6 +41,6 @@ class HomeController extends Controller
             }])
             ->get();
 
-        return view('admin.home', compact('totalChildren', 'totalAttendances', 'totalAbsences', 'classrooms'));
+        return view('admin.home', compact('totalChildren', 'totalAttendances', 'totalAbsences', 'classrooms', 'today'));
     }
 }

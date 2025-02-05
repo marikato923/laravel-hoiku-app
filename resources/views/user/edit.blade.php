@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@section('breadcrumbs')
+<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">ホーム</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('user.show') }}">会員情報</a></li>
+        <li class="breadcrumb-item active" aria-current="page">会員情報 編集</li>
+    </ol>
+</nav>
+@endsection
+
 @section('content')
 <div class="container py-4 kodomolog-app-container">
     <div class="row justify-content-center">
