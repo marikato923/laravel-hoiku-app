@@ -67,7 +67,7 @@ class ChildController extends Controller
     // 子供情報の編集フォームを表示
     public function edit(Child $child)
     {
-        // $this->authorize('update', $child);
+        $this->authorize('update', $child);
 
         // 認可チェック
         if ($child->user_id !== auth()->id()) {
