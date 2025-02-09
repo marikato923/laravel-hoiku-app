@@ -15,9 +15,10 @@
     <hr class="mb-4">
 
     @if($siblings->isEmpty())
-        <div class="alert alert-info text-center">
-            <p>まだお子様の情報が登録されていません。</p>
-            <p>「新規登録」ボタンを押してお子様の情報を登録してください。</p>
+        <div class="text-center">
+            <p>まだお子様が登録されていません。</p>
+            <a href="{{ route('children.create') }}" class="btn register-btn mt-3">新規登録</a>
+        </div>
         </div>
     @else
         {{-- タブ --}}

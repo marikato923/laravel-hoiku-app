@@ -41,7 +41,7 @@
                         <input type="text" name="first_kana_name" id="first_kana_name" class="form-control" value="{{ $child->first_kana_name }}" required>
                     </div>
                     
-                    {{-- 保護者選択 --}}
+                    {{-- 保護者選択
                     <div class="form-group mb-3">
                         <label for="user_id">保護者</label>
                         <select name="user_id" id="user_id" class="form-control" required>
@@ -53,7 +53,7 @@
                         </select>
                     </div>
                     
-                    {{-- クラス選択 --}}
+                    クラス選択
                     <div class="form-group mb-3">
                         <label for="classroom_id">クラス</label>
                         <select name="classroom_id" id="classroom_id" class="form-control">
@@ -63,7 +63,7 @@
                                 </option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     
                     {{-- 画像 --}}
                     <div class="form-group mb-3 text-center">

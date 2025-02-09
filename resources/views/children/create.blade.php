@@ -51,6 +51,11 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label for="admission_date">入園日</label>
+                        <input type="date" name="admission_date" id="admission_date" class="form-control" required>
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label for="medical_history">既往歴</label>
                         <textarea name="medical_history" id="medical_history" class="form-control" placeholder="既往歴があれば記入してください"></textarea>
                     </div>
