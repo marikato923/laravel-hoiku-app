@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>こどもログ</title>
+    {{-- CSRFトークン --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Bootstrap CSS --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
@@ -15,6 +17,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=kid_star" />
 </head>
+
+
 <body>
     {{-- ナビゲーションバー --}}
     <x-user-navbar />
@@ -57,5 +61,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery  -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- app.js の読み込み --}}
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    </body>
+    </html>
 </body>
 </html>

@@ -30,8 +30,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone_number',
         'postal_code',
         'address',
+        'push_subscription', 
     ];
- 
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -40,11 +41,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'status' => 'boolean',
+        'push_subscription' => 'array',
     ];
 
     // childrenとの関係
     public function children()
     {
-        return $this->hasMany(Child::class);
+        return $this->hasMany(Child::class, 'user_id');
     }
 }

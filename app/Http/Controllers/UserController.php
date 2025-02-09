@@ -3,19 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rule;
-
+use Minishlink\WebPush\WebPush;
+use Minishlink\WebPush\Subscription;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
     public function show()
     {
         $user = auth()->user();
-
         return view('user.show', compact('user'));
     }
 
@@ -50,7 +52,6 @@ class UserController extends Controller
         ]);
 
         event(new Registered($user));
-
         Auth::login($user);
 
         return redirect('/');
@@ -59,7 +60,6 @@ class UserController extends Controller
     public function edit()
     {
         $user = auth()->user();
-
         return view('user.edit', compact('user'));
     }
 
@@ -73,10 +73,9 @@ class UserController extends Controller
             'phone_number' => 'nullable|string',
             'postal_code' => 'nullable|string',
             'address' => 'nullable|string',
-            // ログイン中のユーザーの現在のメールアドレスは除外
-            'email' => 'required',
-                       'email',
-                        Rule::unique('users', 'email')->ignore(auth()->user()->id),
+            'email' => [
+                'required', 'email', Rule::unique('users', 'email')->ignore(auth()->user()->id),
+            ],
         ]);
 
         $user = auth()->user();
@@ -99,9 +98,8 @@ class UserController extends Controller
 
         $user = auth()->user();
 
-        // 現在のパスワード確認
-        if (!\Hash::check($request->current_password, $user->password)) {
-                return back()->withErrors(['current_password' => '現在のパスワードが正しくありません。' ]);
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => '現在のパスワードが正しくありません。']);
         }
 
         $user->update([
@@ -110,4 +108,109 @@ class UserController extends Controller
 
         return redirect()->route('user.edit-password')->with('success', 'パスワードが変更されました。');
     }
+
+    /**
+     * プッシュ通知を登録
+     */
+    public function subscribe(Request $request)
+    {
+        try {
+            \Log::info('Push subscription request received', ['data' => $request->getContent()]);
+    
+            $subscription = json_decode($request->getContent(), true);
+            $user = Auth::user();
+    
+            if (!$user) {
+                \Log::error('Unauthorized user trying to subscribe');
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+    
+            if (!$subscription || !isset($subscription['endpoint'])) {
+                \Log::error('Invalid subscription data', ['request' => $request->getContent()]);
+                return response()->json(['error' => 'Invalid subscription data'], 400);
+            }
+    
+            // `push_subscription` をデータベースに保存
+            $user->push_subscription = json_encode($subscription);
+            $user->save();
+    
+            // 保存後のデータを確認
+            $user = User::find($user->id); // 再取得して確認
+            \Log::info('Push subscription saved', [
+                'user_id' => $user->id, 
+                'push_subscription' => $user->push_subscription
+            ]);
+    
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to subscribe', ['message' => $e->getMessage()]);
+            return response()->json(['error' => 'Failed to subscribe', 'message' => $e->getMessage()], 500);
+        }
+    }
+    
+    
+    
+    /**
+     * お迎え予定1時間前に通知を送信
+     */
+    public function sendPushNotifications()
+    {
+        \Log::info('sendPushNotifications() started');
+    
+        $now = \Carbon\Carbon::now();
+        $users = \App\Models\User::whereNotNull('push_subscription')->get();
+        \Log::info('Users found', ['count' => count($users)]);
+    
+        if ($users->isEmpty()) {
+            \Log::warning('No users with push subscriptions found.');
+            return;
+        }
+    
+        $webPush = new \Minishlink\WebPush\WebPush([
+            'VAPID' => [
+                'subject' => 'https://hoikulog.com',
+                'publicKey' => env('VAPID_PUBLIC_KEY'),
+                'privateKey' => env('VAPID_PRIVATE_KEY'),
+            ],
+        ]);
+    
+        foreach ($users as $user) {
+            $children = $user->children; // 子供の情報を取得
+            \Log::info('Checking user', ['user_id' => $user->id, 'children_count' => count($children)]);
+    
+            foreach ($children as $child) {
+                $attendance = \App\Models\Attendance::where('child_id', $child->id)
+                    ->where('pickup_time', '<=', $now->addHour())
+                    ->where('pickup_time', '>=', $now)
+                    ->first();
+    
+                if (!$attendance) {
+                    \Log::info('No attendance record found', ['child_id' => $child->id]);
+                    continue;
+                }
+    
+                $subscription = json_decode($user->push_subscription, true);
+                if (!$subscription) {
+                    \Log::warning('Invalid subscription data', ['user_id' => $user->id]);
+                    continue;
+                }
+    
+                $message = [
+                    'title' => 'お迎えの時間が近づいています',
+                    'body' => $child->name . ' のお迎え時間は ' . $attendance->pickup_time->format('H:i') . ' です。',
+                ];
+    
+                \Log::info('Sending push notification', ['user_id' => $user->id, 'message' => $message]);
+    
+                $webPush->queueNotification(
+                    \Minishlink\WebPush\Subscription::create($subscription),
+                    json_encode($message)
+                );
+            }
+        }
+    
+        $webPush->flush();
+        \Log::info('sendPushNotifications() completed');
+    }
+    
 }

@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
+use Minishlink\WebPush\WebPush;
+use Minishlink\WebPush\Subscription;
 use Illuminate\Support\Facades\Route;
 use App\Events\MessageSent;
 use App\Http\Middleware\RedirectIfNotAuthenticatedAsUserAndAdmin;
@@ -10,24 +13,19 @@ use App\Http\Controllers\TermController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ChildController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\PushNotification;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| This file defines the web routes for your Laravel application.
 |
 */
-
-Route::get('/', function () {
-    return view('home');
-});
-
 require __DIR__.'/auth.php';
 
 // ユーザー側のページ
@@ -58,17 +56,14 @@ Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin:
     // 利用規約ページ
     Route::get('/terms', [TermController::class, 'show'])->name('terms.show');
 
-    // チャット機能
-    Route::get('/messages/{adminId}', [MessageController::class, 'fetchMessagesForUser']);
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    // 通知
+    Route::post('/user/subscribe', [UserController::class, 'subscribe'])->name('user.subscribe');
 });
 
 // 管理者側のページ
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
     Route::get('/home', [Admin\HomeController::class, 'index'])->name('home');
     Route::resource('/users', Admin\UserController::class)->only(['index', 'show']);
-    Route::resource('/children', Admin\ChildController::class);
 
     // 子供情報の管理
     Route::resource('/children', Admin\ChildController::class);
@@ -89,7 +84,3 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 });
-
-
-
-
