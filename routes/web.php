@@ -26,6 +26,12 @@ use App\Notifications\PushNotification;
 | This file defines the web routes for your Laravel application.
 |
 */
+
+Route::get('/', function () {
+    return view('home');
+});
+
+
 require __DIR__.'/auth.php';
 
 // ユーザー側のページ
