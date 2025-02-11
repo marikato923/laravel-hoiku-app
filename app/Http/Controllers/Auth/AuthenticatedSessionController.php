@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->flash('success', 'ログインしました。');
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->route('home')->with('success', 'メール認証に成功しました。子供ログへようこそ!');
     }
 
     /**
@@ -45,7 +45,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        $request->session()->flash('success', 'ログアウトしました。');
+
 
         return redirect('/login');
     }

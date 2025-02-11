@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->flash('success', 'ログインしました。');
 
-        return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
+        return redirect()->route('admin.home');
     }
 
     /**
