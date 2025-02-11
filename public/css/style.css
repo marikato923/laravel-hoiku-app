@@ -26,7 +26,7 @@ footer {
     padding: 20px 10px;
     text-align: center;
     border-top: 1px solid #e7e7e7 ;
-    color: #555;
+    color: #555 !important;
     width: 100%;
 }
 
@@ -73,7 +73,7 @@ form {
 }
     
 .register-btn:hover {
-    color: white;
+    color: white !important;
     background-color: rgb(80, 120, 230) !important ;
 }
     
@@ -83,8 +83,8 @@ form {
     }
 
 .delete-btn {
-    background-color: rgb(200, 100, 100);
-    color: white;
+    background-color: rgb(200, 100, 100) !important;
+    color: white !important;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -122,7 +122,7 @@ form {
     border-radius: 10px; */
 }
 
-.departure-bt:hover {
+.departure-btn:hover {
     background-color: rgb(80, 120, 230);
 }
 
@@ -162,15 +162,15 @@ form {
 }
 
 .breadcrumb .breadcrumb-item a:hover {
-    color: #505050;
+    color: #7f7f7f;
 }
 
 .breadcrumb.breadcrumb-item a:focus {
-    color: #505050;
+    color: #7f7f7f;
 }
 
 .material-icons {
-    color: rgb(255, 175, 175);
+    color: rgb(255, 175, 175) !important;
 }
 
 .material-icons:hover {
@@ -251,7 +251,7 @@ form {
 }
 
 .kodomolog-pagination .pagination a {
-    color: rgb(200, 100, 100); 
+    color: rgb(200, 100, 100) !important; 
     text-decoration: none;
     padding: 5px 10px;
     border-radius: 5px;
@@ -483,13 +483,13 @@ form {
 }
 
 .alert-success {
-    background-color: lightblue; 
-    color: rgb(50, 100, 150);
+    background-color: lightblue !important; 
+    color: rgb(50, 100, 150) !important;
 }
 
 .alert-danger {
-    background-color: rgb(255, 235, 235);
-    color: rgb(150, 50, 50);
+    background-color: rgb(255, 235, 235) !important;
+    color: rgb(150, 50, 50) !important;
 }
 
 .alert i {

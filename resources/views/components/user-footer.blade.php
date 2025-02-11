@@ -6,5 +6,5 @@
         {{-- 利用規約 --}}
         <a href="{{ route('terms.show') }}" style="color: #666; text-decoration: none; margin: 0 10px;">利用規約</a>
     </div>
-    <p>&copy; {{ date('Y') }} Kodomo Log All rights reserved.</p>
+    <p class="footer-text">&copy; {{ date('Y') }} Kodomo Log All rights reserved.</p>
 </footer>
