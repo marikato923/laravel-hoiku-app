@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class VerifyEmailController extends Controller
 {
@@ -15,17 +17,22 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
-        }
+        Log::info('メール認証の処理開始', ['user' => $request->user()]);
 
+        if ($request->user()->hasVerifiedEmail()) {
+            Log::info('既に認証済みのため、HOMEへリダイレクト');
+            return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+    }
+    
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
+    
+        session()->flash('success', 'メール認証に成功しました。こどもログへようこそ!');
 
-            // フラッシュメッセージを設定
-            session()->flash('success', 'メール認証に成功しました。こどもログへようこそ!');
-        }
-
-        return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+        Auth::login($request->user());
+    }
+    
+    return redirect()->route('home');
+    
     }
 }
