@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
             Log::info('スケジュールタスクが実行されました！');
             $controller = app(\App\Http\Controllers\Admin\NotificationController::class);
             $controller->sendPickupReminders();
-        })->everyTenMinutes()->withoutOverlapping();
+        })->everyTenMinutes()->name('pickup_reminder')->withoutOverlapping();
     }
 
     /**
