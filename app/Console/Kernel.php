@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             Log::info('スケジュールタスクが実行されました。');
             app(\App\Http\Controllers\Admin\NotificationController::class)->sendPickupReminders();
-        })->everyMinute(); // 適切な頻度に調整
+        })->everyTenMinutes(); 
     }
 
     /**
