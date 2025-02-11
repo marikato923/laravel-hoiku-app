@@ -6,19 +6,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PickupReminderMail;
-use App\Models\User;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin'); // 管理者のみアクセス可
+        // CLI（コマンドライン実行時）は認証不要にする
+        if (!app()->runningInConsole()) {
+            $this->middleware('auth:admin'); // Web経由では管理者のみアクセス可能
+        }
     }
 
     public function sendPickupReminders()
     {
+        Log::info('sendPickupReminders メソッドが実行されました。');
+
         $attendances = Attendance::whereNotNull('pickup_time')->get();
 
         foreach ($attendances as $attendance) {
@@ -27,6 +32,8 @@ class NotificationController extends Controller
                 $parent = $child->user;
 
                 Mail::to($parent->email)->send(new PickupReminderMail($child, $attendance->pickup_time));
+
+                Log::info("メールを送信しました: {$parent->email}");
             }
         }
         

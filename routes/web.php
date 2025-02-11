@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\PushNotification;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,6 +90,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::get('/messages/{userId}', [MessageController::class, 'fetchMessagesForAdmin']);
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
-    // メール送信
-    Route::get('/send-reminders', [Admin\NotificationController::class, 'sendPickupReminders']);
+    Route::get('/send-reminders', [NotificationController::class, 'sendPickupReminders']);
+});
+
+// Heroku Scheduler（CLI実行専用）
+Route::get('/system/send-reminders', function () {
+    if (!app()->runningInConsole()) {
+        abort(403, 'Unauthorized');
+    }
+    Artisan::call('schedule:run');
+    return response()->json(['message' => 'スケジュールタスクを実行しました'], 200);
 });
