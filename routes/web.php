@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Artisan;
 require __DIR__.'/auth.php';
 
 // ユーザー側のページ
-Route::group(['middleware' => ['auth', RedirectIfNotAuthenticatedAsUserAndAdmin::class]], function () {
+Route::group(['middleware' => ['auth', 'verified', RedirectIfNotAuthenticatedAsUserAndAdmin::class]], function () {
     // トップページ
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
