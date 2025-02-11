@@ -336,17 +336,17 @@ form {
 
 .auth-page button {
     width: 100%;
-    background-color: rgb(100, 150, 255) !important;
+    background-color: rgb(100, 150, 255);
     border: none;
     padding: 10px;
     border-radius: 5px;
-    color: #fff !important;
+    color: #fff;
     font-weight: bold;
 }
 
 .auth-page button:hover {
-    background-color: rgb(80, 120, 230) !important;
-    color: #fff !important;
+    background-color: rgb(80, 120, 230);
+    color: #fff;
 }
 
 /* リンクのデザイン */
@@ -560,14 +560,14 @@ table td span {
         
 /* ホーム画面（打刻） */
 .attendance-btn {
-    background-color: rgb(255, 175, 175) !important;
-    color: white !important;
-    font-size: 1.5rem !important;
+    background-color: rgb(255, 175, 175) ;
+    color: white;
+    font-size: 1.5rem;
     padding: 15ps 30px;
     border-radius: 15px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    outline: 1px solid rgb(255, 175, 175) !important;
+    outline: 1px solid rgb(255, 175, 175);
 }
 
 .child-select {
