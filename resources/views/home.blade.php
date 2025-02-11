@@ -29,11 +29,6 @@
 
                 <!-- 登園用フォーム -->
                 <div class="mb-3">
-                    <label for="pickup_name" class="form-label">お迎えに来る予定の方</label>
-                    <input type="text" class="form-control" id="pickup_name" name="pickup_name" required disabled>
-                </div>
-
-                <div class="mb-3">
                     <label for="pickup_time" class="form-label">お迎え予定時刻</label>
                     <input type="time" class="form-control" id="pickup_time" name="pickup_time" required disabled>
                 </div>
@@ -58,7 +53,6 @@
         const checkboxes = document.querySelectorAll('.child-checkbox');
         const arrivalBtn = document.getElementById('arrivalBtn');
         const departureBtn = document.getElementById('departureBtn');
-        const pickupName = document.getElementById('pickup_name');
         const pickupTime = document.getElementById('pickup_time');
         const resultMessage = document.getElementById('resultMessage');
 
@@ -99,12 +93,11 @@
             });
 
             arrivalBtn.disabled = !canArrive;
-            pickupName.disabled = !canArrive;
             pickupTime.disabled = !canArrive;
             departureBtn.disabled = !canDepart;
 
             arrivalBtn.classList.toggle('btn-secondary', !canArrive);
-            arrivalBtn.classList.toggle('arrial-btn', canArrive);
+            arrivalBtn.classList.toggle('arrival-btn', canArrive);
             departureBtn.classList.toggle('btn-secondary', !canDepart);
             departureBtn.classList.toggle('departure-btn', canDepart);
         }
@@ -114,6 +107,11 @@
                 .filter(checkbox => checkbox.checked)
                 .map(checkbox => checkbox.value);
 
+            if (!pickupTime.value) {
+                resultMessage.innerHTML = `<div class="alert alert-danger">お迎え予定時刻を入力してください。</div>`;
+                return;
+            }
+
             try {
                 const response = await fetch('/api/attendance/arrival', {
                     method: 'POST',
@@ -121,7 +119,7 @@
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ children: selectedChildIds }),
+                    body: JSON.stringify({ children: selectedChildIds, pickup_time: pickupTime.value }),
                 });
 
                 const data = await response.json();
@@ -134,6 +132,7 @@
                     });
                     saveAttendanceStatus(storedStatus);
                     updateButtonStates();
+                    pickupTime.disabled = true; 
                 } else {
                     resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
                 }

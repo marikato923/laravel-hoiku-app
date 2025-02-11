@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Child;
+use Carbon\Carbon;
+
 
 class AttendanceController extends Controller
 {
@@ -13,8 +15,7 @@ class AttendanceController extends Controller
         $request->validate([
             'children' => 'required|array',
             'children.*' => 'exists:children,id',
-            'pickup_name' => 'string|max:255',
-            'pickup_time' => 'date_format:H:i',
+            'pickup_time' => 'required|date_format:H:i',
         ]);
     
         $messages = [];
@@ -25,8 +26,7 @@ class AttendanceController extends Controller
                 Attendance::create([
                     'child_id' => $child->id,
                     'arrival_time' => now(),
-                    'pickup_name' => $request->pickup_name,
-                    'pickup_time' => $request->pickup_time,
+                    'pickup_time' => Carbon::parse(today()->format('Y-m-d') . ' ' . $request->pickup_time),
                 ]);
 
                 $messages[] = "{$child->first_name}さんの登園を記録しました。";

@@ -21,7 +21,6 @@ class Attendance extends Model
         'child_id',
         'arrival_time',
         'departure_time',
-        'pickup_name',
         'pickup_time',
     ];
 
