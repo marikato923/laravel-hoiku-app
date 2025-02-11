@@ -12,12 +12,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Artisanコマンドを実行する
-        $schedule->command('send:push-notifications')
-        ->everyMinute()
-        ->appendOutputTo(storage_path('logs/scheduler.log'));    
+        $schedule->call(function () {
+            app(\App\Http\Controllers\Admin\NotificationController::class)->sendPickupReminders();
+        })->everyMinute(); 
     }
-
+    
     /**
      * Register the commands for the application.
      */

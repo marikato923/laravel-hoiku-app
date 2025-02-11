@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Attendance extends Model
 {
@@ -33,5 +35,8 @@ class Attendance extends Model
         return $this->belongsTo(Child::class, 'child_id');
     }
 
-
+    public function shouldSendReminder()
+    {
+        return $this->pickup_time && Carbon::parse($this->pickup_time)->diffInMinutes(now()) <= 60;
+    }
 }

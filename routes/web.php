@@ -13,7 +13,7 @@ use App\Http\Controllers\TermController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ChildController;
-use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\PushNotification;
@@ -27,9 +27,9 @@ use App\Notifications\PushNotification;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
 
 
 require __DIR__.'/auth.php';
@@ -89,4 +89,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::get('/messages/{userId}', [MessageController::class, 'fetchMessagesForAdmin']);
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    // メール送信
+    Route::get('/send-reminders', [Admin\NotificationController::class, 'sendPickupReminders']);
 });
