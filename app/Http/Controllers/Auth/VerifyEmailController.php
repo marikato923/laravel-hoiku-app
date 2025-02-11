@@ -44,7 +44,7 @@ public function __invoke(EmailVerificationRequest $request): RedirectResponse
     if ($request->user()->markEmailAsVerified()) {
         event(new Verified($request->user()));
     
-    session()->flash('success', 'メール認証に成功しました。こどもログへようこそ!');
+        session()->flash('success', 'メール認証に成功しました。こどもログへようこそ!');
     }
     
     return redirect()->route('home');

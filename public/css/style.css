@@ -99,8 +99,8 @@ form {
 }
 
 .arrival-btn {
-    background-color: rgb(255, 175, 175);
-    color: white;
+    background-color: rgb(255, 175, 175) !important;
+    color: white !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     /* padding: 15px 30px; 
     border-radius: 10px; */
@@ -115,8 +115,8 @@ form {
 }
 
 .departure-btn {
-    background-color: rgb(100, 150, 255);
-    color: white;
+    background-color: rgb(100, 150, 255) !important;
+    color: white !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     /* padding: 15px 30px; 
     border-radius: 10px; */
@@ -429,8 +429,8 @@ form {
 .logo {   
     font-family: 'Zen Maru Gothic', serif;
     font-weight: 700;
-    font-size: 2em;
-    color: rgb(255, 175, 175);
+    font-size: 2em !important;
+    color: rgb(255, 175, 175) !important;
     text-decoration: none;
     letter-spacing: -0.05em;
     transition: color 0.3s ease;
