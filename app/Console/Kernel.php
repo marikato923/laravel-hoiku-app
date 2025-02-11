@@ -14,9 +14,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            Log::info('スケジュールタスクが実行されました。');
-            app(\App\Http\Controllers\Admin\NotificationController::class)->sendPickupReminders();
-        })->everyTenMinutes(); 
+            Log::info('スケジュールタスクが実行されました！');
+            $controller = app(\App\Http\Controllers\Admin\NotificationController::class);
+            $controller->sendPickupReminders();
+        })->everyTenMinutes()->withoutOverlapping();
     }
 
     /**

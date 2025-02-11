@@ -24,7 +24,10 @@ class NotificationController extends Controller
     {
         Log::info('sendPickupReminders メソッドが実行されました。');
 
-        $attendances = Attendance::whereNotNull('pickup_time')->get();
+        $attendances = Attendance::whereNotNull('pickup_time')
+            ->where('pickup_time', '>=', now())
+            ->where('pickup_time', '<=', now()->addHour())
+            ->get();
 
         foreach ($attendances as $attendance) {
             if ($attendance->shouldSendReminder()) {
