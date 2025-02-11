@@ -62,12 +62,12 @@ form {
 }
     
 .kodomolog-btn:focus {
-    outline: 2px solid rgb(255, 205, 205);
+    outline: 2px solid rgb(255, 205, 205) !important;
     outline-offset: 2px;
 }
     
 .register-btn {
-    color: white;
+    color: white !important;
     background-color: rgb(100, 150, 255) !important ;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
@@ -78,7 +78,7 @@ form {
 }
     
 .registerlog-btn:focus {
-        outline: 2px solid rgb(80, 120, 230);
+        outline: 2px solid rgb(80, 120, 230) !important;
         outline-offset: 2px;
     }
 
@@ -89,13 +89,13 @@ form {
 }
 
 .delete-btn:hover {
-    background-color: rgb(255, 175, 175);
-    color: white;
+    background-color: rgb(255, 175, 175) !important;
+    color: white !important;
 }
 
 .delete-btn:focus {
-    background-color: rgb(212, 212, 212);
-    color: white;
+    background-color: rgb(212, 212, 212) !important;
+    color: white !important;
 }
 
 .arrival-btn {
@@ -107,11 +107,13 @@ form {
 }
 
 .arrival-btn:hover {
-    color: rgb(255, 205, 205);
+    background-color: rgb(255, 205, 205) !important;
+    color: white !important;
 }
 
 .arrival-btn:focus {
-    color: rgb(255, 205, 205);
+    background-color: rgb(255, 205, 205) !important;
+    color: white !important;
 }
 
 .departure-btn {
@@ -124,10 +126,12 @@ form {
 
 .departure-btn:hover {
     background-color: rgb(80, 120, 230);
+    color: white !important;
 }
 
 .departure-btn:focus {
     background-color: rgb(80, 120, 230);
+    color: white !important;
 }
 
 .register-link {
@@ -174,11 +178,11 @@ form {
 }
 
 .material-icons:hover {
-    color: rgb(255, 205, 205);
+    color: rgb(255, 205, 205) !important;
 }
 
 .material-icons :focus {
-    color: rgb(255, 205, 205);
+    color: rgb(255, 205, 205) !important;
 }
 
 
@@ -252,6 +256,7 @@ form {
 
 .kodomolog-pagination .pagination a {
     color: rgb(200, 100, 100) !important; 
+    outline: none !important; 
     text-decoration: none;
     padding: 5px 10px;
     border-radius: 5px;
@@ -259,13 +264,15 @@ form {
 }
 
 .kodomolog-pagination .pagination a:hover {
-    background-color: rgb(255, 175, 175);
-    color: white;
+    background-color: rgb(255, 175, 175) !important;
+    color: white !important;
+    outline: none !important;
 }
 
 .kodomolog-pagination .pagination .active span {
-    background-color: rgb(200, 100, 100);
-    color: white;
+    background-color: rgb(200, 100, 100) !important;
+    color: white !important;
+    outline: none !important;
     padding: 5px 10px;
     border-radius: 5px;
 }
@@ -329,16 +336,17 @@ form {
 
 .auth-page button {
     width: 100%;
-    background-color: rgb(100, 150, 255);
+    background-color: rgb(100, 150, 255) !important;
     border: none;
     padding: 10px;
     border-radius: 5px;
-    color: #fff;
+    color: #fff !important;
     font-weight: bold;
 }
 
 .auth-page button:hover {
-    background-color: rgb(80, 120, 230);
+    background-color: rgb(80, 120, 230) !important;
+    color: #fff !important;
 }
 
 /* リンクのデザイン */
@@ -428,24 +436,24 @@ form {
 
 .logo {   
     font-family: 'Zen Maru Gothic', serif;
-    font-weight: 700;
+    font-weight: 700 !important;
     font-size: 2em !important;
     color: rgb(255, 175, 175) !important;
-    text-decoration: none;
-    letter-spacing: -0.05em;
-    transition: color 0.3s ease;
+    text-decoration: none !important;
+    letter-spacing: -0.05em !important;
+    transition: color 0.3s ease !important;
 }
 
 .logo:hover {
-    color: rgb(255, 205, 205);
+    color: rgb(255, 205, 205) !important;
 }
 
 .logo:active {
-    color: rgb(255, 175, 175) ;
+    color: rgb(255, 175, 175) !important;
 }
 
 .logo:focus {
-    color: rgb(255, 175, 175);
+    color: rgb(255, 175, 175) !important;
 }
 
 .admin-page-title {
@@ -552,14 +560,14 @@ table td span {
         
 /* ホーム画面（打刻） */
 .attendance-btn {
-    background-color: rgb(255, 175, 175);
-    color: white;
-    font-size: 1.5rem;
+    background-color: rgb(255, 175, 175) !important;
+    color: white !important;
+    font-size: 1.5rem !important;
     padding: 15ps 30px;
     border-radius: 15px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    outline: 1px solid rgb(255, 175, 175);
+    outline: 1px solid rgb(255, 175, 175) !important;
 }
 
 .child-select {
