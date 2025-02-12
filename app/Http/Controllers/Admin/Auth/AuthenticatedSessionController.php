@@ -47,6 +47,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->flash('success', '管理者ページからログアウトしました。');
 
-        return redirect('/login');
+        return redirect()->route('admin.login');
     }
 }
