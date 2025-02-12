@@ -55,9 +55,9 @@
                             @endphp
                             <div class="child-show-img-wrapper" style="border-color:{{ $themeColor }};">
                                 @if($sibling->img)
-                                    <img src="{{ asset('storage/children/' . $sibling->img) }}" alt="子供の写真" class="child-img img-fluid">
+                                    <img src="{{ $sibling->img }}" alt="お子様の写真" class="child-img img-fluid">
                                 @else
-                                    <img src="{{ asset('storage/children/default.png') }}" alt="デフォルトの写真" class="child-img img-fluid">
+                                    <img src="{{ env('DEFAULT_CHILD_IMAGE') }}" alt="デフォルトの写真" class="child-img img-fluid">
                                 @endif
                             </div>
                         </div>

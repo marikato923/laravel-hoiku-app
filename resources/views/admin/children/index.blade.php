@@ -80,7 +80,7 @@
                                 <a href="{{ route('admin.children.show', $child->id) }}" class="d-block text-start">
                                     <div class="child-img-wrapper" style="border-color: {{ $themeColor }};">
                                         <img 
-                                            src="{{ $child->img ? asset('storage/children/' . $child->img) : asset('storage/children/default.png') }}" 
+                                            src="{{ $child->img ?? env('DEFAULT_CHILD_IMAGE') }}"
                                             alt="園児の画像" 
                                             class="child-img-index"
                                         >

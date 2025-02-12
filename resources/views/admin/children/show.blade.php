@@ -24,9 +24,9 @@
                     <a href="{{ route('admin.attendance.show', $child->id) }}">
                         <div class="child-img-wrapper" style="border-color:{{ $themeColor }}; width: 150px; height: 150px; display: inline-block;">
                             @if($child->img)
-                                <img src="{{ asset('storage/children/' . $child->img) }}" alt="子供の写真" class="child-img-index">
+                                <img src="{{ $child->img }}" alt="子供の写真" class="child-img-index">
                             @else
-                                <img src="{{ asset('storage/children/default.png') }}" alt="デフォルトの写真" class="child-img-index">
+                                <img src="{{ $child->img ?? env('DEFAULT_CHILD_IMAGE') }}" alt="子供の写真" class="child-img-index">
                             @endif
                         </div>
                     </a>

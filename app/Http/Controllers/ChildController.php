@@ -55,8 +55,8 @@ class ChildController extends Controller
 
         // 画像処理
         if ($request->hasFile('img')) {
-            $imagePath = $request->file('img')->store('public/children');
-            $child->img = basename($imagePath);
+            $imagePath = $request->file('img')->store('children', 's3');
+            $child->img = Storage::disk('s3')->url($imagePath);
         }
 
         $child->status = 'pending'; // 保留状態で登録
@@ -123,16 +123,16 @@ class ChildController extends Controller
         // 画像の更新処理
         if ($request->hasFile('img')) {
             // 古い画像を削除
-            if ($child->img && Storage::exists('public/children/' . $child->img)) {
-                Storage::delete('public/children/' . $child->img);
+            if ($child->img) {
+                $existingPath = str_replace(Storage::disk('s3')->url(''), '', $child->img);
+                Storage::disk('s3')->delete($existingPath);
             }
+            
+            $imagePath = $request->file('img')->store('children', 's3');
 
-            // 新しい画像を保存
-            $imagePath = $request->file('img')->store('public/children');
-            $child->img = basename($imagePath);
+            $child->img = Storage::disk('s3')->url($imagePath);
             $child->save();
         }
-
         return redirect()->route('children.show')->with('success', '編集リクエストを送信しました。管理者の承認をお待ちください。');
     }
 }

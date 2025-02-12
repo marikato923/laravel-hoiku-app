@@ -79,10 +79,11 @@ class ChildController extends Controller
             $child = Child::create($validated);
     
             if ($request->hasFile('img')) {
-                $imagePath = $request->file('img')->store('public/children');
-                $child->img = basename($imagePath);
+                $imagePath = $request->file('img')->store('children', 's3');
+                $child->img = Storage::disk('s3')->url($imagePath);
                 $child->save();
             }
+
             session()->flash('success', '新しい園児の情報を登録しました。');
         } catch (\Exception $e) {
             session()->flash('error', '登録中にエラーが発生しました。' . $e->getMessage());
@@ -152,6 +153,7 @@ class ChildController extends Controller
             'last_kana_name' => 'required|string|max:255',
             'first_kana_name' => 'required|string|max:255',
             'birthdate' => 'required|date',
+            'admission_date' => 'required|date',
             'medical_history' => 'nullable|string',
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
@@ -160,18 +162,18 @@ class ChildController extends Controller
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
         ]);
             
-        
         // 更新処理
         $child->update($validated);
         
         // 画像処理（オプション）
         if ($request->hasFile('img')) {
-            if ($child->img && Storage::exists('public/children/' . $child->img)) {
-                Storage::delete('public/children/' . $child->img);
+            if ($child->img) {
+                $existingPath = str_replace(Storage::disk('s3')->url(''), '', $child->img);
+                Storage::disk('s3')->delete($existingPath);
             }
         
-            $imagePath = $request->file('img')->store('public/children');
-            $child->img = basename($imagePath);
+            $imagePath = $request->file('img')->store('children', 's3');
+            $child->img = Storage::disk('s3')->url($imagePath);
             $child->save();
         }
         

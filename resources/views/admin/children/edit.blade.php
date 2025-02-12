@@ -72,7 +72,7 @@
                                 <div class="img-wrapper-edit d-flex justify-content-center">
                                     @if ($child->img)
                                         <div class="mb-3">
-                                            <img src="{{ asset('storage/children/' . $child->img) }}" alt="お子様の画像" class="child-img-edit">
+                                            <img src="{{ $child->img }}" alt="園児の画像" class="child-img-edit">
                                         </div>
                                     @endif
                                 </div>
