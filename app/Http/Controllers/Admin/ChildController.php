@@ -37,7 +37,7 @@ class ChildController extends Controller
             })
             ->orderBy('last_kana_name', 'asc')
             ->orderBy('first_kana_name', 'asc')
-            ->paginate(10);
+            ->paginate(8);
     
         $classrooms = Classroom::all();
     

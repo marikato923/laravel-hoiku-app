@@ -13,17 +13,23 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         $date = $request->date ?? now()->toDateString();
-        $classroomId = $request->classroom_id ?? Classroom::first()->id;
+        $classroomId = $request->classroom_id ?? null; // クラスIDを取得、未分類（null）の場合を考慮
         $classrooms = Classroom::all();
         
         // 検索キーワードを取得
         $keyword = $request->keyword ?? ''; 
     
-        // 選択されたクラスに属する園児を取得（苗字の50音順でソート）
-        $childrenQuery = Child::where('classroom_id', $classroomId)
+        // 園児の取得クエリ
+        $childrenQuery = Child::query()
+            ->when(!empty($classroomId), function ($query) use ($classroomId) {
+                return $query->where('classroom_id', $classroomId);
+            })
+            ->when($classroomId === "", function ($query) { // クラス未分類（NULL）の園児を取得
+                return $query->whereNull('classroom_id');
+            })
             ->orderBy('last_name', 'asc');
     
-        // 検索キーワードがある場合、氏名またはフリガナでフィルタリング
+        // 氏名・フリガナで検索
         if (!empty($keyword)) {
             $childrenQuery->where(function ($query) use ($keyword) {
                 $query->where('last_name', 'like', "%$keyword%")
@@ -35,11 +41,15 @@ class AttendanceController extends Controller
     
         $children = $childrenQuery->get();
     
-        // 出席記録を取得
+        // 出席記録を取得（クラス未分類も含む）
         $attendances = Attendance::with('child')
             ->whereDate('created_at', $date)
             ->whereHas('child', function ($query) use ($classroomId) {
-                $query->where('classroom_id', $classroomId);
+                if (!empty($classroomId)) {
+                    $query->where('classroom_id', $classroomId);
+                } elseif ($classroomId === "") {
+                    $query->whereNull('classroom_id');
+                }
             })
             ->get()
             ->groupBy('child_id');
@@ -60,7 +70,7 @@ class AttendanceController extends Controller
         }
     
         return view('admin.attendance.index', compact('groupedAttendances', 'classrooms', 'classroomId', 'date', 'keyword'));
-    }    
+    }
     
     public function show($childId, Request $request)
     {

@@ -28,12 +28,13 @@
                     <div class="col-md-4 mb-3 d-flex flex-column">
                         <label for="classroom_id" class="font-weight-bold">クラス:</label>
                         <select name="classroom_id" id="classroom_id" class="form-control attendance-form-control">
+                            <option value="" {{ ($classroomId === null || $classroomId === "") ? 'selected' : '' }}>未分類</option>
                             @foreach ($classrooms as $classroom)
                                 <option value="{{ $classroom->id }}" {{ $classroom->id == $classroomId ? 'selected' : '' }}>
                                     {{ $classroom->name }}
                                 </option>
                             @endforeach
-                        </select>
+                        </select>                        
                     </div>
                 
                     {{-- 日付選択 --}}
