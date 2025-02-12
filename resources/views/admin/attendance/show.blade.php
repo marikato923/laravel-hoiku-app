@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-        <div class="container py-3" style="max-width: 900px; margin: 0 auto;">
+        <div class="container py-3 mb-5" style="max-width: 900px; margin: 0 auto;">
             {{-- ページタイトル --}}
             <h1 class="mb-5 text-center" style="text-align: center; width: 100%;"><span style="font-size: 0.8em;">出席状況 :</span> {{ $child->last_name }} {{ $child->first_name }}</h1>
 
@@ -90,4 +90,5 @@
                 </tbody>
             </table>
         </div>
+        <div></div>
 @endsection

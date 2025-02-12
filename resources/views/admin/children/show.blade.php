@@ -35,16 +35,18 @@
                 <ul class="list-unstyled mx-auto" style="max-width: 500px;">
                     <li class="mb-3"><strong>氏名:</strong> {{ $child->last_name }} {{ $child->first_name }}</li>
                     <li class="mb-3"><strong>フリガナ:</strong> {{ $child->last_kana_name }} {{ $child->first_kana_name }}</li>
+                    <li class="mb-3"><strong>クラス:</strong> {{ optional($child->classroom)->name ?? '未登録' }}</li>
                     <li class="mb-3"><strong>生年月日:</strong> {{ $child->birthdate }}</li>
+                    <li class="mb-3"><strong>入園日:</strong> {{ $child->admission_date }}</li>
                     <li class="mb-3"><strong>既往歴:</strong> {{ $child->medical_history ?: 'なし' }}</li>
                     <li class="mb-3"><strong>アレルギー:</strong> {{ $child->has_allergy ? 'あり (' . $child->allergy_type . ')' : 'なし' }}</li>
                     <li class="mb-3"><strong>ステータス:</strong>
                         @if ($child->status === 'approved')
-                            <span class="badge bg-success">承認済み</span>
+                            <span class="badge bg-done">承認済み</span>
                         @elseif ($child->status === 'pending')
-                            <span class="badge bg-warning">承認待ち</span>
+                            <span class="badge bg-waiting">承認待ち</span>
                         @else
-                            <span class="badge bg-danger">却下</span>
+                            <span class="badge bg-delete">却下</span>
                         @endif
                     </li>
                     <li class="mb-3"><strong>保護者:</strong>
@@ -101,8 +103,22 @@
 
 <style>
 .radio-label input[type="radio"] {
-    accent-color: rgb(255, 175, 175);
+    accent-color: rgb(255, 175, 175) !important;
+}
+
+.bg-done {
+    color: white !important;
+    background-color: rgb(100, 150, 255) !important;
+}
+
+.bg-waiting {
+    color: white !important;
+    background-color: rgb(255, 175, 175) !important;
+}
+
+.bg-delete {
+    color: white !important;
+    background-color: rgb(200, 100, 100) !important;
 }
 </style>
-
 @endsection

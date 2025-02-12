@@ -43,7 +43,7 @@
     </div>
 
     {{-- クラスごとの詳細 --}}
-    <h5 class="mb-3 pt-4">出席状況</h5>
+    <h5 class="mb-3 pt-4">クラス別の出席状況</h5>
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead class="table-light">

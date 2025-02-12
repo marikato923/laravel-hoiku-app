@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-        <div class="col container">
+        <div class="col container mb-5">
             <div class="row justify-content-center">
                 <div class="col-xl-7 col-lg-8 col-md-9">
                     <h1 class="mb-4 text-center">利用規約</h1>

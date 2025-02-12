@@ -18,7 +18,15 @@
 
                         <h2 class="text-center mb-4">園児の新規登録</h2>
                         <hr class="mb-4">
-
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{ route('admin.children.store') }}" method="POST" enctype="multipart/form-data" style="max-width: 600px; margin: 0 auto;">
                             @csrf
 

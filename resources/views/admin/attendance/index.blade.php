@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-        <div class="container py-2">
+        <div class="container py-2 mb-5">
             {{-- 選択された日付をフォーマットして表示 --}}
         @php
             use Carbon\Carbon;

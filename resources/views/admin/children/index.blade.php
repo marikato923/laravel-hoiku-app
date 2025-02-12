@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-        <div class="container py-1" style="max-width: 900px; margin: 0 auto;">
+        <div class="container py-1 mb-5" style="max-width: 900px; margin: 0 auto;">
                 {{-- 上部のタイトル --}}
                 <div class="text-center mb-4">
                     <h1 class="mb-3" style="font-weight: normal;">園児一覧</h1>
@@ -29,7 +29,7 @@
                             <div class="w-100">
                                 <label for="classroomSelect" class="form-label">クラス :</label>
                                 <select id="classroomSelect" name="classroom_id" class="form-select w-100" onchange="this.form.submit()">
-                                    <option value="" {{ $classroomId === null ? 'selected' : '' }}>未分類</option>
+                                    <option value="" {{ ($classroomId === null || $classroomId === "")? 'selected' : '' }}>未分類</option>
                                     @foreach ($classrooms as $classroom)
                                         <option value="{{ $classroom->id }}" {{ $classroomId == $classroom->id ? 'selected' : '' }}>
                                             {{ $classroom->name }}
