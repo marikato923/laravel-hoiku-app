@@ -106,3 +106,8 @@ Route::get('/debug-cloudinary', function () {
     dd(config('cloudinary.cloud_url'));
 });
 
+Route::get('/debug-cloudinary-env', function () {
+    dd(env('CLOUDINARY_URL'));
+});
+
+
