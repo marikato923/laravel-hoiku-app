@@ -15,7 +15,7 @@
     <hr class="mb-4">
 
     @if ($terms)
-        {!! nl2br(e($terms->content)) !!}
+        <pre>{{ $terms->content }}</pre>
     @else
         <div class="alert alert-info text-center">
             <p>現在、利用規約は登録されていません。</p>

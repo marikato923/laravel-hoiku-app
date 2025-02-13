@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="container mb-4">
-                        {!! nl2br(e($term->content)) !!}
+                        <pre>{{ $term->content }}</pre>
                     </div>
                 </div>
             </div>
