@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="container mb-4">
-                        {!! $term->content !!}
+                        {!! nl2br(e($terms->content)) !!}
                     </div>
                 </div>
             </div>
