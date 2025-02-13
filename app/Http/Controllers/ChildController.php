@@ -56,9 +56,13 @@ class ChildController extends Controller
         // 画像処理
         if ($request->hasFile('img')) {
             $imagePath = $request->file('img')->store('children', 's3'); 
+        
+            // デバッグ用に変数の中身を表示して処理を停止
+            dd($imagePath); // ここでアップロードされたパスを確認する
+        
             $child->img = env('AWS_URL') . '/' . $imagePath; 
             $child->save();
-        }
+        }        
 
         $child->status = 'pending'; 
         $child->save();
