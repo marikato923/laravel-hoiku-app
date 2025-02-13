@@ -76,19 +76,41 @@ class ChildController extends Controller
         ]);
 
         try {
+            \Log::info('Child create処理を開始');
+        
             $child = Child::create($validated);
-    
+            \Log::info('Child create成功: ', ['child_id' => $child->id]);
+        
             if ($request->hasFile('img')) {
-                $imagePath = $request->file('img')->store('children', 's3'); 
-                $child->img = env('AWS_URL') . '/' . $imagePath; 
+                \Log::info('画像のアップロード開始');
+        
+                // 画像が有効かどうか確認
+                if (!$request->file('img')->isValid()) {
+                    \Log::error('アップロードされた画像が無効');
+                    return back()->with('error', 'アップロードされた画像が無効です。');
+                }
+        
+                // S3にアップロード
+                $imagePath = $request->file('img')->store('children', 's3');
+        
+                // アップロードされたパスをデバッグ
+                \Log::info('S3に保存されたパス: ' . $imagePath);
+                dd($imagePath); // ここで画像パスが取得できるか確認
+        
+                // フルURLを保存
+                $child->img = env('AWS_URL') . '/' . $imagePath;
                 $child->save();
+                \Log::info('画像URLをデータベースに保存: ' . $child->img);
+            } else {
+                \Log::warning('ファイルがアップロードされていません');
             }
-
+        
             session()->flash('success', '新しい園児の情報を登録しました。');
         } catch (\Exception $e) {
+            \Log::error('登録中にエラーが発生しました: ' . $e->getMessage());
             session()->flash('error', '登録中にエラーが発生しました。' . $e->getMessage());
         }
-    
+        
         return redirect()->route('admin.children.index');
     }
 
