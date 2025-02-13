@@ -101,3 +101,8 @@ Route::get('/system/send-reminders', function () {
     Artisan::call('schedule:run');
     return response()->json(['message' => 'スケジュールタスクを実行しました'], 200);
 });
+
+Route::get('/debug-cloudinary', function () {
+    dd(config('cloudinary.cloud_url'));
+});
+
