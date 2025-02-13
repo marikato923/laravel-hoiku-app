@@ -142,14 +142,10 @@ class ChildController extends Controller
     }
         
         
-    public function update(Request $request, Child $child)
-    {
-        $this->authorize('update', $child);
-    
-        if ($child->user_id !== auth()->id()) {
-            abort(403, '不正なアクセスです。');
-        }
-    
+   public function update(Request $request, $id)
+    { 
+        $child = Child::findOrFail($id);
+        
         // バリデーション
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
@@ -157,27 +153,18 @@ class ChildController extends Controller
             'last_kana_name' => 'required|string|max:255',
             'first_kana_name' => 'required|string|max:255',
             'birthdate' => 'required|date',
-            'admission_date' => 'nullable|date',
+            'admission_date' => 'required|date',
             'medical_history' => 'nullable|string',
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
+            'classroom_id' => 'nullable|exists:classrooms,id',
+            'user_id' => 'required|exists:users,id',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
         ]);
-    
+            
         // 更新処理
-        $child->update([
-            'last_name' => $validated['last_name'],
-            'first_name' => $validated['first_name'],
-            'last_kana_name' => $validated['last_kana_name'],
-            'first_kana_name' => $validated['first_kana_name'],
-            'birthdate' => $validated['birthdate'],
-            'admission_date' => $validated['admission_date'],
-            'medical_history' => $validated['medical_history'],
-            'has_allergy' => $validated['has_allergy'],
-            'allergy_type' => $validated['allergy_type'],
-            'status' => 'pending',
-        ]);
-    
+        $child->update($validated);
+        
         // 画像の更新処理
         if ($request->hasFile('img')) {
             if ($child->img) {
@@ -189,8 +176,9 @@ class ChildController extends Controller
             $imagePath = $request->file('img')->store('children', 's3');
             $child->update(['img' => Storage::disk('s3')->url($imagePath)]);
         }
-    
-        return redirect()->route('children.show')->with('success', '編集リクエストを送信しました。管理者の承認をお待ちください。');
-    }    
+        
+        session()->flash('success', '園児の情報を更新しました。');
+        return redirect()->route('admin.children.show', $child->id);
+    }
 }
 
