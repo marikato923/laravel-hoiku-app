@@ -110,4 +110,13 @@ Route::get('/debug-cloudinary-env', function () {
     dd(env('CLOUDINARY_URL'));
 });
 
+Route::get('/debug-cloudinary-full', function () {
+    return response()->json([
+        'CLOUDINARY_URL' => env('CLOUDINARY_URL'),
+        'cloudinary_config' => config('filesystems.disks.cloudinary'),
+        'FILESYSTEM_DISK' => env('FILESYSTEM_DISK'),
+    ]);
+});
+
+
 

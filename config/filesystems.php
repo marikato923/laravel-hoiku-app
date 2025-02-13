@@ -59,7 +59,7 @@ return [
 
         'cloudinary' => [
             'driver' => 'cloudinary',
-            'cloud_url' => env('CLOUDINARY_URL', 'default_value'),
+            'cloud_url' => env('CLOUDINARY_URL', 'cloudinary://dummy:dummy@dummy'),
             'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
             'api_key' => env('CLOUDINARY_API_KEY'),
             'api_secret' => env('CLOUDINARY_API_SECRET'),
