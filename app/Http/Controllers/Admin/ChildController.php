@@ -75,28 +75,29 @@ class ChildController extends Controller
             'user_id' => 'required|exists:users,id',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
         ]);
-    
+
         try {
             $child = Child::create($validated);
-    
+
             if ($request->hasFile('img')) {
-                try {
-                    $uploadedFileUrl = Cloudinary::upload($request->file('img')->getRealPath())->getSecurePath();
-                    dd($uploadedFileUrl); // CloudinaryのURLが正しく取得できるか確認
-                    $child->update(['img' => $uploadedFileUrl]);
-                } catch (\Exception $e) {
-                    dd($e->getMessage()); // エラーメッセージを確認
+                $uploadedFile = Cloudinary::upload($request->file('img')->getRealPath());
+                $uploadedFileUrl = $uploadedFile->getSecurePath(); 
+
+                if ($uploadedFileUrl) {
+                    $child->img = $uploadedFileUrl;
+                    $child->save();
+                } else {
+                    session()->flash('error', '画像のアップロードに失敗しました。');
                 }
             }
-    
+
             session()->flash('success', '新しい園児の情報を登録しました。');
         } catch (\Exception $e) {
-            session()->flash('error', '登録中にエラーが発生しました。' . $e->getMessage());
+            session()->flash('error', '登録中にエラーが発生しました: ' . $e->getMessage());
         }
-    
+
         return redirect()->route('admin.children.index');
     }
-    
 
     // 保護者からの編集リクエストを承認
     public function approve($id)
@@ -146,8 +147,7 @@ class ChildController extends Controller
         
         return view('admin.children.edit', compact('child', 'users', 'classrooms'));
     }
-        
-        
+               
     public function update(Request $request, $id)
     { 
         $child = Child::findOrFail($id);
@@ -167,21 +167,38 @@ class ChildController extends Controller
             'user_id' => 'required|exists:users,id',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
         ]);
-            
-        // 園児情報の更新
-        $child->update($validated);
-        
-        // 画像の更新処理
-        if ($request->hasFile('img')) {
-            if ($child->img) {
-                Cloudinary::destroy(basename(parse_url($child->img, PHP_URL_PATH))); // 既存の画像を削除
+
+        try {
+            // 園児情報の更新
+            $child->update($validated);
+
+            // 画像の更新処理
+            if ($request->hasFile('img')) {
+                // 既存の画像があれば削除
+                if (!empty($child->img)) {
+                    try {
+                        Cloudinary::destroy(basename(parse_url($child->img, PHP_URL_PATH)));
+                    } catch (\Exception $e) {
+                        session()->flash('warning', '古い画像の削除に失敗しました: ' . $e->getMessage());
+                    }
+                }
+
+                // 新しい画像をアップロード
+                $uploadedFile = Cloudinary::upload($request->file('img')->getRealPath());
+                $uploadedFileUrl = $uploadedFile->getSecurePath();
+
+                if ($uploadedFileUrl) {
+                    $child->update(['img' => $uploadedFileUrl]);
+                } else {
+                    session()->flash('error', '新しい画像のアップロードに失敗しました。');
+                }
             }
-    
-            $uploadedFileUrl = Cloudinary::upload($request->file('img')->getRealPath())->getSecurePath();
-            $child->update(['img' => $uploadedFileUrl]);
+
+            session()->flash('success', '園児の情報を更新しました。');
+        } catch (\Exception $e) {
+            session()->flash('error', '更新中にエラーが発生しました: ' . $e->getMessage());
         }
-        
-        session()->flash('success', '園児の情報を更新しました。');
+
         return redirect()->route('admin.children.show', $child->id);
     }
 }
