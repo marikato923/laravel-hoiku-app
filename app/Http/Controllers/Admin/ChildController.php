@@ -142,10 +142,14 @@ class ChildController extends Controller
     }
         
         
-    public function update(Request $request, $id)
+    public function update(Request $request, Child $child)
     {
-        $child = Child::findOrFail($id);
-        
+        $this->authorize('update', $child);
+    
+        if ($child->user_id !== auth()->id()) {
+            abort(403, '不正なアクセスです。');
+        }
+    
         // バリデーション
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
@@ -153,32 +157,40 @@ class ChildController extends Controller
             'last_kana_name' => 'required|string|max:255',
             'first_kana_name' => 'required|string|max:255',
             'birthdate' => 'required|date',
-            'admission_date' => 'required|date',
+            'admission_date' => 'nullable|date',
             'medical_history' => 'nullable|string',
             'has_allergy' => 'required|boolean',
             'allergy_type' => 'nullable|string',
-            'classroom_id' => 'nullable|exists:classrooms,id',
-            'user_id' => 'required|exists:users,id',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
         ]);
-            
+    
         // 更新処理
-        $child->update($validated);
-        
-        // 画像処理（オプション）
+        $child->update([
+            'last_name' => $validated['last_name'],
+            'first_name' => $validated['first_name'],
+            'last_kana_name' => $validated['last_kana_name'],
+            'first_kana_name' => $validated['first_kana_name'],
+            'birthdate' => $validated['birthdate'],
+            'admission_date' => $validated['admission_date'],
+            'medical_history' => $validated['medical_history'],
+            'has_allergy' => $validated['has_allergy'],
+            'allergy_type' => $validated['allergy_type'],
+            'status' => 'pending',
+        ]);
+    
+        // 画像の更新処理
         if ($request->hasFile('img')) {
             if ($child->img) {
-                $existingPath = str_replace(Storage::disk('s3')->url(''), '', $child->img);
+                $existingPath = parse_url($child->img, PHP_URL_PATH);
+                $existingPath = ltrim($existingPath, '/');
                 Storage::disk('s3')->delete($existingPath);
             }
-        
+    
             $imagePath = $request->file('img')->store('children', 's3');
-            $child->img = Storage::disk('s3')->url($imagePath);
-            $child->save();
+            $child->update(['img' => Storage::disk('s3')->url($imagePath)]);
         }
-        
-        session()->flash('success', '園児の情報を更新しました。');
-        return redirect()->route('admin.children.show', $child->id);
-    }
+    
+        return redirect()->route('children.show')->with('success', '編集リクエストを送信しました。管理者の承認をお待ちください。');
+    }    
 }
 
