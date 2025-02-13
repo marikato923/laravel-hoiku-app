@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.2",
         "aws/aws-sdk-php": "^3.339",
-        "cloudinary-labs/cloudinary-laravel": "^2.2",
         "fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
         "ladumor/one-signal": "^2.0",

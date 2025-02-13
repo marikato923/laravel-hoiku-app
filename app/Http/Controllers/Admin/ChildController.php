@@ -80,9 +80,13 @@ class ChildController extends Controller
             $child = Child::create($validated);
     
             if ($request->hasFile('img')) {
-                $uploadedFileUrl = Cloudinary::upload($request->file('img')->getRealPath())->getSecurePath();
-                $child->img = $uploadedFileUrl;
-                $child->save();
+                try {
+                    $uploadedFileUrl = Cloudinary::upload($request->file('img')->getRealPath())->getSecurePath();
+                    dd($uploadedFileUrl); // CloudinaryのURLが正しく取得できるか確認
+                    $child->update(['img' => $uploadedFileUrl]);
+                } catch (\Exception $e) {
+                    dd($e->getMessage()); // エラーメッセージを確認
+                }
             }
     
             session()->flash('success', '新しい園児の情報を登録しました。');

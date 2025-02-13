@@ -118,5 +118,13 @@ Route::get('/debug-cloudinary-full', function () {
     ]);
 });
 
+Route::get('/debug-cloudinary-final', function () {
+    return response()->json([
+        'CLOUDINARY_URL' => env('CLOUDINARY_URL'),
+        'config_cloudinary' => config('cloudinary.cloud_url'),
+    ]);
+});
+
+
 
 
