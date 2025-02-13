@@ -10,6 +10,18 @@
 @endsection
 
 @section('content')
+@if(session('attendance_count'))
+    <div id="flashMessage" class="alert alert-success text-center" style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1050;">
+        🎉 今月の出席日数: {{ session('attendance_count') }}日！
+    </div>
+
+    <script>
+    setTimeout(function () {
+        document.getElementById('flashMessage').style.display = 'none';
+    }, 3000);
+    </script>
+@endif
+
 <div class="container">
     {{-- 見出しと年度・月の選択フォーム --}}
     <div class="mb-4">
@@ -44,7 +56,7 @@
         <ul class="nav nav-tabs mb-4" id="siblingsTab" role="tablist" style="font-size: 1.2rem;">
             @foreach ($siblings as $index => $sibling)
                 @php
-                    $themeColor = optional($sibling->classroom)->theme_color ?? '#e0e0e0'; // クラスのテーマカラー（デフォルト: 淡い色）
+                    $themeColor = optional($sibling->classroom)->theme_color ?? '#e0e0e0'; // クラスのテーマカラー
                 @endphp
                 <li class="nav-item me-3">
                     <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
@@ -100,7 +112,7 @@
                         <a href="?year={{ $prevMonth->year }}&month={{ $prevMonth->month }}">
                             <span class="material-icons">chevron_left</span>
                         </a>
-                        <h4 class="mb-0">{{ $year }}年{{ sprintf('%02d', $month) }}月</h4>
+                        <h5 class="mb-0">{{ $year }}年{{ sprintf('%02d', $month) }}月</h5>
                         <a href="?year={{ $nextMonth->year }}&month={{ $nextMonth->month }}">
                             <span class="material-icons">chevron_right</span>
                         </a>
