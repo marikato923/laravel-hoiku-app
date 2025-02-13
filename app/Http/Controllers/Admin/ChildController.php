@@ -79,8 +79,8 @@ class ChildController extends Controller
             $child = Child::create($validated);
     
             if ($request->hasFile('img')) {
-                $imagePath = $request->file('img')->store('children', 's3');
-                $child->img = Storage::disk('s3')->url($imagePath);
+                $imagePath = $request->file('img')->store('children', 's3'); 
+                $child->img = env('AWS_URL') . '/' . $imagePath; 
                 $child->save();
             }
 

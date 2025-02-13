@@ -51,15 +51,16 @@ class ChildController extends Controller
         ]);
 
         $child = new Child($validated);
-        $child->user_id = auth()->id(); // ログインユーザーを紐付け
+        $child->user_id = auth()->id(); 
 
         // 画像処理
         if ($request->hasFile('img')) {
-            $imagePath = $request->file('img')->store('children', 's3');
-            $child->img = Storage::disk('s3')->url($imagePath);
+            $imagePath = $request->file('img')->store('children', 's3'); 
+            $child->img = env('AWS_URL') . '/' . $imagePath; 
+            $child->save();
         }
 
-        $child->status = 'pending'; // 保留状態で登録
+        $child->status = 'pending'; 
         $child->save();
 
         return redirect()->route('children.show')->with('success', 'お子様の情報を登録しました。管理者の承認をお待ちください。');
