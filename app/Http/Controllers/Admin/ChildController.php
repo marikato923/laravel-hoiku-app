@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log; 
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ChildController extends Controller
 {
@@ -75,46 +75,24 @@ class ChildController extends Controller
             'user_id' => 'required|exists:users,id',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
         ]);
-
+    
         try {
-            \Log::info('Child create処理を開始');
-        
             $child = Child::create($validated);
-            \Log::info('Child create成功: ', ['child_id' => $child->id]);
-        
+    
             if ($request->hasFile('img')) {
-                \Log::info('画像のアップロード開始');
-        
-                if (!$request->file('img')->isValid()) {
-                    \Log::error('アップロードされた画像が無効');
-                    return back()->with('error', 'アップロードされた画像が無効です。');
-                }
-        
-                // S3に画像をアップロード
-                $imagePath = $request->file('img')->store('children', 's3');
-        
-                // デバッグ用ログ
-                \Log::info('S3に保存されたパス: ' . $imagePath);
-                dd($imagePath); // ここで画像パスが取得できるか確認
-        
-                // 画像のフルURLを保存
-                $child->img = env('AWS_URL') . '/' . $imagePath;
+                $uploadedFileUrl = Cloudinary::upload($request->file('img')->getRealPath())->getSecurePath();
+                $child->img = $uploadedFileUrl;
                 $child->save();
-                \Log::info('画像URLをデータベースに保存: ' . $child->img);
-            } else {
-                \Log::warning('ファイルがアップロードされていません');
             }
-        
+    
             session()->flash('success', '新しい園児の情報を登録しました。');
         } catch (\Exception $e) {
-            \Log::error('登録中にエラーが発生しました: ' . $e->getMessage());
-        
-            // **エラーメッセージを表示**
-            return back()->with('error', '登録中にエラーが発生しました。エラー内容: ' . $e->getMessage());
-        }        
-        
+            session()->flash('error', '登録中にエラーが発生しました。' . $e->getMessage());
+        }
+    
         return redirect()->route('admin.children.index');
     }
+    
 
     // 保護者からの編集リクエストを承認
     public function approve($id)
@@ -166,7 +144,7 @@ class ChildController extends Controller
     }
         
         
-   public function update(Request $request, $id)
+    public function update(Request $request, $id)
     { 
         $child = Child::findOrFail($id);
         
@@ -186,19 +164,17 @@ class ChildController extends Controller
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
         ]);
             
-        // 更新処理
+        // 園児情報の更新
         $child->update($validated);
         
         // 画像の更新処理
         if ($request->hasFile('img')) {
             if ($child->img) {
-                $existingPath = parse_url($child->img, PHP_URL_PATH);
-                $existingPath = ltrim($existingPath, '/');
-                Storage::disk('s3')->delete($existingPath);
+                Cloudinary::destroy(basename(parse_url($child->img, PHP_URL_PATH))); // 既存の画像を削除
             }
     
-            $imagePath = $request->file('img')->store('children', 's3');
-            $child->update(['img' => Storage::disk('s3')->url($imagePath)]);
+            $uploadedFileUrl = Cloudinary::upload($request->file('img')->getRealPath())->getSecurePath();
+            $child->update(['img' => $uploadedFileUrl]);
         }
         
         session()->flash('success', '園児の情報を更新しました。');

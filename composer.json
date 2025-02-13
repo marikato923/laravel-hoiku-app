@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "nesbot/carbon": "^2.67",
         "aws/aws-sdk-php": "^3.339",
+        "cloudinary-labs/cloudinary-laravel": "^2.2",
         "fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
         "ladumor/one-signal": "^2.0",
@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.8",
         "league/flysystem-aws-s3-v3": "^3.29",
         "minishlink/web-push": "^9.0",
+        "nesbot/carbon": "^2.67",
         "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {

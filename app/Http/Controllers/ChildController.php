@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ChildController extends Controller
 {
@@ -31,11 +32,10 @@ class ChildController extends Controller
         return view('children.create');
     }
 
-    // 新規登録処理
     public function store(Request $request)
     {
         $this->authorize('create', Child::class); // ポリシーを適用
-
+    
         // バリデーション
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
@@ -49,24 +49,19 @@ class ChildController extends Controller
             'allergy_type' => 'nullable|string',
             'img' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
         ]);
-
+    
         $child = new Child($validated);
         $child->user_id = auth()->id(); 
-
+    
         // 画像処理
         if ($request->hasFile('img')) {
-            $imagePath = $request->file('img')->store('children', 's3'); 
-        
-            // デバッグ用に変数の中身を表示して処理を停止
-            dd($imagePath); // ここでアップロードされたパスを確認する
-        
-            $child->img = env('AWS_URL') . '/' . $imagePath; 
-            $child->save();
+            $uploadedFileUrl = Cloudinary::upload($request->file('img')->getRealPath())->getSecurePath();
+            $child->img = $uploadedFileUrl;
         }        
-
+    
         $child->status = 'pending'; 
         $child->save();
-
+    
         return redirect()->route('children.show')->with('success', 'お子様の情報を登録しました。管理者の承認をお待ちください。');
     }
 
@@ -127,15 +122,13 @@ class ChildController extends Controller
         // 画像の更新処理
         if ($request->hasFile('img')) {
             if ($child->img) {
-                $existingPath = parse_url($child->img, PHP_URL_PATH);
-                $existingPath = ltrim($existingPath, '/');
-                Storage::disk('s3')->delete($existingPath);
+                Cloudinary::destroy(basename(parse_url($child->img, PHP_URL_PATH))); // 既存の画像を削除
             }
     
-            $imagePath = $request->file('img')->store('children', 's3');
-            $child->update(['img' => Storage::disk('s3')->url($imagePath)]);
+            $uploadedFileUrl = Cloudinary::upload($request->file('img')->getRealPath())->getSecurePath();
+            $child->update(['img' => $uploadedFileUrl]);
         }
     
         return redirect()->route('children.show')->with('success', '編集リクエストを送信しました。管理者の承認をお待ちください。');
-    }    
+    }  
 }
