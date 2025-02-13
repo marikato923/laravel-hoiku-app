@@ -23,11 +23,11 @@
                     @endphp
                     <a href="{{ route('admin.attendance.show', $child->id) }}">
                         <div class="child-img-wrapper" style="border-color:{{ $themeColor }}; width: 150px; height: 150px; display: inline-block;">
-                            @if($child->img)
-                                <img src="{{ $child->img }}" alt="子供の写真" class="child-img-index">
-                            @else
-                                <img src="{{ $child->img ?? env('DEFAULT_CHILD_IMAGE') }}" alt="子供の写真" class="child-img-index">
-                            @endif
+                            <img 
+                            src="{{ empty($child->img) ? env('DEFAULT_CHILD_IMAGE') : $child->img }}" 
+                            alt="子供の写真" 
+                            class="child-img-index"
+                        >                        
                         </div>
                     </a>
                 </div>
