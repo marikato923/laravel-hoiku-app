@@ -27,7 +27,7 @@ class ChildFactory extends Factory
             'user_id' => null, 
             'classroom_id' => null, 
             'status' => 'approved',
-            'img' => null,
+            'img' => ' ',
         ];
     }
 }
