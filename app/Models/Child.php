@@ -96,4 +96,9 @@ class Child extends Model
             $child->editRequests()->delete();
         });
     }
+
+    public function getImgAttribute($value)
+    {
+        return empty($value) ? env('DEFAULT_CHILD_IMAGE') : $value;
+    }
 }
