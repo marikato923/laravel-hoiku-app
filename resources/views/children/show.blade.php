@@ -53,13 +53,13 @@
                             @php
                                 $themeColor = optional($sibling->classroom)->theme_color ?? '#ccc'; // デフォルト色
                             @endphp
-                            <div class="child-show-img-wrapper" style="border-color:{{ $themeColor }};">
-                                @if($sibling->img)
-                                    <img src="{{ $sibling->img }}" alt="お子様の写真" class="child-img">
-                                @else
-                                    <img src="{{ env('DEFAULT_CHILD_IMAGE') }}" alt="デフォルトの写真" class="child-img img-fluid">
-                                @endif
-                            </div>
+                        <div class="child-show-img-wrapper" style="border-color:{{ $themeColor }};">
+                            @if(empty($sibling->img))
+                                <img src="{{ env('DEFAULT_CHILD_IMAGE') }}" alt="デフォルトの写真" class="child-img img-fluid">
+                            @else
+                                <img src="{{ $sibling->img }}" alt="お子様の写真" class="child-img">
+                            @endif
+                        </div>
                         </div>
                         <ul class="list-group list-group-flush no-border">
                             <li class="list-group-item no-border"><strong>氏名:</strong> {{ $sibling->last_name }} {{ $sibling->first_name }}</li>
