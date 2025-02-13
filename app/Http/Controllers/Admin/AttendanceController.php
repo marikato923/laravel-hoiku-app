@@ -43,7 +43,7 @@ class AttendanceController extends Controller
     
         // 出席記録を取得（クラス未分類も含む）
         $attendances = Attendance::with('child')
-            ->whereDate('arrival_time', $date)
+            ->whereDate('created_at', $date)
             ->whereHas('child', function ($query) use ($classroomId) {
                 if (!empty($classroomId)) {
                     $query->where('classroom_id', $classroomId);
@@ -81,7 +81,7 @@ class AttendanceController extends Controller
     
         // 出席情報を月ごとに取得し、登園時間と降園時間をセットでグループ化
         $monthlyAttendances = Attendance::where('child_id', $childId)
-            ->whereBetween('arrival_time', [
+            ->whereBetween('created_at', [
                 \Carbon\Carbon::parse($month . '-01')->startOfMonth(),
                 \Carbon\Carbon::parse($month . '-01')->endOfMonth(),
             ])

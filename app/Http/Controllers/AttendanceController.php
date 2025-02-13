@@ -111,9 +111,9 @@ class AttendanceController extends Controller
     
         $attendances = Attendance::with('child') // 出席情報に子供の情報を一緒に取得
             ->whereIn('child_id', $children->pluck('id'))  // ユーザーの子供のみの出席記録
-            ->whereMonth('arrival_time', $month)
-            ->whereYear('arrival_time', $year)
-            ->orderBy('arrival_time')
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('created_at')
             ->get();
     
         // 出席情報を子供IDと日付でグループ化
