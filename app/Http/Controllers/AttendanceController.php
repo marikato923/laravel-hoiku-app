@@ -105,7 +105,9 @@ class AttendanceController extends Controller
         $children = $user->children;
     
         // 兄弟リストを取得
-        $siblings = Child::where('user_id', $user->id)->get();
+        $siblings = Child::where('user_id', $user->id)
+            ->orderBy('birthdate')
+            ->get();
     
         $attendances = Attendance::with('child') // 出席情報に子供の情報を一緒に取得
             ->whereIn('child_id', $children->pluck('id'))  // ユーザーの子供のみの出席記録

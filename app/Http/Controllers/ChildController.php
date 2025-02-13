@@ -20,6 +20,7 @@ class ChildController extends Controller
         // ログインユーザーの子供情報を取得
         $siblings = Child::with(['classroom', 'user'])
             ->where('user_id', $userId)
+            ->orderBy('birthdate')
             ->get();
 
         return view('children.show', compact('siblings'));
