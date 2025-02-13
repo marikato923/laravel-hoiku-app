@@ -71,7 +71,7 @@
                         <div class="img-wrapper-edit d-flex justify-content-center">
                             @if ($child->img)
                                 <div class="mb-3">
-                                    <img src="{{ $child->img }}" alt="お子様の画像" class="child-img-edit">
+                                    <img src="{{ $child->img ?? env('DEFAULT_CHILD_IMAGE') }}" alt="お子様の画像" class="child-img-edit">
                                 </div>
                             @endif
                         </div>
