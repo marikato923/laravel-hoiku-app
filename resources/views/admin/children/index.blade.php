@@ -66,26 +66,23 @@
                         </div>
                     </form>
                 </div>
-
                 {{-- 園児一覧 --}}
-                <div class="row justify-content-start">
+                <div class="row justify-content-center"> <!-- 左寄せから中央寄せへ -->
                     @forelse ($children as $child)
-                        <div class="col-md-3 mb-4 d-flex">
+                        <div class="col-md-3 col-sm-6 col-12 mb-4 d-flex justify-content-center"> <!-- 768px以下で2列, 576px以下で1列 -->
                             <div class="card text-center card-children-index">
-                                {{-- 画像 --}}
                                 @php
-                                    $themeColor = optional($child->classroom)->theme_color ?? '#ccc'; // クラスのテーマカラー（デフォルト：灰色）
+                                    $themeColor = optional($child->classroom)->theme_color ?? '#ccc';
                                 @endphp
-                                <a href="{{ route('admin.children.show', $child->id) }}" class="d-block text-start">
+                                <a href="{{ route('admin.children.show', $child->id) }}" class="d-block">
                                     <div class="child-img-wrapper" style="border-color: {{ $themeColor }};">
                                         <img 
-                                        src="{{ empty($child->img) ? env('DEFAULT_CHILD_IMAGE') : $child->img }}" 
-                                        alt="園児の画像" 
-                                        class="child-img-index"
-                                    >                                    
+                                            src="{{ empty($child->img) ? env('DEFAULT_CHILD_IMAGE') : $child->img }}" 
+                                            alt="園児の画像" 
+                                            class="child-img-index"
+                                        >                                    
                                     </div>
-                                </a>
-                                                    
+                                </a>                       
                                 {{-- 名前 --}}
                                 <div class="card-body">
                                     <p class="card-text mb-0">{{ $child->last_name }} {{ $child->first_name }}</p>
@@ -97,7 +94,7 @@
                             <p class="text-center text-muted">該当する園児がいません。</p>
                         </div>
                     @endforelse
-                </div>
+                </div>                
 
                 {{-- ページネーション --}}
                 <div class="d-flex justify-content-center kodomolog-pagination mt-2 mb-5">
