@@ -18,32 +18,41 @@ class ChildController extends Controller
         $classroomId = $request->input('classroom_id', null);
         $pendingOnly = $request->input('pending_only', false);
     
-        $children = Child::query()
-            ->when(!empty($classroomId), function ($query) use ($classroomId) {
-                return $query->where('classroom_id', $classroomId);
-            })
-            ->when(empty($classroomId), function ($query) {
-                return $query->whereNull('classroom_id');
-            })
-            ->when($keyword, function ($query, $keyword) {
-                return $query->where(function ($query) use ($keyword) {
-                    $query->where('last_name', 'like', "%{$keyword}%")
-                        ->orWhere('first_name', 'like', "%{$keyword}%")
-                        ->orWhere('last_kana_name', 'like', "%{$keyword}%")
-                        ->orWhere('first_kana_name', 'like', "%{$keyword}%");
-                });
-            })
-            ->when($pendingOnly, function ($query) {
-                return $query->where('status', 'pending');
-            })
+        $childrenQuery = Child::query();
+    
+        // 名前検索（全体検索）
+        if (!empty($keyword)) {
+            $childrenQuery->where(function ($query) use ($keyword) {
+                $query->where('last_name', 'like', "%{$keyword}%")
+                    ->orWhere('first_name', 'like', "%{$keyword}%")
+                    ->orWhere('last_kana_name', 'like', "%{$keyword}%")
+                    ->orWhere('first_kana_name', 'like', "%{$keyword}%");
+            });
+        }
+    
+        // クラスフィルタ（検索とは独立）
+        if ($classroomId !== null && $classroomId !== '') {
+            $childrenQuery->where('classroom_id', $classroomId);
+        } else {
+            $childrenQuery->whereNull('classroom_id');
+        }
+    
+        // 未承認フィルタ
+        if ($pendingOnly) {
+            $childrenQuery->where('status', 'pending');
+        }
+    
+        // ページネーション（リクエストパラメータを引き継ぐ）
+        $children = $childrenQuery
             ->orderBy('last_kana_name', 'asc')
             ->orderBy('first_kana_name', 'asc')
-            ->paginate(8);
+            ->paginate(8)
+            ->appends($request->query());
     
         $classrooms = Classroom::all();
     
-        return view('admin.children.index', compact('children', 'keyword', 'classroomId', 'classrooms'));
-    }    
+        return view('admin.children.index', compact('children', 'classrooms', 'classroomId', 'keyword'));
+    }      
                     
     public function show(Child $child)
     {
