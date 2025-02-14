@@ -47,7 +47,7 @@
                 </tbody>
             </table>
             {{--  ページネーション --}}
-            <div class="d-flex justify-content-center kodomolog-pagination mt-4">
+            <div class="d-flex justify-content-center kodomolog-pagination mt-4 mb-5">
                 <div class="pagination-container">
                     {{ $users->links() }}
                 </div>
