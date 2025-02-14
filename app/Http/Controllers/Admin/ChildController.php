@@ -18,7 +18,8 @@ class ChildController extends Controller
         $classroomId = $request->input('classroom_id', null);
         $pendingOnly = $request->input('pending_only', false);
     
-        $childrenQuery = Child::query();
+        $childrenQuery = Child::query()->leftJoin('classrooms', 'children.classroom_id', '=', 'classrooms.id')
+            ->select('children.*', 'classrooms.age_group');
     
         // 名前検索（全体検索）
         if (!empty($keyword)) {
@@ -32,12 +33,12 @@ class ChildController extends Controller
     
         // クラスフィルタ（検索とは独立）
         if ($classroomId === 'all') {
-            // 全園児を取得（フィルタなし）
+            // 全園児
         } elseif ($classroomId !== null && $classroomId !== '') {
-            // 特定のクラスの園児を取得
+            // クラスごと
             $childrenQuery->where('classroom_id', $classroomId);
         } else {
-            // 未分類の園児を取得
+            // 未分類
             $childrenQuery->whereNull('classroom_id');
         }
     
@@ -48,8 +49,8 @@ class ChildController extends Controller
     
         // 並び順の適用
         if ($classroomId === 'all') {
-            // 全園児の時は年齢順（昇順）＋五十音順
-            $childrenQuery->orderBy('birthdate', 'asc')
+            // 全園児の時は「年齢グループ順（昇順）→ 五十音順」
+            $childrenQuery->orderBy('classrooms.age_group', 'asc')
                           ->orderBy('last_kana_name', 'asc')
                           ->orderBy('first_kana_name', 'asc');
         } else {
@@ -58,13 +59,13 @@ class ChildController extends Controller
                           ->orderBy('first_kana_name', 'asc');
         }
     
-        // ページネーション（リクエストパラメータを引き継ぐ）
+        // ページネーション
         $children = $childrenQuery->paginate(8)->appends($request->query());
     
         $classrooms = Classroom::all();
     
         return view('admin.children.index', compact('children', 'classrooms', 'classroomId', 'keyword'));
-    }  
+    }     
                     
     public function show(Child $child)
     {
