@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-        <div class="admin-users-container">
+        <div class="admin-users-container mb-5">
             <h1 class="admin-users-title text-center mb-4">会員一覧</h1>
             {{--  検索フォーム --}}
             <form method="GET" action="{{ route('admin.users.index') }}" class="admin-users-search-form mt-3 mb-4">

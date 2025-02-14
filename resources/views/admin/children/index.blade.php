@@ -23,13 +23,13 @@
                             style="width: 500px; margin: 0 auto; position: relative;">
                             <div class="w-100 d-flex justify-content-end mb-2">
                                 <a href="{{ route('admin.children.create') }}" class="btn text-white register-btn">新規登録</a>
-                            </div>
-                            
+                            </div>  
                             {{-- クラス選択プルダウン --}}
                             <div class="w-100">
                                 <label for="classroomSelect" class="form-label">クラス :</label>
                                 <select id="classroomSelect" name="classroom_id" class="form-select w-100" onchange="this.form.submit()">
-                                    <option value="" {{ ($classroomId === null || $classroomId === "")? 'selected' : '' }}>未分類</option>
+                                    <option value="all" {{ ($classroomId === 'all') ? 'selected' : '' }}>全園児</option>
+                                    <option value="" {{ ($classroomId === null || $classroomId === "") ? 'selected' : '' }}>未分類</option>
                                     @foreach ($classrooms as $classroom)
                                         <option value="{{ $classroom->id }}" {{ $classroomId == $classroom->id ? 'selected' : '' }}>
                                             {{ $classroom->name }}
@@ -37,7 +37,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
                             {{-- 検索フォーム --}}
                             <div class="w-100">
                                 <div class="input-group w-100">
