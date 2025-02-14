@@ -249,14 +249,16 @@ form {
     list-style: none;
     padding: 0;
     margin: 0;
+    outline: none;
 }
 
 .kodomolog-pagination .pagination li {
     display: inline-block;
+    outline: none;
 }
 
 .kodomolog-pagination .pagination a {
-    color: rgb(200, 100, 100) !important; 
+    color: rgb(255, 175, 175)  !important; 
     outline: none !important; 
     text-decoration: none;
     padding: 5px 10px;
@@ -265,13 +267,13 @@ form {
 }
 
 .kodomolog-pagination .pagination a:hover {
-    background-color: rgb(255, 175, 175) !important;
+    background-color: rgb(255, 205, 205) !important;
     color: white !important;
     outline: none !important;
 }
 
 .kodomolog-pagination .pagination .active span {
-    background-color: rgb(200, 100, 100) !important;
+    background-color: rgb(255, 175, 175)  !important;
     color: white !important;
     outline: none !important;
     padding: 5px 10px;

@@ -31,9 +31,13 @@ class ChildController extends Controller
         }
     
         // クラスフィルタ（検索とは独立）
-        if ($classroomId !== null && $classroomId !== '') {
+        if ($classroomId === 'all') {
+            // 全園児を取得（フィルタなし）
+        } elseif ($classroomId !== null && $classroomId !== '') {
+            // 特定のクラスの園児を取得
             $childrenQuery->where('classroom_id', $classroomId);
         } else {
+            // 未分類の園児を取得
             $childrenQuery->whereNull('classroom_id');
         }
     
@@ -42,17 +46,25 @@ class ChildController extends Controller
             $childrenQuery->where('status', 'pending');
         }
     
+        // 並び順の適用
+        if ($classroomId === 'all') {
+            // 全園児の時は年齢順（昇順）＋五十音順
+            $childrenQuery->orderBy('birthday', 'asc')
+                          ->orderBy('last_kana_name', 'asc')
+                          ->orderBy('first_kana_name', 'asc');
+        } else {
+            // クラス指定 or 未分類のときは五十音順
+            $childrenQuery->orderBy('last_kana_name', 'asc')
+                          ->orderBy('first_kana_name', 'asc');
+        }
+    
         // ページネーション（リクエストパラメータを引き継ぐ）
-        $children = $childrenQuery
-            ->orderBy('last_kana_name', 'asc')
-            ->orderBy('first_kana_name', 'asc')
-            ->paginate(8)
-            ->appends($request->query());
+        $children = $childrenQuery->paginate(8)->appends($request->query());
     
         $classrooms = Classroom::all();
     
         return view('admin.children.index', compact('children', 'classrooms', 'classroomId', 'keyword'));
-    }      
+    }  
                     
     public function show(Child $child)
     {
