@@ -49,7 +49,7 @@ class ChildController extends Controller
         // 並び順の適用
         if ($classroomId === 'all') {
             // 全園児の時は年齢順（昇順）＋五十音順
-            $childrenQuery->orderBy('birthday', 'asc')
+            $childrenQuery->orderBy('birthdate', 'asc')
                           ->orderBy('last_kana_name', 'asc')
                           ->orderBy('first_kana_name', 'asc');
         } else {
