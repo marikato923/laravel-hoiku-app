@@ -15,7 +15,7 @@ class ChildController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->input('keyword', '');
-        $classroomId = $request->input('classroom_id', null);
+        $classroomId = $request->input('classroom_id', 'all'); // ★ デフォルト値を 'all' に設定
         $pendingOnly = $request->input('pending_only', false);
     
         $childrenQuery = Child::query()->leftJoin('classrooms', 'children.classroom_id', '=', 'classrooms.id')
@@ -33,12 +33,12 @@ class ChildController extends Controller
     
         // クラスフィルタ（検索とは独立）
         if ($classroomId === 'all') {
-            // 全園児
+            // 全園児（フィルタなし）
         } elseif ($classroomId !== null && $classroomId !== '') {
-            // クラスごと
+            // 特定のクラスの園児を取得
             $childrenQuery->where('classroom_id', $classroomId);
         } else {
-            // 未分類
+            // 未分類の園児を取得
             $childrenQuery->whereNull('classroom_id');
         }
     
@@ -59,13 +59,13 @@ class ChildController extends Controller
                           ->orderBy('first_kana_name', 'asc');
         }
     
-        // ページネーション
+        // ページネーション（リクエストパラメータを引き継ぐ）
         $children = $childrenQuery->paginate(8)->appends($request->query());
     
         $classrooms = Classroom::all();
     
         return view('admin.children.index', compact('children', 'classrooms', 'classroomId', 'keyword'));
-    }     
+    }        
                     
     public function show(Child $child)
     {
