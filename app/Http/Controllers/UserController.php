@@ -85,8 +85,7 @@ class UserController extends Controller
     
         $user = auth()->user();
     
-        // **明示的に `int` にキャスト**
-        $notificationPreference = (int) $request->input('notification_preference');
+        $notificationPreference = (int) $request->input('notification_preference', 1);
     
         $updateData = $request->except(['notification_preference']);
         $updateData['notification_preference'] = $notificationPreference;
@@ -96,7 +95,7 @@ class UserController extends Controller
         $user->update($updateData);
     
         return redirect()->route('user.show')->with('success', 'ユーザー設定を更新しました。');
-    }
+    }    
 
     public function updatePassword(Request $request)
     {
