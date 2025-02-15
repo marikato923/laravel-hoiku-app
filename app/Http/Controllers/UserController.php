@@ -83,7 +83,7 @@ class UserController extends Controller
 
         // 通知設定
         $updateData = $request->except(['notification_preference']); 
-        $updateData['notification_preference'] = $request->has('notification_preference') ? true : false;
+        $updateData['notification_preference'] = $request->input('notification_preference', 0);
     
         $user->update($updateData);
 
