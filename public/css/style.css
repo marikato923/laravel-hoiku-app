@@ -641,7 +641,8 @@ table td span {
     flex-direction: column;
     gap: 5px;
     min-width: 350px;
-    max-height: 80vh;
+    max-width: 90vw;
+    max-height: 75vh;
     overflow-y: auto; 
     margin-bottom: 40px;
 }
@@ -658,8 +659,8 @@ table td span {
 
 .calendar-body {
     display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 3px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px; 
 }
 
 .calendar-cell {
@@ -674,6 +675,7 @@ table td span {
     justify-content: flex-start;
     align-items: center;
     overflow: auto;
+    max-width: 12vw; 
 }
 
 .calendar-cell.empty {
@@ -753,16 +755,16 @@ table td span {
 
 /* 時間表示 */
 .time-range {
-    white-space: nowrap; 
+    font-size: clamp(0.6rem, 1.5vw, 1rem); 
     text-align: center; 
     font-size: clamp(0.6rem, 2vw, 1rem); 
 }
 
 /* スタンプ（通常表示） */
 .stamp {
-    width: clamp(20px, 30%, 40px); 
+    width: clamp(18px, 25%, 35px); 
     display: block;
-    margin: 0 auto 5px; 
+    margin: 5px auto; 
 }
 
 /* レスポンシブ対応 */
