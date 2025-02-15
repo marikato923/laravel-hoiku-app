@@ -641,8 +641,6 @@ table td span {
     flex-direction: column;
     gap: 5px;
     min-width: 350px;
-    max-width: 90vw;
-    max-height: 75vh;
     overflow-y: auto; 
     margin-bottom: 40px;
 }
@@ -660,7 +658,7 @@ table td span {
 .calendar-body {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 2px; 
+    gap: 3px; 
 }
 
 .calendar-cell {
@@ -674,8 +672,6 @@ table td span {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    overflow: auto;
-    max-width: 12vw; 
 }
 
 .calendar-cell.empty {
