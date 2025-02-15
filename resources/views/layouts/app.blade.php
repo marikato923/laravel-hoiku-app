@@ -69,16 +69,15 @@
         
         flashMessages.forEach(function (message) {
             setTimeout(function () {
-                message.style.transition = "opacity 1s ease-out, transform 1s ease-out, min-height 0.3s linear";
+                message.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
                 message.style.opacity = "0";
-                message.style.transform = "translateY(-10px)"; 
-                message.style.minHeight = "0"; 
+                message.style.transform = "translateY(-10px)";
+                message.style.marginBottom = "0px"; 
 
                 setTimeout(function () {
-                    message.style.visibility = "hidden"; 
-                    message.style.position = "absolute"; 
+                    message.style.display = "none"; 
                 }, 1000); 
-            }, 5000);
+            }, 3000); 
         });
     });
     </script>  
