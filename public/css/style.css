@@ -753,21 +753,20 @@ table td span {
 
 /* 時間表示 */
 .time-range {
-    font-size: clamp(0.6rem, 1.5vw, 1rem); 
+    font-size: clamp(0.8rem, 1.5vw, 1.2rem); 
     text-align: center; 
-    font-size: clamp(0.6rem, 2vw, 1rem); 
 }
 
 /* スタンプ（通常表示） */
 .stamp {
-    width: clamp(22px, 30%, 40px); 
+    width: clamp(25px, 35%, 45px); 
     display: block;
     margin: 5px auto; 
 }
 
 @media (min-width: 769px) {
     .calendar {
-        transform: scale(0.95); /* カレンダーサイズを80% に縮小 */
+        transform: scale(0.95); /* カレンダーサイズを95%に縮小 */
         transform-origin: center; 
     }
 }
@@ -790,6 +789,7 @@ table td span {
         align-items: center;
         gap: 10px; 
         flex: 1;
+        min-height: 60px;
     }
 
     .date-container {
@@ -816,6 +816,8 @@ table td span {
         flex-direction: row; 
         align-items: center;
         gap: 5px; 
+        min-height: 30px; 
+        width: 100%;
     }
 
     .stamp {
