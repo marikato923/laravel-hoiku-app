@@ -718,7 +718,7 @@ table td span {
     margin-top: 5px;
     font-size: 1rem;
     text-align: center;
-    gap: 5px;
+    gap: 8px;
 }
 
 /* 前月・次月ボタン */
@@ -759,7 +759,7 @@ table td span {
 
 /* スタンプ（通常表示） */
 .stamp {
-    width: clamp(25px, 35%, 45px); 
+    width: clamp(30px, 40%, 50px); 
     display: block;
     margin: 5px auto; 
 }
@@ -819,7 +819,7 @@ table td span {
     }
 
     .stamp {
-        width: 28px; 
+        width: 30px; 
     }
 
     .time-range {
