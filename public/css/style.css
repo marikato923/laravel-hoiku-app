@@ -753,7 +753,7 @@ table td span {
 
 /* 時間表示 */
 .time-range {
-    font-size: clamp(0.8rem, 1.5vw, 1.2rem); 
+    font-size: clamp(0.6rem, 1.5vw, 1rem); 
     text-align: center; 
 }
 
@@ -816,8 +816,6 @@ table td span {
         flex-direction: row; 
         align-items: center;
         gap: 5px; 
-        min-height: 30px; 
-        width: 100%;
     }
 
     .stamp {
