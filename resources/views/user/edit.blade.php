@@ -79,19 +79,28 @@
                             @enderror
                         </div>
 
-                        <!-- 通知の受信設定 -->
+                         {{-- 通知設定 --}}
                         <div class="form-group mb-3">
                             <label for="notification_preference">通知設定</label>
                             <div class="form-check">
-                                <input type="hidden" name="notification_preference" value="0">
-
-                                <input type="checkbox"  id="notification_preference"
-                                     name="notification_preference"
-                                     class="form-check-input"
-                                     value="1"
-                                    {{ auth()->user()->notification_preference ? 'checked' : '' }}>
-                                <label class="form-check-label" for="notification_preference">
-                                    お迎え時間のリマインド通知を受け取る
+                                <input type="radio" id="notify_on"
+                                       name="notification_preference"
+                                       class="form-check-input"
+                                       value="1"
+                                       {{ auth()->user()->notification_preference ? 'checked' : '' }}>
+                                <label class="form-check-label" for="notify_on">
+                                    受け取る
+                                </label>
+                            </div>
+                        
+                            <div class="form-check">
+                                <input type="radio" id="notify_off"
+                                       name="notification_preference"
+                                       class="form-check-input"
+                                       value="0"
+                                       {{ !auth()->user()->notification_preference ? 'checked' : '' }}>
+                                <label class="form-check-label" for="notify_off">
+                                    受け取らない
                                 </label>
                             </div>
                         </div>

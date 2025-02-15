@@ -68,31 +68,25 @@ class UserController extends Controller
         $request->validate([
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
-            'last_kana_name' => 'required|string|max:255|regex:/\A[ァ-ヴー\s]+\z/u|max:255',
-            'first_kana_name' => 'required|string|max:255|regex:/\A[ァ-ヴー\s]+\z/u|max:255',
+            'last_kana_name' => 'required|string|regex:/\A[ァ-ヴー\s]+\z/u|max:255',
+            'first_kana_name' => 'required|string|regex:/\A[ァ-ヴー\s]+\z/u|max:255',
             'phone_number' => 'nullable|string',
             'postal_code' => 'nullable|string',
             'address' => 'nullable|string',
             'email' => [
                 'required', 'email', Rule::unique('users', 'email')->ignore(auth()->user()->id),
             ],
-            'notification_preference' => 'nullable|boolean',
+            'notification_preference' => 'required|in:0,1',
         ]);
-
+    
         $user = auth()->user();
-
-        // 通知設定
-        $updateData = $request->except(['notification_preference']); 
-        $updateData['notification_preference'] = $request->input('notification_preference', 0);
+    
+        $updateData = $request->except(['notification_preference']);
+        $updateData['notification_preference'] = (int) $request->input('notification_preference'); 
     
         $user->update($updateData);
-
+    
         return redirect()->route('user.show')->with('success', 'ユーザー設定を更新しました。');
-    }
-
-    public function editPassword()
-    {
-        return view('user.edit-password');
     }
 
     public function updatePassword(Request $request)
