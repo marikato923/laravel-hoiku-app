@@ -5,8 +5,8 @@
 @section('breadcrumbs')
     <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item"><a href="{{ route('admin.kindergarten.index') }}">利用規約</a></li>
-            <li class="breadcrumb-item active" aria-current="page">編集</li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">ホーム</a></li>
+            <li class="breadcrumb-item active" aria-current="page">利用規約</li>
         </ol>
     </nav>
 @endsection

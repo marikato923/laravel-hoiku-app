@@ -57,20 +57,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const flashMessages = document.querySelectorAll(".alert");
-        
-        flashMessages.forEach(function (message) {
+        const flashMessageContainer = document.querySelector(".flash-message-container");
+
+        if (flashMessageContainer) {
             setTimeout(function () {
-                message.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
-                message.style.opacity = "0";
-                message.style.transform = "translateY(-10px)";
-                message.style.marginBottom = "0px"; 
+                flashMessageContainer.classList.add("fade-out");
 
                 setTimeout(function () {
-                    message.style.display = "none"; 
-                }, 1000); 
-            }, 1000); 
-        });
+                    flashMessageContainer.remove(); 
+                }, 1000);
+            }, 2000);
+        }
     });
     </script>   
     @stack('scripts')   

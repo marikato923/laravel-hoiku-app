@@ -492,6 +492,26 @@ form {
 }
 
         /* フラッシュメッセージ */
+        
+.flash-message-container {
+    margin-top: 10px;
+    margin-bottom: 10px; /* 下の本文との間隔を調整 */
+    transition: opacity 1s ease-out, max-height 1s ease-out;
+    max-height: 100px; /* 高さを制限してスムーズに消えるように */
+    overflow: hidden;
+}
+
+.flash-message-container .alert {
+    opacity: 1;
+    transition: opacity 1s ease-out;
+}
+
+.flash-message-container.fade-out {
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+}
+
 .alert {
     width: 400px;
     padding: 15px;
