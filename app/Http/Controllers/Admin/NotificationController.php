@@ -34,12 +34,17 @@ class NotificationController extends Controller
                 $child = $attendance->child;
                 $parent = $child->user;
 
-                Mail::to($parent->email)->send(new PickupReminderMail($child, $attendance->pickup_time));
+                // 保護者が通知を受け取りたくない場合はスキップ
+                if (!$parent->notification_preference) {
+                    Log::info("通知をスキップしました: {$parent->email}");
+                    continue;
+                }
 
+                Mail::to($parent->email)->send(new PickupReminderMail($child, $attendance->pickup_time));
                 Log::info("メールを送信しました: {$parent->email}");
             }
         }
-        
+
         return response()->json(['message' => '通知を送信しました'], 200, [], JSON_UNESCAPED_UNICODE);
     }
 }

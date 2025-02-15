@@ -79,9 +79,14 @@ class UserController extends Controller
         ]);
 
         $user = auth()->user();
-        $user->update($request->all());
 
-        return redirect()->route('user.show')->with('success', 'プロフィールを更新しました。');
+        // 通知設定
+        $updateData = $request->except(['notification_preference']); 
+        $updateData['notification_preference'] = $request->filled('notification_preference'); 
+    
+        $user->update($updateData);
+
+        return redirect()->route('user.show')->with('success', 'ユーザー設定を更新しました。');
     }
 
     public function editPassword()

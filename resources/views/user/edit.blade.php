@@ -40,22 +40,6 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="last_kana_name">セイ</label>
-                            <input type="text" id="last_kana_name" class="form-control @error('last_kana_name') is-invalid @enderror" name="last_kana_name" value="{{ old('last_kana_name', auth()->user()->last_kana_name) }}" required style="max-width: 400px;">
-                            @error('last_kana_name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="first_kana_name">メイ</label>
-                            <input type="text" id="first_kana_name" class="form-control @error('first_kana_name') is-invalid @enderror" name="first_kana_name" value="{{ old('first_kana_name', auth()->user()->first_kana_name) }}" required style="max-width: 400px;">
-                            @error('first_kana_name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group mb-3">
                             <label for="email">メールアドレス</label>
                             <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', auth()->user()->email) }}" required style="max-width: 400px;">
                             @error('email')
@@ -72,19 +56,23 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="postal_code">郵便番号</label>
-                            <input type="text" id="postal_code" class="form-control @error('postal_code') is-invalid @enderror" name="postal_code" value="{{ old('postal_code', auth()->user()->postal_code) }}" style="max-width: 400px;">
-                            @error('postal_code')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group mb-3">
                             <label for="address">住所</label>
                             <input type="text" id="address" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address', auth()->user()->address) }}" style="max-width: 400px;">
                             @error('address')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                        </div>
+
+                        <!-- 通知の受信設定 -->
+                        <div class="form-group mb-3">
+                            <label for="notification_preference">通知</label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="notification_preference" name="notification_preference"
+                                    {{ auth()->user()->notification_preference ? 'checked' : '' }}>
+                                <label class="form-check-label" for="notification_preference">
+                                    お迎え通知メールを受け取る
+                                </label>
+                            </div>
                         </div>
 
                         <div class="text-center mt-3">
