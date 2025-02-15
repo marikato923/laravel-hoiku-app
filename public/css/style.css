@@ -662,7 +662,7 @@ table td span {
 }
 
 .calendar-cell {
-    height: calc(80vh / 7 - 10px); 
+    height: calc(80vh / 7 - 5px); 
     padding: 5px;
     border: 1px solid #ddd;
     text-align: center;
@@ -672,6 +672,7 @@ table td span {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    overflow: auto;
 }
 
 .calendar-cell.empty {
