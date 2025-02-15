@@ -64,20 +64,23 @@
     {{-- app.js の読み込み --}}
     @vite(['resources/js/app.js', 'resources/css/app.css'])
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const flashMessages = document.querySelectorAll(".alert");
-    
-            flashMessages.forEach(function (message) {
+    document.addEventListener("DOMContentLoaded", function () {
+        const flashMessages = document.querySelectorAll(".alert");
+        
+        flashMessages.forEach(function (message) {
+            setTimeout(function () {
+                message.style.transition = "opacity 1s ease-out, transform 1s ease-out, min-height 0.3s linear";
+                message.style.opacity = "0";
+                message.style.transform = "translateY(-10px)"; 
+                message.style.minHeight = "0"; 
+
                 setTimeout(function () {
-                    message.style.transition = "opacity 0.5s ease-out";
-                    message.style.opacity = "0";
-    
-                    setTimeout(function () {
-                        message.remove();
-                    }, 500); 
-                }, 5000); 
-            });
+                    message.style.visibility = "hidden"; 
+                    message.style.position = "absolute"; 
+                }, 1000); 
+            }, 5000);
         });
+    });
     </script>  
     @stack('scripts')
 </body>
