@@ -9,15 +9,18 @@
         <h1 class="text-center mb-4">パスワード再設定</h1>
         <hr class="mb-4">
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        {{-- フラッシュメッセージ --}}
+        <div class="flash-message-container">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
 
         <form method="POST" action="{{ route('password.store') }}">
             @csrf
@@ -50,20 +53,17 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const flashMessages = document.querySelectorAll(".alert");
-        
-        flashMessages.forEach(function (message) {
+        const flashMessageContainer = document.querySelector(".flash-message-container");
+
+        if (flashMessageContainer) {
             setTimeout(function () {
-                message.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
-                message.style.opacity = "0";
-                message.style.transform = "translateY(-10px)";
-                message.style.marginBottom = "0px"; 
+                flashMessageContainer.classList.add("fade-out");
 
                 setTimeout(function () {
-                    message.style.display = "none"; 
-                }, 1000); 
-            }, 1000); 
-        });
+                    flashMessageContainer.remove(); // 完全にDOMから削除
+                }, 1000);
+            }, 2000);
+        }
     });
 </script>
 @endpush

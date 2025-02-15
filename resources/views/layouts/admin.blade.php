@@ -18,29 +18,31 @@
     {{-- ナビゲーションバー --}}
     <x-admin-navbar />
 
-    {{-- パンくずリスト --}}
     <div class="container mt-3">
+        {{-- パンくずリスト --}}
         @yield('breadcrumbs')
+
+        {{-- フラッシュメッセージ --}}
+        <div class="flash-message-container">
+            @if(!View::hasSection('override-flash-messages'))
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            @endif
+        </div>
     </div>
-
-    {{-- フラッシュメッセージ --}}
-    @if(!View::hasSection('override-flash-messages'))
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    @endif
 
     {{-- メインコンテンツ --}}
     <main class="flex-fill">
@@ -55,6 +57,7 @@
     <!-- Bootstrap JS, Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         const flashMessageContainer = document.querySelector(".flash-message-container");

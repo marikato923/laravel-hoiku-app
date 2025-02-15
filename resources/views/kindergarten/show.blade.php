@@ -11,7 +11,7 @@
 
 @section('content')
 <div class="container d-flex flex-column" style="max-width: 800px; margin: 0 auto; min-height: 80vh;">
-    <h2 class="text-center mb-4">基本情報</h2>
+    <h2 class="text-center mb-4">園について</h2>
     <hr class="mb-4">
 
     @if ($kindergarten)

@@ -12,21 +12,24 @@
             ご登録中のメールアドレスを入力してください。<br>パスワード再設定用のURLをお送りします。
         </p>
 
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>
-        @endif
+        {{-- フラッシュメッセージ --}}
+        <div class="flash-message-container">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
 
         <form method="POST" action="{{ route('password.email') }}">
             @csrf
@@ -45,20 +48,17 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const flashMessages = document.querySelectorAll(".alert");
-        
-        flashMessages.forEach(function (message) {
+        const flashMessageContainer = document.querySelector(".flash-message-container");
+
+        if (flashMessageContainer) {
             setTimeout(function () {
-                message.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
-                message.style.opacity = "0";
-                message.style.transform = "translateY(-10px)";
-                message.style.marginBottom = "0px"; 
+                flashMessageContainer.classList.add("fade-out");
 
                 setTimeout(function () {
-                    message.style.display = "none"; 
-                }, 1000); 
-            }, 1000); 
-        });
+                    flashMessageContainer.remove(); 
+                }, 1000);
+            }, 2000);
+        }
     });
 </script>
 @endpush

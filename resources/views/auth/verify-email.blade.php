@@ -9,11 +9,14 @@
         <h1 class="mb-4 text-center">会員登録を完了してください</h1>
         <hr class="mb-4">
 
-        @if (session('resent'))
-            <div class="alert alert-success text-center" role="alert">
-                <p class="mb-0">新しいURLをあなたのメールアドレスに送信しました。</p>
-            </div>
-        @endif
+        {{-- フラッシュメッセージ --}}
+        <div class="flash-message-container">
+            @if (session('resent'))
+                <div class="alert alert-success text-center" role="alert">
+                    <p class="mb-0">新しいURLをあなたのメールアドレスに送信しました。</p>
+                </div>
+            @endif
+        </div>
 
         <p class="text-center">
             現在、仮会員の状態です。メールに記載されている<br>「メールアドレス確認」ボタンをクリックして<br>会員登録の手続きを完了してください。
@@ -34,20 +37,17 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const flashMessages = document.querySelectorAll(".alert");
-        
-        flashMessages.forEach(function (message) {
+        const flashMessageContainer = document.querySelector(".flash-message-container");
+
+        if (flashMessageContainer) {
             setTimeout(function () {
-                message.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
-                message.style.opacity = "0";
-                message.style.transform = "translateY(-10px)";
-                message.style.marginBottom = "0px"; 
+                flashMessageContainer.classList.add("fade-out");
 
                 setTimeout(function () {
-                    message.style.display = "none"; 
-                }, 1000); 
-            }, 1000); 
-        });
+                    flashMessageContainer.remove(); // 完全にDOMから削除
+                }, 1000);
+            }, 2000);
+        }
     });
 </script>
 @endpush
