@@ -640,20 +640,19 @@ table td span {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    min-width: 320px;
+    min-width: 350px;
     overflow-y: auto; 
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .calendar-header {
     display: grid;
     grid-template-columns: repeat(7, 1fr); 
-    gap: 4px;
+    gap: 5px;
     text-align: center;
     font-weight: bold;
-    height: 30px; 
+    height: 35px; 
     line-height: 30px;
-    font-size: 0.9rem;
 }
 
 .calendar-body {
@@ -663,6 +662,7 @@ table td span {
 }
 
 .calendar-cell {
+    aspect-ratio: 1 / 1; 
     padding: 5px;
     border: 1px solid #ddd;
     text-align: center;
@@ -672,8 +672,6 @@ table td span {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 65px; 
-    min-width: 50px;
 }
 
 .calendar-cell.empty {
@@ -699,13 +697,13 @@ table td span {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
 
 .date-container .date {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    margin-top: 3px;
+    margin-top: 5px;
 }
 
 
@@ -784,7 +782,6 @@ table td span {
         align-items: center;
         gap: 10px; 
         flex: 1;
-        height: auto;
     }
 
     .date-container {
@@ -810,7 +807,7 @@ table td span {
         display: flex;
         flex-direction: row; 
         align-items: center;
-        gap: 4px; 
+        gap: 5px; 
     }
 
     .stamp {
