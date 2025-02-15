@@ -849,6 +849,22 @@ table td span {
     transform: translateY(-3px) !important;
 }
 
+/* アイコンのリンク */
+.credit-links a {
+    color: #777 !important; 
+    text-decoration: none !important;
+    transition: color 0.3s ease-in-out;
+}
+
+.credit-links a:hover {
+    color: #555 !important; 
+}
+
+.credit-links a:active, .credit-links a:focus {
+    color: #666 !important;
+    text-decoration: none !important; 
+}
+
 
 
 

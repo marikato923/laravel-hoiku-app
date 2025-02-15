@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="container mb-4">
-                        <pre>{{ $term->content }}</pre>
+                        {{ $term->content }}
                     </div>
                 </div>
             </div>

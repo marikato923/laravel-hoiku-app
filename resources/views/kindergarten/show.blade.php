@@ -11,7 +11,7 @@
 
 @section('content')
 <div class="container" style="max-width: 800px; margin: 0 auto;">
-    <h2 class="text-center mb-4">園の基本情報</h2>
+    <h2 class="text-center mb-4">基本情報</h2>
     <hr class="mb-4">
 
     @if ($kindergarten)
@@ -26,5 +26,17 @@
             <p>現在、園の基本情報は登録されていません。</p>
         </div>
     @endif
+
+    <div class="text-center mt-5 credit-links" style="font-size: 0.8rem; color: #777;">
+        <p>本アプリでは以下のアイコンを使用しています：</p>
+        <p>
+            <a href="https://www.flaticon.com/free-icons/book" title="book icons">Book icons</a> |
+            <a href="https://www.flaticon.com/free-icons/school" title="school icons">School icons</a> |
+            <a href="https://www.flaticon.com/free-icons/education" title="education icons">Education icons</a> |
+            <a href="https://www.flaticon.com/free-icons/kindergarden" title="kindergarden icons">Kindergarden icons</a> |
+            <a href="https://www.flaticon.com/free-icons/fun" title="fun icons">Fun icons</a>
+        </p>
+        <p>Created by Freepik - Flaticon</p>
+    </div>
 </div>
 @endsection
