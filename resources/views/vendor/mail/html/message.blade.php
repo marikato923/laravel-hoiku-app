@@ -1,13 +1,12 @@
 <x-mail::message>
 
-{{-- Google Fonts 読み込み（ロゴにのみ適用） --}}
+{{-- Google Fonts 読み込み --}}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
 
 {{-- スタイル設定 --}}
 <style>
-    /* メール全体のデフォルトフォント */
     body {
         font-family: 'Arial', sans-serif !important;
         background-color: #FFF8E8 !important;
@@ -15,7 +14,6 @@
         margin: 0;
         padding: 20px;
     }
-    /* ロゴ部分にのみ適用 */
     .logo {
         font-family: 'Zen Maru Gothic', serif !important;
         font-weight: 700 !important;
@@ -25,12 +23,10 @@
         letter-spacing: -0.05em !important;
         transition: color 0.3s ease !important;
     }
-    /* ヘッダー */
     .header {
         text-align: center;
         padding: 10px 0;
     }
-    /* アクションボタン */
     .button {
         background-color: rgb(255, 175, 175) !important;
         border: none !important;
@@ -41,7 +37,6 @@
         text-align: center;
         color: white !important;
     }
-    /* フッター */
     .footer {
         text-align: center;
         font-size: 12px;
@@ -69,41 +64,46 @@
 # {{ $greeting }}
 @endif
 
-{{-- 本文（説明部分） --}}
-@foreach ($introLines as $line)
-{{ $line }}
+{{-- 本文 --}}
+@isset($introLines)
+    @foreach ($introLines as $line)
+        {{ $line }}
+    @endforeach
+@endisset
 
-@endforeach
-
-{{-- 認証ボタン（修正済み） --}}
+{{-- ボタン --}}
+@isset($actionUrl)
 <x-mail::button :url="$actionUrl" :color="$level === 'error' ? 'red' : 'pink'" class="button">
     📩 {{ $actionText }}
 </x-mail::button>
+@endisset
 
 {{-- 追加メッセージ --}}
-@foreach ($outroLines as $line)
-{{ $line }}
-
-@endforeach
+@isset($outroLines)
+    @foreach ($outroLines as $line)
+        {{ $line }}
+    @endforeach
+@endisset
 
 {{-- 署名 --}}
 @if (! empty($salutation))
-{{ $salutation }}
+    {{ $salutation }}
 @else
-@lang('何かご不明な点がございましたら、お気軽にお問い合わせください。')  
-@lang('今後とも「こどもログ」をよろしくお願いいたします。')  
-
-**「こどもログ」**
+    @lang('何かご不明な点がございましたら、お気軽にお問い合わせください。')  
+    @lang('今後とも「こどもログ」をよろしくお願いいたします。')  
+    **「こどもログ」**
 @endif
 
-{{-- サブコピー（URLをコピーする場合） --}}
+{{-- サブコピー --}}
+@isset($actionText)
 <x-slot:subcopy>
-@lang(
-    "もしボタンをクリックできない場合は、以下のURLをコピーしてブラウザのアドレスバーに貼り付けてください。",
-    ['actionText' => $actionText]
-)  
-<span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
+    @lang(
+        "もしボタンをクリックできない場合は、以下のURLをコピーしてブラウザのアドレスバーに貼り付けてください。",
+        ['actionText' => $actionText]
+    )  
+    <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
 </x-slot:subcopy>
+@endisset
 
 {{-- フッター --}}
 <div class="footer">
