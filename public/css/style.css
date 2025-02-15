@@ -764,6 +764,13 @@ table td span {
     margin: 5px auto; 
 }
 
+@media (min-width: 769px) {
+    .calendar {
+        transform: scale(0.8); /* カレンダーサイズを80% に縮小 */
+        transform-origin: center; 
+    }
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .calendar-body {
