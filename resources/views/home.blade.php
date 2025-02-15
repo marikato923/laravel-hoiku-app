@@ -102,6 +102,7 @@
             });
 
             arrivalBtn.disabled = !canArrive;
+            pickupTime.disabled = !canArrive; // 修正: arrivalBtn と連動
             departureBtn.disabled = !canDepart;
 
             arrivalBtn.classList.toggle('btn-secondary', !canArrive);
@@ -172,6 +173,9 @@
             }
 
             sendAttendance('arrival', bodyData);
+
+            // 登園後に pickup_time を無効化
+            pickupTime.disabled = true;
         });
 
         departureBtn.addEventListener('click', () => {
