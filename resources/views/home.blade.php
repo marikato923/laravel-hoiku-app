@@ -14,7 +14,6 @@
             <form id="attendanceForm" class="mx-auto" style="max-width: 400px;">
                 @csrf
 
-                <!-- 子供のリストとチェックボックス -->
                 <div class="mb-3">
                     <label class="form-label">お子様を選択してください</label>
                     @foreach ($children as $child)
@@ -27,20 +26,14 @@
                     @endforeach
                 </div>
 
-                <!-- 登園用フォーム -->
                 <div class="mb-3">
                     <label for="pickup_time" class="form-label">お迎え予定時刻</label>
                     <input type="time" class="form-control" id="pickup_time" name="pickup_time" required disabled>
                 </div>
 
-                <!-- ボタン -->
                 <div class="text-end mt-4">
-                    <button type="button" class="btn arrival-btn me-2" id="arrivalBtn" disabled
-                        style="font-size: 1.2em">登園
-                    </button>
-                    <button type="button" class="btn departure-btn" id="departureBtn" disabled
-                        style="font-size: 1.2em">降園
-                    </button>
+                    <button type="button" class="btn arrival-btn me-2" id="arrivalBtn" disabled style="font-size: 1.2em">登園</button>
+                    <button type="button" class="btn departure-btn" id="departureBtn" disabled style="font-size: 1.2em">降園</button>
                 </div>
             </form>
 
@@ -69,15 +62,17 @@
         }
 
         function updateButtonStates() {
-            const selectedChildIds = Array.from(checkboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
+            const selectedChildIds = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
 
             const storedStatus = loadAttendanceStatus();
             let canArrive = selectedChildIds.length > 0;
             let canDepart = selectedChildIds.length > 0;
 
             selectedChildIds.forEach(childId => {
+                if (!selectedChildIds.length) {
+                    canArrive = false;
+                    canDepart = false;
+                }
                 if (storedStatus[childId]?.arrived) {
                     canArrive = false;
                 } else {
@@ -98,111 +93,74 @@
             departureBtn.classList.toggle('departure-btn', canDepart);
         }
 
-        function fadeOutFlashMessage() {
-            const flashMessages = document.querySelectorAll(".alert");
-            flashMessages.forEach(function (message) {
-                setTimeout(function () {
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function fadeOutMessage() {
+            setTimeout(() => {
+                const messages = document.querySelectorAll(".alert");
+                messages.forEach(message => {
                     message.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
                     message.style.opacity = "0";
                     message.style.transform = "translateY(-10px)";
                     message.style.marginBottom = "0px";
 
-                    setTimeout(function () {
+                    setTimeout(() => {
                         message.style.display = "none";
                     }, 1000);
-                }, 3000); // 3秒後にフェードアウト開始
-            });
-        }
-
-        function getCurrentTime() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            return `${hours}:${minutes}`;
+                });
+            }, 3000);
         }
 
         arrivalBtn.addEventListener('click', async () => {
-            const selectedChildIds = Array.from(checkboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
+            const selectedChildIds = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
 
             if (!pickupTime.value) {
                 resultMessage.innerHTML = `<div class="alert alert-danger">お迎え予定時刻を入力してください。</div>`;
-                fadeOutFlashMessage();
+                fadeOutMessage();
                 return;
             }
-
-            const currentTime = getCurrentTime();
 
             try {
                 const response = await fetch('/api/attendance/arrival', {
                     method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                     body: JSON.stringify({ children: selectedChildIds, pickup_time: pickupTime.value }),
                 });
 
                 const data = await response.json();
-
                 if (response.ok) {
-                    resultMessage.innerHTML = `<div class="alert alert-success">${currentTime} ${data.message}</div>`;
-                    const storedStatus = loadAttendanceStatus();
-                    selectedChildIds.forEach(childId => {
-                        storedStatus[childId] = { arrived: true, departed: false };
-                    });
-                    saveAttendanceStatus(storedStatus);
-                    updateButtonStates();
-                    pickupTime.disabled = true;
+                    resultMessage.innerHTML = `<div class="alert alert-success">${getCurrentTime()} ${data.message}</div>`;
+                    fadeOutMessage();
                 } else {
                     resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
                 }
-
-                fadeOutFlashMessage();
             } catch (error) {
-                console.error('エラー (Arrival):', error);
                 resultMessage.innerHTML = `<div class="alert alert-danger">エラーが発生しました。</div>`;
-                fadeOutFlashMessage();
             }
         });
 
         departureBtn.addEventListener('click', async () => {
-            const selectedChildIds = Array.from(checkboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-
-            const currentTime = getCurrentTime();
+            const selectedChildIds = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
 
             try {
                 const response = await fetch('/api/attendance/departure', {
                     method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                     body: JSON.stringify({ children: selectedChildIds }),
                 });
 
                 const data = await response.json();
-
                 if (response.ok) {
-                    resultMessage.innerHTML = `<div class="alert alert-success">${currentTime} ${data.messages.join('<br>')}</div>`;
-                    const storedStatus = loadAttendanceStatus();
-                    selectedChildIds.forEach(childId => {
-                        if (storedStatus[childId]) storedStatus[childId].departed = true;
-                    });
-                    saveAttendanceStatus(storedStatus);
-                    updateButtonStates();
+                    resultMessage.innerHTML = `<div class="alert alert-success">${getCurrentTime()} ${data.messages.join('<br>')}</div>`;
+                    fadeOutMessage();
                 } else {
                     resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
                 }
-
-                fadeOutFlashMessage();
             } catch (error) {
-                console.error('エラー (Departure):', error);
                 resultMessage.innerHTML = `<div class="alert alert-danger">エラーが発生しました。</div>`;
-                fadeOutFlashMessage();
             }
         });
 
@@ -212,4 +170,5 @@
 
         updateButtonStates();
     });
+    </script>
 @endsection
