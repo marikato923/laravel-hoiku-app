@@ -15,7 +15,7 @@
     </div>
 
     {{-- 保育園全体の概要 --}}
-    <div class="row text-center mb-4 pt-1">
+    <div class="row justify-content-center text-center mb-4 pt-1">
         <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-body">
@@ -33,6 +33,7 @@
             </div>
         </div>
     </div>
+
 
     {{-- クラスごとの詳細 --}}
     <h5 class="mb-3 pt-4">クラス別の出席状況</h5>
