@@ -79,7 +79,7 @@
                             @enderror
                         </div>
 
-                         {{-- 通知設定 --}}
+                         {{-- 通知設定
                          <div class="form-group mb-3">
                             <label for="notification_preference">通知設定</label>
                             <div class="form-check">
@@ -103,7 +103,7 @@
                                     受け取らない
                                 </label>
                             </div>
-                        </div>                        
+                        </div>                         --}}
 
                         <div class="text-center mt-3">
                             <button type="submit" class="btn register-btn shadow-none px-4 mt-3">更新</button>

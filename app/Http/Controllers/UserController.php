@@ -66,7 +66,7 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        Log::info('リクエストデータ:', $request->all()); // デバッグ用ログ
+        // Log::info('リクエストデータ:', $request->all()); 
     
         $request->validate([
             'last_name' => 'required|string|max:255',
@@ -79,17 +79,17 @@ class UserController extends Controller
             'email' => [
                 'required', 'email', Rule::unique('users', 'email')->ignore(auth()->user()->id),
             ],
-            'notification_preference' => 'required|in:0,1', 
+            // 'notification_preference' => 'required|in:0,1', 
         ]);
     
         $user = auth()->user();
     
-        // 明示的に `int` にキャスト
-        $notificationPreference = (int) $request->input('notification_preference');
+        // // 明示的に `int` にキャスト
+        // $notificationPreference = (int) $request->input('notification_preference');
     
-        // デバッグ用ログ
-        Log::info("更新前の値: " . $user->notification_preference);
-        Log::info("リクエスト値: " . $notificationPreference);
+        // // デバッグ用ログ
+        // Log::info("更新前の値: " . $user->notification_preference);
+        // Log::info("リクエスト値: " . $notificationPreference);
     
         $user->update([
             'last_name' => $request->input('last_name'),
@@ -100,10 +100,10 @@ class UserController extends Controller
             'postal_code' => $request->input('postal_code'),
             'address' => $request->input('address'),
             'email' => $request->input('email'),
-            'notification_preference' => $notificationPreference, // ここを明示的に更新
+            // 'notification_preference' => $notificationPreference,
         ]);
     
-        Log::info("更新後の値: " . $user->refresh()->notification_preference);
+       // Log::info("更新後の値: " . $user->refresh()->notification_preference);
     
         return redirect()->route('user.show')->with('success', 'ユーザー設定を更新しました。');
     }      
