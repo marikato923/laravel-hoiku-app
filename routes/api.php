@@ -23,7 +23,7 @@ use App\Http\Middleware\RedirectIfNotAuthenticatedAsUserAndAdmin;
 // });
 
 
-Route::middleware(['auth:sanctum', 'verified', RedirectIfNotAuthenticatedAsUserAndAdmin::class])->group(function () {
+Route::middleware(['auth', 'verified', RedirectIfNotAuthenticatedAsUserAndAdmin::class])->group(function () {
     // 登園・降園の記録API
     Route::post('/attendance/arrival', [AttendanceController::class, 'markArrival']);
     Route::post('/attendance/departure', [AttendanceController::class, 'markDeparture']);
