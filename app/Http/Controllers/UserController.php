@@ -66,8 +66,7 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        // デバッグ用ログ
-        Log::info('リクエストデータ:', $request->all());
+        Log::info('リクエストデータ:', $request->all()); // デバッグ用ログ
     
         $request->validate([
             'last_name' => 'required|string|max:255',
@@ -85,17 +84,29 @@ class UserController extends Controller
     
         $user = auth()->user();
     
-        $notificationPreference = (int) $request->input('notification_preference', 1);
+        // 明示的に `int` にキャスト
+        $notificationPreference = (int) $request->input('notification_preference');
     
-        $updateData = $request->except(['notification_preference']);
-        $updateData['notification_preference'] = $notificationPreference;
+        // デバッグ用ログ
+        Log::info("更新前の値: " . $user->notification_preference);
+        Log::info("リクエスト値: " . $notificationPreference);
     
-        Log::info('更新データ:', $updateData);
+        $user->update([
+            'last_name' => $request->input('last_name'),
+            'first_name' => $request->input('first_name'),
+            'last_kana_name' => $request->input('last_kana_name'),
+            'first_kana_name' => $request->input('first_kana_name'),
+            'phone_number' => $request->input('phone_number'),
+            'postal_code' => $request->input('postal_code'),
+            'address' => $request->input('address'),
+            'email' => $request->input('email'),
+            'notification_preference' => $notificationPreference, // ここを明示的に更新
+        ]);
     
-        $user->update($updateData);
+        Log::info("更新後の値: " . $user->refresh()->notification_preference);
     
         return redirect()->route('user.show')->with('success', 'ユーザー設定を更新しました。');
-    }    
+    }      
 
     public function updatePassword(Request $request)
     {

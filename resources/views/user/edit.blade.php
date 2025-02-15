@@ -84,10 +84,10 @@
                             <label for="notification_preference">通知設定</label>
                             <div class="form-check">
                                 <input type="radio" id="notify_on"
-                                       name="notification_preference"
-                                       class="form-check-input"
-                                       value="1"
-                                       {{ old('notification_preference', auth()->user()->notification_preference) == 1 ? 'checked' : '' }}>
+                                name="notification_preference"
+                                class="form-check-input"
+                                value="1"
+                                @if ((int) old('notification_preference', auth()->user()->notification_preference) === 1) checked @endif>                         
                                 <label class="form-check-label" for="notify_on">
                                     受け取る
                                 </label>
@@ -95,10 +95,10 @@
                         
                             <div class="form-check">
                                 <input type="radio" id="notify_off"
-                                       name="notification_preference"
-                                       class="form-check-input"
-                                       value="0"
-                                       {{ old('notification_preference', auth()->user()->notification_preference) == 0 ? 'checked' : '' }}>
+                                name="notification_preference"
+                                class="form-check-input"
+                                value="0"
+                                @if ((int) old('notification_preference', auth()->user()->notification_preference) === 0) checked @endif>                         
                                 <label class="form-check-label" for="notify_off">
                                     受け取らない
                                 </label>
