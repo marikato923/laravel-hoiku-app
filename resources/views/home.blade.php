@@ -72,7 +72,7 @@
             setTimeout(() => {
                 element.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
                 element.style.opacity = "0";
-                element.style.transform = "translateY(-10px)";
+                element.style.transform = "translateY(10px)";
                 element.style.marginBottom = "0px";
 
                 setTimeout(() => {
