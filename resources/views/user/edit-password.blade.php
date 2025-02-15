@@ -21,21 +21,26 @@
                 @csrf
                 <div class="mb-3">
                     <label for="current_password" class="form-label">現在のパスワード</label>
-                    <input type="password" name="current_password" id="current_password" class="form-control @error('current_password') is-invalid @enderror">
+                    <input type="password" name="current_password" id="current_password" 
+                        class="form-control @error('current_password') is-invalid @enderror"
+                        style="max-width: 400px;">
                     @error('current_password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">新しいパスワード</label>
-                    <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror">
+                    <input type="password" name="password" id="password" 
+                        class="form-control @error('password') is-invalid @enderror"
+                        style="max-width: 400px;">
                     @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="password_confirmation" class="form-label">新しいパスワード（確認）</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+                    <input type="password" name="password_confirmation" id="password_confirmation" 
+                        class="form-control" style="max-width: 400px;">
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn register-btn shadow-none px-4 mt-3">更新</button>
