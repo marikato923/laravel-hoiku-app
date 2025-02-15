@@ -40,7 +40,7 @@
                         <input type="text" name="first_kana_name" id="first_kana_name" class="form-control" placeholder="例: タロウ" required>
                     </div>
 
-                    <div class="form-group mb-3 text-center">
+                    <div class="form-group mb-3">
                         <label for="img" class="form-label">画像</label>
                         <input type="file" name="img" id="img" class="form-control" style="max-width: 600px; margin: 0 auto;">
                     </div>

@@ -66,16 +66,16 @@
                     </div> --}}
                     
                     {{-- 画像 --}}
-                    <div class="form-group mb-3 text-center">
+                    <div class="form-group mb-3">
                         <label for="img" class="form-label">画像</label>
-                        <div class="img-wrapper-edit d-flex justify-content-center">
-                            @if ($child->img)
-                                <div class="mb-3">
-                                    <img src="{{ $child->img ?? env('DEFAULT_CHILD_IMAGE') }}" alt="お子様の画像" class="child-img-edit">
-                                </div>
-                            @endif
+                        <div class="text-center">
+                            <div class="img-wrapper-edit d-flex justify-content-center">
+                                @if ($child->img)
+                                    <img src="{{ $child->img ?? env('DEFAULT_CHILD_IMAGE') }}" alt="園児の画像" class="child-img-edit">
+                                @endif
+                            </div>
+                                <input type="file" name="img" id="img" class="form-control" style="max-width: 600px; margin: 0 auto;">
                         </div>
-                        <input type="file" name="img" id="img" class="form-control" style="max-width: 600px; margin: 0 auto;">
                     </div>
                     
                     {{-- その他情報 --}}

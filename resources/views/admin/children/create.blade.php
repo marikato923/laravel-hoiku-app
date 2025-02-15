@@ -71,7 +71,7 @@
                             </div>
 
                             {{-- 画像 --}}
-                            <div class="form-group mb-3 text-center">
+                            <div class="form-group mb-3">
                                 <label for="img" class="form-label">画像</label>
                                 <input type="file" name="img" id="img" class="form-control" style="max-width: 600px; margin: 0 auto;">
                             </div>
