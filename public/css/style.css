@@ -407,15 +407,15 @@ form {
     appearance: none; 
     width: 20px;
     height: 20px;
-    border: 2px solid rgb(255, 175, 175); 
+    border: 2px solid rgb(255, 175, 175) !important; 
     border-radius: 4px; 
     background-color: transparent;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .form-check-input:checked {
-    background-color: rgb(255, 175, 175); 
-    border-color: rgb(255, 175, 175); 
+    background-color: rgb(255, 175, 175) !important; 
+    border-color: rgb(255, 175, 175) !important; 
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M6.173 12.145l-3.856-3.857L4.273 6.33l1.9 1.9 5.65-5.65 1.415 1.414z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
@@ -423,11 +423,11 @@ form {
 }
 
 .form-check-input:hover {
-    border-color: rgb(255, 125, 125);
+    border-color: rgb(255, 125, 125) !important;
 }
 
 .form-check-input:focus {
-    outline: 2px dashed  rgb(255, 205, 205);
+    outline: 2px dashed  rgb(255, 205, 205) !important;
     outline-offset: 2px;
 }
 

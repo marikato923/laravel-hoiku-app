@@ -46,7 +46,7 @@
                 setTimeout(function () {
                     message.style.display = "none"; 
                 }, 1000); 
-            }, 3000); 
+            }, 1000); 
         });
     });
 </script>

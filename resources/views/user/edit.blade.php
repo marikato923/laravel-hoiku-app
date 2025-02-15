@@ -81,7 +81,7 @@
 
                         <!-- 通知の受信設定 -->
                         <div class="form-group mb-3">
-                            <label for="notification_preference">通知</label>
+                            <label for="notification_preference">通知設定</label>
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="notification_preference" name="notification_preference"
                                     {{ auth()->user()->notification_preference ? 'checked' : '' }}>
