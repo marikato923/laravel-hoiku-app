@@ -57,15 +57,15 @@ Route::group(['middleware' => ['auth', 'verified', RedirectIfNotAuthenticatedAsU
     Route::get('/children/{child}/edit', [ChildController::class, 'edit'])->name('children.edit');
     Route::put('/children/{child}', [ChildController::class, 'update'])->name('children.update');
 
+    // 通知
+    Route::post('/user/subscribe', [UserController::class, 'subscribe'])->name('user.subscribe');
+});
+
     // 園の情報ページ
     Route::get('/kindergarten', [KindergartenController::class, 'show'])->name('kindergarten.show');
 
     // 利用規約ページ
     Route::get('/terms', [TermController::class, 'show'])->name('terms.show');
-
-    // 通知
-    Route::post('/user/subscribe', [UserController::class, 'subscribe'])->name('user.subscribe');
-});
 
 // 管理者側のページ
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container" style="max-width: 500px; margin: 0 auto;">
-        <h2 class="text-center mb-4">打刻</h2>
+        <h2 class="text-center mb-4">登園・降園チェック</h2>
         <hr class="mb-4">
 
         @if ($children->isEmpty())

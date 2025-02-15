@@ -16,17 +16,19 @@ class RedirectIfNotAuthenticatedAsUserAndAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // ユーザーが認証されていて、かつ管理者として認証されていない場合
-        if (Auth::check() && !Auth::guard('admin')->check()) {
-            // ユーザー側のホームページにアクセスできる
+        $user = Auth::user(); // 現在のユーザー取得
+
+        // 条件: ユーザーとしてログイン済み & メール認証済み & 管理者ではない
+        if ($user && $user->hasVerifiedEmail() && !Auth::guard('admin')->check()) {
             return $next($request);
         }
 
-        // ユーザーとして認証されていないか、管理者として認証されている場合はログインページにリダイレクト
+        //  管理者としてログイン済みなら、管理者のホームへリダイレクト
         if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.home');
         }
 
+        // それ以外はログインページへリダイレクト
         return redirect()->route('login');
     }
 }

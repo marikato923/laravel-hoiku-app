@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Middleware\RedirectIfNotAuthenticatedAsUserAndAdmin;
 
 
 /*
@@ -22,12 +23,10 @@ use App\Http\Controllers\NotificationController;
 // });
 
 
-Route::get('/hello', function () {
-    return response()->json(['message' => 'Hello World']);
+Route::middleware(['auth:sanctum', 'verified', RedirectIfNotAuthenticatedAsUserAndAdmin::class])->group(function () {
+    // 登園・降園の記録API
+    Route::post('/attendance/arrival', [AttendanceController::class, 'markArrival']);
+    Route::post('/attendance/departure', [AttendanceController::class, 'markDeparture']);
 });
-
-// 登園、降園の記録
-Route::post('/attendance/arrival', [AttendanceController::class, 'markArrival']);
-Route::post('/attendance/departure', [AttendanceController::class, 'markDeparture']);
 
 
