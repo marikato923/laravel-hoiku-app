@@ -40,6 +40,22 @@
                         </div>
 
                         <div class="form-group mb-3">
+                            <label for="last_kana_name">セイ</label>
+                            <input type="text" id="last_kana_name" class="form-control @error('last_kana_name') is-invalid @enderror" name="last_kana_name" value="{{ old('last_kana_name', auth()->user()->last_kana_name) }}" required style="max-width: 400px;">
+                            @error('last_kana_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="first_kana_name">メイ</label>
+                            <input type="text" id="first_kana_name" class="form-control @error('first_kana_name') is-invalid @enderror" name="first_kana_name" value="{{ old('first_kana_name', auth()->user()->first_kana_name) }}" required style="max-width: 400px;">
+                            @error('first_kana_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
                             <label for="email">メールアドレス</label>
                             <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', auth()->user()->email) }}" required style="max-width: 400px;">
                             @error('email')
