@@ -15,27 +15,35 @@ class AttendanceController extends Controller
         $request->validate([
             'children' => 'required|array',
             'children.*' => 'exists:children,id',
-            'pickup_time' => 'required|date_format:H:i',
+            'pickup_time' => 'nullable|date_format:H:i',
         ]);
     
         $messages = [];
+        $arrivalTime = Carbon::now()->format('H:i'); // 打刻時刻の取得
 
-        try {
             foreach ($request->children as $childId) {
                 $child = Child::find($childId);
+
+                // すでに登園済みかチェック
+                $existingAttendance = Attendance::where('child_id', $child->id)
+                ->whereNotNull('arrival_time')
+                ->whereNull('departure_time')
+                ->first();
+
+                if ($existingAttendance) {
+                    $messages[] = "{$child->first_name}さんはすでに打刻済みです。";
+                    continue;
+                }
+
+                // 登園処理
                 Attendance::create([
                     'child_id' => $child->id,
                     'arrival_time' => now(),
-                    'pickup_time' => Carbon::parse(today()->format('Y-m-d') . ' ' . $request->pickup_time),
+                    'pickup_time' => $request->pickup_time ? Carbon::parse(today()->format('Y-m-d') . ' ' . $request->pickup_time) : null,
                 ]);
 
-                $messages[] = "{$child->first_name}さんの登園を記録しました。";
+                $messages[] = "{$arrivalTime} {$child->first_name}さんの登園を記録しました。";
             } 
-        } catch (\Exception $e) {
-            return response()->json([
-                'meesage' => "登園の記録に失敗しました: {$e->getMessage()}"
-            ], 500);
-        }
     
         return response()->json([
             'message' => implode('<br>', $messages),
@@ -50,14 +58,19 @@ class AttendanceController extends Controller
         ]);
 
         $messages = [];
+        $departureTime = Carbon::now()->format('H:i');
     
         foreach ($request->children as $childId) {
             $child = Child::find($childId);
 
-            if (!$child) {
-                return response()->json([
-                    'message' => '無効な子供が選択されました。',
-                ], 400);
+            $existingDeparture = Attendance::where('child_id', $child->id)
+            ->whereNotNull('departure_time')
+            ->latest()
+            ->first();
+
+            if ($existingDeparture) {
+                $messages[] = "{$child->first_name}さんは既に降園済みです。";
+                continue;
             }
 
             Attendance::create([
@@ -65,14 +78,13 @@ class AttendanceController extends Controller
                 'departure_time' => now(),
             ]);
 
-            $messages[] = "{$child->first_name}さんの降園を記録しました。";
+            $messages[] = "{$departureTime} {$child->first_name}さんの降園を記録しました。";
         }
 
         return response()->json([
             'messages' => $messages,
         ]);
     }
-
 
     public function checkAttendanceStatus(Request $request)
     {

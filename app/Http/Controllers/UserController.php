@@ -79,7 +79,7 @@ class UserController extends Controller
             'email' => [
                 'required', 'email', Rule::unique('users', 'email')->ignore(auth()->user()->id),
             ],
-            'notification_preference' => 'required|in:0,1', // 0 または 1 のみ許可
+            'notification_preference' => 'required|in:0,1', 
         ]);
     
         $user = auth()->user();

@@ -14,6 +14,7 @@
             <form id="attendanceForm" class="mx-auto" style="max-width: 400px;">
                 @csrf
 
+                <!-- 子供のリストとチェックボックス -->
                 <div class="mb-3">
                     <label class="form-label">お子様を選択してください</label>
                     @foreach ($children as $child)
@@ -26,14 +27,20 @@
                     @endforeach
                 </div>
 
+                <!-- 登園用フォーム -->
                 <div class="mb-3">
                     <label for="pickup_time" class="form-label">お迎え予定時刻</label>
                     <input type="time" class="form-control" id="pickup_time" name="pickup_time" required disabled>
                 </div>
 
+                <!-- ボタン -->
                 <div class="text-end mt-4">
-                    <button type="button" class="btn arrival-btn me-2" id="arrivalBtn" disabled style="font-size: 1.2em">登園</button>
-                    <button type="button" class="btn departure-btn" id="departureBtn" disabled style="font-size: 1.2em">降園</button>
+                    <button type="button" class="btn arrival-btn me-2" id="arrivalBtn" disabled
+                        style="font-size: 1.2em">登園
+                    </button>
+                    <button type="button" class="btn departure-btn" id="departureBtn" disabled
+                        style="font-size: 1.2em">降園
+                    </button>
                 </div>
             </form>
 
@@ -61,18 +68,29 @@
             localStorage.setItem(getTodayKey(), JSON.stringify(status));
         }
 
+        function fadeOutMessage(element) {
+            setTimeout(() => {
+                element.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
+                element.style.opacity = "0";
+                element.style.transform = "translateY(-10px)";
+                element.style.marginBottom = "0px";
+
+                setTimeout(() => {
+                    element.style.display = "none";
+                }, 1000);
+            }, 3000);
+        }
+
         function updateButtonStates() {
-            const selectedChildIds = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+            const selectedChildIds = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
 
             const storedStatus = loadAttendanceStatus();
             let canArrive = selectedChildIds.length > 0;
             let canDepart = selectedChildIds.length > 0;
 
             selectedChildIds.forEach(childId => {
-                if (!selectedChildIds.length) {
-                    canArrive = false;
-                    canDepart = false;
-                }
                 if (storedStatus[childId]?.arrived) {
                     canArrive = false;
                 } else {
@@ -84,7 +102,6 @@
             });
 
             arrivalBtn.disabled = !canArrive;
-            pickupTime.disabled = !canArrive;
             departureBtn.disabled = !canDepart;
 
             arrivalBtn.classList.toggle('btn-secondary', !canArrive);
@@ -93,75 +110,76 @@
             departureBtn.classList.toggle('departure-btn', canDepart);
         }
 
-        function getCurrentTime() {
-            const now = new Date();
-            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
+        async function sendAttendance(type, bodyData) {
+            const url = type === 'arrival' ? '/api/attendance/arrival' : '/api/attendance/departure';
+            const button = type === 'arrival' ? arrivalBtn : departureBtn;
 
-        function fadeOutMessage() {
-            setTimeout(() => {
-                const messages = document.querySelectorAll(".alert");
-                messages.forEach(message => {
-                    message.style.transition = "opacity 1s ease-out, transform 1s ease-out, margin-bottom 0.5s ease-out";
-                    message.style.opacity = "0";
-                    message.style.transform = "translateY(-10px)";
-                    message.style.marginBottom = "0px";
-
-                    setTimeout(() => {
-                        message.style.display = "none";
-                    }, 1000);
-                });
-            }, 3000);
-        }
-
-        arrivalBtn.addEventListener('click', async () => {
-            const selectedChildIds = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
-
-            if (!pickupTime.value) {
-                resultMessage.innerHTML = `<div class="alert alert-danger">お迎え予定時刻を入力してください。</div>`;
-                fadeOutMessage();
-                return;
-            }
+            button.disabled = true;  // 二重クリック防止
 
             try {
-                const response = await fetch('/api/attendance/arrival', {
+                const response = await fetch(url, {
                     method: 'POST',
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ children: selectedChildIds, pickup_time: pickupTime.value }),
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(bodyData),
                 });
 
                 const data = await response.json();
+
                 if (response.ok) {
-                    resultMessage.innerHTML = `<div class="alert alert-success">${getCurrentTime()} ${data.message}</div>`;
-                    fadeOutMessage();
+                    resultMessage.innerHTML = `<div class="alert alert-success">${Array.isArray(data.messages) ? data.messages.join('<br>') : data.message}</div>`;
+                    fadeOutMessage(resultMessage.firstElementChild);
+
+                    const storedStatus = loadAttendanceStatus();
+                    bodyData.children.forEach(childId => {
+                        if (!storedStatus[childId]) {
+                            storedStatus[childId] = {};
+                        }
+                        if (type === 'arrival') {
+                            storedStatus[childId].arrived = true;
+                            storedStatus[childId].departed = false;
+                        } else {
+                            storedStatus[childId].departed = true;
+                        }
+                    });
+
+                    saveAttendanceStatus(storedStatus);
+                    updateButtonStates();
                 } else {
                     resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                    fadeOutMessage(resultMessage.firstElementChild);
+                    button.disabled = false;  // エラー時はボタンを再度有効化
                 }
             } catch (error) {
                 resultMessage.innerHTML = `<div class="alert alert-danger">エラーが発生しました。</div>`;
+                fadeOutMessage(resultMessage.firstElementChild);
+                button.disabled = false;  // エラー時はボタンを再度有効化
             }
+        }
+
+        arrivalBtn.addEventListener('click', () => {
+            const selectedChildIds = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+
+            const bodyData = { children: selectedChildIds };
+
+            // pickup_time が入力されている場合のみ送信
+            if (pickupTime.value) {
+                bodyData.pickup_time = pickupTime.value;
+            }
+
+            sendAttendance('arrival', bodyData);
         });
 
-        departureBtn.addEventListener('click', async () => {
-            const selectedChildIds = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+        departureBtn.addEventListener('click', () => {
+            const selectedChildIds = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
 
-            try {
-                const response = await fetch('/api/attendance/departure', {
-                    method: 'POST',
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ children: selectedChildIds }),
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    resultMessage.innerHTML = `<div class="alert alert-success">${getCurrentTime()} ${data.messages.join('<br>')}</div>`;
-                    fadeOutMessage();
-                } else {
-                    resultMessage.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
-                }
-            } catch (error) {
-                resultMessage.innerHTML = `<div class="alert alert-danger">エラーが発生しました。</div>`;
-            }
+            sendAttendance('departure', { children: selectedChildIds });
         });
 
         checkboxes.forEach(checkbox => {
@@ -170,5 +188,5 @@
 
         updateButtonStates();
     });
-    </script>
+   </script>
 @endsection
