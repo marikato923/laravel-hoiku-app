@@ -672,6 +672,7 @@ table td span {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    overflow: auto;
 }
 
 .calendar-cell.empty {
@@ -766,7 +767,7 @@ table td span {
 
 @media (min-width: 769px) {
     .calendar {
-        transform: scale(0.8); /* カレンダーサイズを80% に縮小 */
+        transform: scale(0.95); /* カレンダーサイズを80% に縮小 */
         transform-origin: center; 
     }
 }
