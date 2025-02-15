@@ -76,13 +76,14 @@ class UserController extends Controller
             'email' => [
                 'required', 'email', Rule::unique('users', 'email')->ignore(auth()->user()->id),
             ],
+            'notification_preference' => 'nullable|boolean',
         ]);
 
         $user = auth()->user();
 
         // 通知設定
         $updateData = $request->except(['notification_preference']); 
-        $updateData['notification_preference'] = $request->filled('notification_preference'); 
+        $updateData['notification_preference'] = $request->boolean('notification_preference');
     
         $user->update($updateData);
 

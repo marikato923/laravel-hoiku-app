@@ -83,10 +83,15 @@
                         <div class="form-group mb-3">
                             <label for="notification_preference">通知設定</label>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="notification_preference" name="notification_preference"
+                                <input type="hidden" name="notification_preference" value="0">
+
+                                <input type="checkbox"  id="notification_preference"
+                                     name="notification_preference"
+                                     class="form-check-input"
+                                     value="1"
                                     {{ auth()->user()->notification_preference ? 'checked' : '' }}>
                                 <label class="form-check-label" for="notification_preference">
-                                    お迎え通知メールを受け取る
+                                    お迎え時間のリマインド通知を受け取る
                                 </label>
                             </div>
                         </div>
