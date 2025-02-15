@@ -11,10 +11,9 @@
 @endsection
 
 @section('content')
-<div class="container py-4 kodomolog-app-container" style="min-height: 100vh;">
-    <div class="col-xl-6 col-lg-7 col-md-8 col-sm-10 mx-auto">
-      <div class="wrapper w-100" style="max-width: 80%;">
-
+<div class="container py-4 kodomolog-app-container">
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-7 col-md-8 col-sm-10">
             <h2 class="text-center mb-3">パスワード変更</h2>
             <hr class="mb-4">
 
@@ -42,9 +41,7 @@
                     <button type="submit" class="btn register-btn shadow-none px-4 mt-3">更新</button>
                 </div>
             </form>
-
-      </div>
+        </div>
     </div>
-  </div>
 </div>
 @endsection
