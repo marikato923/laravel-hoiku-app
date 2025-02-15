@@ -42,6 +42,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'status' => 'boolean',
         'push_subscription' => 'array',
+        'notification_preference' => 'boolean',
     ];
 
     // childrenとの関係

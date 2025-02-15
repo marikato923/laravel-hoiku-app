@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Minishlink\WebPush\WebPush;
 use Minishlink\WebPush\Subscription;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -65,6 +66,9 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        // デバッグ用ログ
+        Log::info('リクエストデータ:', $request->all());
+    
         $request->validate([
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
@@ -76,13 +80,18 @@ class UserController extends Controller
             'email' => [
                 'required', 'email', Rule::unique('users', 'email')->ignore(auth()->user()->id),
             ],
-            'notification_preference' => 'required|in:0,1',
+            'notification_preference' => 'required|in:0,1', // 0 または 1 のみ許可
         ]);
     
         $user = auth()->user();
     
+        // **明示的に `int` にキャスト**
+        $notificationPreference = (int) $request->input('notification_preference');
+    
         $updateData = $request->except(['notification_preference']);
-        $updateData['notification_preference'] = (int) $request->input('notification_preference'); 
+        $updateData['notification_preference'] = $notificationPreference;
+    
+        Log::info('更新データ:', $updateData);
     
         $user->update($updateData);
     
