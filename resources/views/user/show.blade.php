@@ -20,9 +20,9 @@
     <p class="mb-2"><strong>電話番号:</strong> {{ $user->phone_number }}</p>
     <p class="mb-2"><strong>郵便番号:</strong> {{ $user->postal_code }}</p>
     <p class="mb-2"><strong>住所:</strong> {{ $user->address }}</p>
-    <p class="mb-2"><strong>通知設定:</strong> 
+    {{-- <p class="mb-2"><strong>通知設定:</strong> 
         {{ auth()->user()->notification_preference ? '受け取る' : '受け取らない' }}
-    </p>    
+    </p>     --}}
 
     <div class="text-end mt-4">
         <a href="{{ route('user.edit') }}" class="btn register-btn me-2 mb-3">編集</a> <!-- mb-3 を追加 -->
