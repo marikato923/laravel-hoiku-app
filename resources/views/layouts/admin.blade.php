@@ -55,5 +55,22 @@
     <!-- Bootstrap JS, Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const flashMessages = document.querySelectorAll(".alert");
+    
+            flashMessages.forEach(function (message) {
+                setTimeout(function () {
+                    message.style.transition = "opacity 0.5s ease-out";
+                    message.style.opacity = "0";
+
+                    setTimeout(function () {
+                        message.remove();
+                    }, 500); 
+                }, 5000); 
+            });
+        });
+    </script>   
+    @stack('scripts')   
 </body>
 </html>

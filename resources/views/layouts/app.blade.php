@@ -63,7 +63,23 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- app.js の読み込み --}}
     @vite(['resources/js/app.js', 'resources/css/app.css'])
-    </body>
-    </html>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const flashMessages = document.querySelectorAll(".alert");
+    
+            flashMessages.forEach(function (message) {
+                setTimeout(function () {
+                    message.style.transition = "opacity 0.5s ease-out";
+                    message.style.opacity = "0";
+    
+                    setTimeout(function () {
+                        message.remove();
+                    }, 500); 
+                }, 5000); 
+            });
+        });
+    </script>  
+    @stack('scripts')
 </body>
 </html>
+

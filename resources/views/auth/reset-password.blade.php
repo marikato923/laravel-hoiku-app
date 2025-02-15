@@ -46,3 +46,22 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const flashMessages = document.querySelectorAll(".alert");
+
+        flashMessages.forEach(function (message) {
+            setTimeout(function () {
+                message.style.transition = "opacity 0.5s ease-out";
+                message.style.opacity = "0";
+
+                setTimeout(function () {
+                    message.remove();
+                }, 500); 
+            }, 5000); 
+        });
+    });
+</script>
+@endpush
