@@ -707,24 +707,17 @@ table td span {
     margin-top: 5px;
 }
 
-/* 星のアイコン */
-.material-symbols-outlined {
-    font-size: 1.4em;
-    color: rgb(255, 175, 175);
-}
 
 /* 登園時間 */
 .attendance-record {
-    background-color: rgb(255, 175, 175);
-    color: #fff;
+    color: rgb(255, 135, 135);
+    flex-direction: column;
+    align-items: center;
     padding: 5px;
-    border-radius: 5px;
     margin-bottom: 5px;
     margin-top: 5px;
-    display: block;
     font-size: 1.2em;
     text-align: center;
-    justify-content: center;
 }
 
 /* 前月・次月ボタン */
@@ -761,6 +754,14 @@ table td span {
 .time-range {
     white-space: nowrap; 
     text-align: center; 
+    font-size: 1rem;
+}
+
+/* スタンプ（通常表示） */
+.stamp {
+    width: 40px; 
+    display: block;
+    margin: 0 auto 5px; 
 }
 
 /* レスポンシブ対応 */
@@ -800,6 +801,17 @@ table td span {
 
     .calendar-cell.empty {
         display: none; 
+    }
+
+    .attendance-record {
+        display: flex;
+        flex-direction: row; 
+        align-items: center;
+        gap: 8px; 
+    }
+
+    .stamp {
+        width: 30px; 
     }
 
     .time-range {

@@ -10,18 +10,6 @@
 @endsection
 
 @section('content')
-@if(session('attendance_count'))
-    <div id="flashMessage" class="alert alert-success text-center" style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1050;">
-        🎉 今月の出席日数: {{ session('attendance_count') }}日！
-    </div>
-
-    <script>
-    setTimeout(function () {
-        document.getElementById('flashMessage').style.display = 'none';
-    }, 3000);
-    </script>
-@endif
-
 <div class="container">
     {{-- 見出しと年度・月の選択フォーム --}}
     <div class="mb-4">
@@ -145,33 +133,46 @@
                             @endfor
                         
                             {{-- 日付セル --}}
+                            @php
+                            // スタンプ画像リスト
+                            $stamps = [
+                                'https://res.cloudinary.com/dolggtppu/image/upload/v1739590691/kindergarden_1_fpn76s.png',
+                                'https://res.cloudinary.com/dolggtppu/image/upload/v1739590677/book_iadbtg.png',
+                                'https://res.cloudinary.com/dolggtppu/image/upload/v1739590639/crayon_ynz9sn.png',
+                                'https://res.cloudinary.com/dolggtppu/image/upload/v1739590622/backpack_n0bsz6.png',
+                                'https://res.cloudinary.com/dolggtppu/image/upload/v1739590607/ball_owe50t.png',
+                            ];
+                            @endphp
+                        
                             @for ($day = 1; $day <= $daysInMonth; $day++)
                                 @php
                                     $currentDate = $startOfMonth->copy()->addDays($day - 1);
                                     $weekdayIndex = $currentDate->dayOfWeek;
                                     $isHoliday = in_array($currentDate->format('m-d'), $holidays);
                                     $isSunday = $currentDate->dayOfWeek === 0;
+                                    $stampIndex = ($day - 1) % count($stamps); // スタンプを交互に変更
                                 @endphp
-                                <div class="calendar-cell">
-                                    <div class="date-container">
-                                        <div class="weekday {{ $isHoliday || $isSunday ? 'holiday' : '' }}">
-                                            {{ $weekdays[$weekdayIndex] }}
-                                        </div>
-                                        <div class="date {{ $isHoliday || $isSunday ? 'holiday' : '' }}">
-                                            {{ $day }}
-                                        </div>
+                            
+                            <div class="calendar-cell">
+                                <div class="date-container">
+                                    <div class="weekday {{ $isHoliday || $isSunday ? 'holiday' : '' }}">
+                                        {{ $weekdays[$weekdayIndex] }}
                                     </div>
-                                    @if (isset($groupedAttendances[$sibling->id][$currentDate->format('Y-m-d')]))
-                                        @foreach ($groupedAttendances[$sibling->id][$currentDate->format('Y-m-d')] as $attendance)
-                                            <div class="attendance-record">
-                                                <small class="time-range">
-                                                    {{ str_replace('〜', "\n〜\n", $attendance['time_range']) }}
-                                                </small>
-                                            </div>
-                                        @endforeach
-                                    @endif
+                                    <div class="date {{ $isHoliday || $isSunday ? 'holiday' : '' }}">
+                                        {{ $day }}
+                                    </div>
                                 </div>
-                            @endfor
+                        
+                                @if (isset($groupedAttendances[$sibling->id][$currentDate->format('Y-m-d')]))
+                                    @foreach ($groupedAttendances[$sibling->id][$currentDate->format('Y-m-d')] as $attendance)
+                                        <div class="attendance-record">
+                                            <img src="{{ $stamps[$stampIndex] }}" alt="登園スタンプ" class="stamp">
+                                            <small class="time-range">{{ str_replace('〜', "\n〜\n", $attendance['time_range']) }}</small>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        @endfor
                         
                             {{-- 残りの空白セル --}}
                             @for ($i = 0; $i < (7 - $totalCells % 7) % 7; $i++)

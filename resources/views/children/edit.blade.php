@@ -71,7 +71,9 @@
                         <div class="text-center">
                             <div class="img-wrapper-edit d-flex justify-content-center">
                                 @if ($child->img)
-                                    <img src="{{ $child->img ?? env('DEFAULT_CHILD_IMAGE') }}" alt="園児の画像" class="child-img-edit">
+                                  <div class="mb-3">
+                                    <img src="{{ $child->img ?? env('DEFAULT_CHILD_IMAGE') }}" alt="お子様の画像" class="child-img-edit">
+                                  </div>
                                 @endif
                             </div>
                                 <input type="file" name="img" id="img" class="form-control" style="max-width: 600px; margin: 0 auto;">
