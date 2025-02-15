@@ -53,7 +53,7 @@
 @php
     // 変数のデフォルト値設定（未定義エラー回避）
     $level = $level ?? 'info';
-    $greeting = $greeting ?? __('【重要】メールアドレス認証のお願い');
+    $greeting = $greeting ?? __('【重要】メール認証のお願い');
     $actionText = $actionText ?? __('こちらをクリック');
     $actionUrl = $actionUrl ?? config('app.url');
     $displayableActionUrl = $displayableActionUrl ?? $actionUrl;
@@ -75,8 +75,8 @@
 
 @endforeach
 
-{{-- 認証ボタン --}}
-<x-mail::button :url="$actionUrl" :color="{{ $level === 'error' ? 'red' : 'pink' }}" class="button">
+{{-- 認証ボタン（修正済み） --}}
+<x-mail::button :url="$actionUrl" :color="$level === 'error' ? 'red' : 'pink'" class="button">
     📩 {{ $actionText }}
 </x-mail::button>
 
