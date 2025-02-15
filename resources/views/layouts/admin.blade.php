@@ -23,6 +23,7 @@
         @yield('breadcrumbs')
 
         {{-- フラッシュメッセージ --}}
+        @if (!View::hasSection('override-flash-messages'))
         <div class="flash-message-container">
             @if(!View::hasSection('override-flash-messages'))
                 @if(session('success'))
@@ -42,6 +43,7 @@
                 @endif
             @endif
         </div>
+        @endif
     </div>
 
     {{-- メインコンテンツ --}}

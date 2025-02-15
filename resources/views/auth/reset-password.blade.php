@@ -60,7 +60,7 @@
                 flashMessageContainer.classList.add("fade-out");
 
                 setTimeout(function () {
-                    flashMessageContainer.remove(); // 完全にDOMから削除
+                    flashMessageContainer.remove(); 
                 }, 1000);
             }, 2000);
         }
