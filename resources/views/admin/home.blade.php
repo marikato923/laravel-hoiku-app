@@ -32,14 +32,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">今日の欠席数</h5>
-                    <p class="card-text display-6">{{ $totalAbsences }}人</p>
-                </div>
-            </div>
-        </div>
     </div>
 
     {{-- クラスごとの詳細 --}}
@@ -51,7 +43,6 @@
                     <th>クラス名</th>
                     <th>在籍園児数</th>
                     <th>出席数</th>
-                    <th>欠席数</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,7 +56,6 @@
                         </td>
                         <td>{{ $classroom->children_count }}人</td>
                         <td>{{ $classroom->attendances_count }}人</td>
-                        <td>{{ $classroom->absences_count }}人</td>
                     </tr>
                 @endforeach
             </tbody>
