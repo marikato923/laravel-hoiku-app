@@ -50,6 +50,15 @@
     }
 </style>
 
+@php
+    // 変数のデフォルト値設定（未定義エラー回避）
+    $level = $level ?? 'info';
+    $greeting = $greeting ?? __('【重要】メールアドレス認証のお願い');
+    $actionText = $actionText ?? __('こちらをクリック');
+    $actionUrl = $actionUrl ?? config('app.url');
+    $displayableActionUrl = $displayableActionUrl ?? $actionUrl;
+@endphp
+
 {{-- ヘッダー（ロゴ表示） --}}
 <div class="header">
     <a href="{{ config('app.url') }}" class="logo">こどもログ</a>
@@ -58,12 +67,6 @@
 {{-- 挨拶文 --}}
 @if (! empty($greeting))
 # {{ $greeting }}
-@else
-@if ($level === 'error')
-# @lang('お知らせ')
-@else
-# @lang('【重要】メールアドレスのご確認をお願いいたします')
-@endif
 @endif
 
 {{-- 本文（説明部分） --}}
@@ -73,18 +76,9 @@
 @endforeach
 
 {{-- 認証ボタン --}}
-@isset($actionText)
-<?php
-    $color = match ($level) {
-        'success' => 'green',
-        'error' => 'red',
-        default => 'pink', 
-    };
-?>
-<x-mail::button :url="$actionUrl" :color="$color" class="button">
+<x-mail::button :url="$actionUrl" :color="{{ $level === 'error' ? 'red' : 'pink' }}" class="button">
     📩 {{ $actionText }}
 </x-mail::button>
-@endisset
 
 {{-- 追加メッセージ --}}
 @foreach ($outroLines as $line)
@@ -96,14 +90,13 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('何かご不明な点がございましたら、お気軽にお問い合わせください。'),  
-@lang('今後とも「こどもログ」をよろしくお願いいたします。'),  
+@lang('何かご不明な点がございましたら、お気軽にお問い合わせください。')  
+@lang('今後とも「こどもログ」をよろしくお願いいたします。')  
 
-**「こどもログ」チーム**
+**「こどもログ」**
 @endif
 
 {{-- サブコピー（URLをコピーする場合） --}}
-@isset($actionText)
 <x-slot:subcopy>
 @lang(
     "もしボタンをクリックできない場合は、以下のURLをコピーしてブラウザのアドレスバーに貼り付けてください。",
@@ -111,7 +104,6 @@
 )  
 <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
 </x-slot:subcopy>
-@endisset
 
 {{-- フッター --}}
 <div class="footer">
