@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【こどもログ】お迎えリマインダー</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
     <style>
         /* 全体のスタイル */
         body {
@@ -26,8 +23,6 @@
         }
         /* ロゴ */
         .logo {
-            font-family: 'Zen Maru Gothic', serif;
-            font-weight: 700;
             font-size: 2em;
             color: rgb(255, 175, 175);
             text-decoration: none;
@@ -44,7 +39,7 @@
         .time {
             font-size: 24px;
             font-weight: bold;
-            color: #d9534f;
+            color: #f990a6;
             margin-top: 10px;
             margin-bottom: 15px;
         }
@@ -73,9 +68,6 @@
 <body>
 
     <div class="container">
-        <!-- ロゴ -->
-        <a href="{{ config('app.url') }}" class="logo">こどもログ</a>
-
         <p class="title">【お迎えリマインダー】</p>
         <p>{{ $child->last_name }} {{ $child->first_name }} さんのお迎え予定時間は</p>
         <p class="time">
