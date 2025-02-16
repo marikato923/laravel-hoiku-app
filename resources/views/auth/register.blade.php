@@ -122,18 +122,21 @@
 
 @push('scripts')
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const flashMessageContainer = document.querySelector(".flash-message-container");
+document.addEventListener("DOMContentLoaded", function () {
+    const flashMessageContainer = document.querySelector(".flash-message-container");
 
-        if (flashMessageContainer) {
+    if (flashMessageContainer && flashMessageContainer.innerText.trim() === "") {
+        flashMessageContainer.style.minHeight = "0";
+        flashMessageContainer.style.marginBottom = "0";
+    } else {
+        setTimeout(function () {
+            flashMessageContainer.classList.add("fade-out");
+
             setTimeout(function () {
-                flashMessageContainer.classList.add("fade-out");
-
-                setTimeout(function () {
-                    flashMessageContainer.remove(); 
-                }, 1000);
-            }, 5000);
-        }
-    });
+                flashMessageContainer.remove(); 
+            }, 1000);
+        }, 5000);
+    }
+});
 </script>
 @endpush
