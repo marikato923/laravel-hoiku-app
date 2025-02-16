@@ -16,6 +16,10 @@
                     <p class="mb-0">新しいURLをあなたのメールアドレスに送信しました。</p>
                 </div>
             @endif
+            {{-- メッセージがない時も高さを維持するための空タグ --}}
+            @if (!session('success') && !$errors->any())
+                <span class="d-block">&nbsp;</span>
+            @endif
         </div>
 
         <p class="text-center">
@@ -44,7 +48,7 @@
                 flashMessageContainer.classList.add("fade-out");
 
                 setTimeout(function () {
-                    flashMessageContainer.remove(); // 完全にDOMから削除
+                    flashMessageContainer.remove(); 
                 }, 1000);
             }, 2000);
         }

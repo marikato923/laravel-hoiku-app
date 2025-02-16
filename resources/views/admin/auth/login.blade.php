@@ -28,6 +28,11 @@
                         </ul>
                     </div>
                 @endif
+
+            {{-- メッセージがない時も高さを維持するための空タグ --}}
+            @if (!session('success') && !$errors->any())
+                <span class="d-block">&nbsp;</span>
+            @endif
             </div>
 
             <form method="POST" action="{{ route('admin.login') }}">

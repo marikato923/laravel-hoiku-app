@@ -492,8 +492,9 @@ form {
 }
 
         /* フラッシュメッセージ */
-        
+
 .flash-message-container {
+    min-height: 50px; 
     margin-top: 10px;
     margin-bottom: 10px; /* 下の本文との間隔を調整 */
     transition: opacity 1s ease-out, max-height 1s ease-out;
@@ -510,6 +511,11 @@ form {
     opacity: 0;
     max-height: 0;
     margin-bottom: 0;
+}
+
+.flash-message-container:empty {
+    min-height: 0; /* メッセージが完全になくなったら高さを0に */
+    margin-bottom: 0; /* 余白をなくす */
 }
 
 .alert {

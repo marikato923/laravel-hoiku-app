@@ -1,10 +1,36 @@
 @extends('layouts.app')
 
+{{-- グローバルのフラッシュメッセージを無効化 --}}
+@section('override-flash-messages', true)
+
 @section('content')
 <div class="container auth-page">
     <div style="width: 100%; max-width: 400px; margin: 40px auto;">
         <h2 class="text-center mb-3">新規会員登録</h2>
         <hr class="mb-4">
+
+            {{-- フラッシュメッセージ --}}
+            <div class="flash-message-container">
+                @if(session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
+        
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                {{-- メッセージがない時も高さを維持するための空タグ --}}
+                @if (!session('success') && !$errors->any())
+                    <span class="d-block">&nbsp;</span>
+                @endif
+            </div>        
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
@@ -93,3 +119,21 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const flashMessageContainer = document.querySelector(".flash-message-container");
+
+        if (flashMessageContainer) {
+            setTimeout(function () {
+                flashMessageContainer.classList.add("fade-out");
+
+                setTimeout(function () {
+                    flashMessageContainer.remove(); 
+                }, 1000);
+            }, 5000);
+        }
+    });
+</script>
+@endpush
