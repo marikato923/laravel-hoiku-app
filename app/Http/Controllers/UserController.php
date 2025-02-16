@@ -106,7 +106,13 @@ class UserController extends Controller
        // Log::info("更新後の値: " . $user->refresh()->notification_preference);
     
         return redirect()->route('user.show')->with('success', 'ユーザー設定を更新しました。');
-    }      
+    }   
+    
+    public function editPassword()
+    {
+    $user = auth()->user();
+    return view('user.edit-password', compact('user'));
+    }
 
     public function updatePassword(Request $request)
     {

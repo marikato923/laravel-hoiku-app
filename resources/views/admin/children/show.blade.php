@@ -33,6 +33,7 @@
                 </div>
 
                 <ul class="list-unstyled mx-auto" style="max-width: 500px;">
+                    <li class="mb-3"><strong>ID:</strong> {{ $child->id }}</li>
                     <li class="mb-3"><strong>氏名:</strong> {{ $child->last_name }} {{ $child->first_name }}</li>
                     <li class="mb-3"><strong>フリガナ:</strong> {{ $child->last_kana_name }} {{ $child->first_kana_name }}</li>
                     <li class="mb-3"><strong>クラス:</strong> {{ optional($child->classroom)->name ?? '未登録' }}</li>
